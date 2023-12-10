@@ -1,0 +1,45 @@
+{
+    "Products":
+    [
+        {
+            "ProgramIdx": "3980",
+            "NameDescription": "Coque Mirage 2000D RENO",
+            "RadomeType": "Mirage_C"
+        },
+        {
+            "ProgramIdx": "3981",
+            "NameDescription": "Radôme Mirage 2000D RENO",
+            "RadomeType": "Mirage_R"
+        },
+        {
+            "ProgramIdx": "3985",
+            "NameDescription": "Radôme Rafale",
+            "RadomeType": "Rafale_R"
+        },
+        {
+            "ProgramIdx": "3986",
+            "NameDescription": "Coque Rafale",
+            "RadomeType": "Rafale_C"
+        }
+    ],
+    "Operators":
+    [
+        "N. PERROT~VISA: 01/01/2064"
+    ],
+    "WorkCards":
+    [
+        "RBE 2 0x00000",
+        "RBE 2 0x00001",
+        "RBE 2 0x00002",
+        "Gamme RBE 2 010 6 85 0001~QTZ_CQPRO_C",
+        "ANZ 0x00000",
+        "ANZ 0x00001",
+        "ANZ 0x00002"
+    ],
+    "Posts":
+    [
+        "Dufieux~Poste 2000D",
+        "Dufieux~Poste 2000DA"
+    ]
+  }
+  
