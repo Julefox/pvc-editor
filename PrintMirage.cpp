@@ -35,7 +35,7 @@ void PrintMirage::MiragePage_01()
     Mirage_DrawMainPv(hInst, dc, 1);
 
     // DEV ONLY
-    Mirage_DrawGraphic(hInst, dc, "H");
+    Mirage_DrawGraphic(hInst, dc, "B");
     // DEV END
 }
 
@@ -165,14 +165,17 @@ void PrintMirage::Mirage_DrawGraphic(Program* hInst, wxDC* dc, const wxString& g
     dc->DrawLine(668, 440, 854, 260); // 7
     dc->DrawLine(668, 440, 854, 620); // 7
 
-    dc->DrawLine(741, 440, 834, 260); // 8
-    dc->DrawLine(741, 440, 834, 620); // 8
+    if (gen != "B")
+    {
+        dc->DrawLine(741, 440, 834, 260); // 8
+        dc->DrawLine(741, 440, 834, 620); // 8
 
-    dc->DrawLine(814, 440, 907, 260); // 9
-    dc->DrawLine(814, 440, 907, 620); // 9
+        dc->DrawLine(814, 440, 907, 260); // 9
+        dc->DrawLine(814, 440, 907, 620); // 9
 
-    dc->DrawLine(887, 440, 980, 260); // 10
-    dc->DrawLine(887, 440, 980, 620); // 10
+        dc->DrawLine(887, 440, 980, 260); // 10
+        dc->DrawLine(887, 440, 980, 620); // 10
+    }
 
     // Cadre Tableau
     dc->SetPen(pBigBlack);
@@ -200,13 +203,23 @@ void PrintMirage::Mirage_DrawGraphic(Program* hInst, wxDC* dc, const wxString& g
         const int forward = i == 10 ? x + 31 : x + 53;
         dc->DrawLine(x, 620, forward, 620); // Ligne du bas entre chaque chiffres
         x = forward;
+
+        if (i == 8 && gen == "B")
+            break;
     }
 
-    dc->DrawLabel(L"11", wxRect(928, 610, 20, 20), wxALIGN_CENTRE);
-    dc->SetPen(*wxBLACK_PEN);
-    dc->DrawLine(938, 260, 938, 610);
-    dc->SetPen(pBigBlack);
-    dc->DrawLine(950, 620, 980, 620);
+    if (gen != "B")
+    {
+        dc->DrawLabel(L"11", wxRect(928, 610, 20, 20), wxALIGN_CENTRE);
+        dc->SetPen(*wxBLACK_PEN);
+        dc->DrawLine(938, 260, 938, 610);
+        dc->SetPen(pBigBlack);
+        dc->DrawLine(950, 620, 980, 620);
+    }
+    else
+    {
+        dc->DrawLine(800, 620, 980, 620);
+    }
 
     dc->SetPen(*wxBLACK_PEN);
 
