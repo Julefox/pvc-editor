@@ -2,9 +2,8 @@
 
 #include "pch.h"
 
-inline int MwWindowSizeWidth  = 800;
+inline int MwWindowSizeWidth  = 1240;
 inline int MwWindowSizeHeight = 412;
-inline int MwGridSizerGap     = 20;
 
 inline int ProgIdxMirage_C = 3980;
 inline int ProgIdxMirage_R = 3981;
@@ -22,7 +21,7 @@ inline wxString JsonLineSeparator = "~";
 inline wxString EndLineReplacer = "\n";
 inline wxString SpaceReplacer = " ";
 
-inline wxSize   LabelSize = wxSize( 200, 40 );
+inline wxSize   LabelSize = wxSize( 160, 40 );
 inline wxSize   ChoiceSize = wxSize( 550, 40 );
 inline wxColour LabelColor = wxColour( 16, 125, 172 );
 inline wxFont   GlobalFont = wxFont(18, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Arial Narrow"));

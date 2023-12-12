@@ -10,7 +10,7 @@ public:
 	eRadomeType RadomeType = Default;
 	std::string ModificationIdx;
 	std::string OperationCode;
-	std::map<int, std::vector<float>> TheoreticalRadius;
+	std::map<int, std::vector<double>> TheoreticalRadius;
 	float TheoreticalHeight;
 	float HeightTolerance;
 };

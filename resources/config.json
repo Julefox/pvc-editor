@@ -6,14 +6,20 @@
             "NameDescription": "Coque Mirage 2000D RENO",
             "RadomeType": "Mirage_C",
             "ModificationIdx": "SI",
-            "OperationCode": "ANZ_EDVGC"
+            "OperationCode":
+            [
+                "ANZ_EDGEP"
+            ]
         },
         {
             "ProgramIdx": "3981",
             "NameDescription": "Radôme Mirage 2000D RENO",
             "RadomeType": "Mirage_R",
             "ModificationIdx": "A",
-            "OperationCode": "ANZ_EDGEP"
+            "OperationCode":
+            [
+                "ANZ_EDGEP"
+            ]
         },
         {
             "ProgramIdx": "3985",

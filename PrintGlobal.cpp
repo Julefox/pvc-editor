@@ -70,13 +70,13 @@ void PrintGlobal::Rafale_DrawMainPv( Program* hInst, wxDC*dc, const int pageIdx 
 
     for (auto& kv : hInst->ActiveProductData.TheoreticalRadius)
     {
-        const std::vector<float>& valeurs = kv.second; // Accès direct à la valeur, qui est un std::vector<float>
+        const std::vector<double>& valeurs = kv.second; // Accès direct à la valeur, qui est un std::vector<float>
         float somme = 0.0;
-        for (float valeur : valeurs)
+        for (double valeur : valeurs)
         {
             somme += valeur;
         }
-        float moyenne = valeurs.empty() ? 0.0f : somme / static_cast<float>(valeurs.size()); // Vérification de la division par zéro et cast pour la taille
+        float moyenne = valeurs.empty() ? 0.0f : somme / static_cast<double>(valeurs.size()); // Vérification de la division par zéro et cast pour la taille
         std::cout << "Moyenne pour la clé " << kv.first << ": " << moyenne << std::endl; // Utilisation de .first pour obtenir la clé
     }
 

@@ -48,6 +48,7 @@ public:
 
         auto* window = new wxFrame(nullptr, wxID_ANY, "Editeur PVC", wxDefaultPosition);
         window->SetSizeHints(wxSize(MwWindowSizeWidth, MwWindowSizeHeight), wxSize(MwWindowSizeWidth, MwWindowSizeHeight));
+        window->SetBackgroundColour(wxColour(62, 67, 73));
         window->CenterOnScreen();
 
         MWindow = this->GetTopWindow();
@@ -56,9 +57,9 @@ public:
         this->GetConfigFile();
 
         // DEBUG ONLY
-        this->GetRadomeType( "3252C" );
-        wxCommandEvent devPrint(wxEVT_COMMAND_BUTTON_CLICKED, -1);
-        this->Callback_OnPrintButtonPressed(devPrint);
+        //this->GetRadomeType( "3252C" );
+        //wxCommandEvent devPrint(wxEVT_COMMAND_BUTTON_CLICKED, -1);
+        //this->Callback_OnPrintButtonPressed(devPrint);
         // DEBUG END
 
         window->Show();

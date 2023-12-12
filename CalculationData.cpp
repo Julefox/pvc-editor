@@ -86,7 +86,7 @@ void CalculationData::RafaleCalculateData( Program* hInst, const std::string& fi
                     if (this->RayMeasure[index1][index2] != UnassignedDoubleValue && hInst->ActiveProductData.TheoreticalRadius[index1][index2] != UnassignedDoubleValue)
                     {
                         this->RayDifference[index1][index2] = this->RayMeasure[index1][index2] - hInst->ActiveProductData.TheoreticalRadius[index1][index2];
-                        std::cout << this->RayDifference[index1][index2] << std::endl;
+                        //std::cout << this->RayDifference[index1][index2] << std::endl;
                     }
                 }
             }

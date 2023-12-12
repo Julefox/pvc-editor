@@ -7,6 +7,8 @@
 
 void Program::BuildWindowContent()
 {
+	const wxArrayString emptyArray(1, "N/A");
+
 	this->T_ApplicationName = new wxStaticText(this->MWindow, wxID_ANY, wxT("Editeur de PVC"), wxPoint(10, 10), LabelSize, wxTEXT_ALIGNMENT_LEFT);
 	this->T_ApplicationName->SetFont( GlobalFont );
 	this->T_ApplicationName->SetForegroundColour(LabelColor);
@@ -15,19 +17,19 @@ void Program::BuildWindowContent()
 	this->T_AffiliationPath->SetFont( GlobalFont );
 	this->T_AffiliationPath->SetForegroundColour(LabelColor);
 
-	this->T_Radome = new wxStaticText(this->MWindow, wxID_ANY, wxT("S/N RADOME"), wxPoint(10, 60), LabelSize, wxTEXT_ALIGNMENT_LEFT);
+	this->T_Radome = new wxStaticText(this->MWindow, wxID_ANY, wxT("FICHIER CSV"), wxPoint(10, 60), LabelSize, wxTEXT_ALIGNMENT_LEFT);
 	this->T_Radome->SetFont( GlobalFont );
 	this->T_Radome->SetForegroundColour(LabelColor);
 
 	const wxArrayString radomeArray;
-	this->C_Radome = new wxChoice( this->MWindow, wxID_ANY, wxPoint(220, 56), ChoiceSize, radomeArray, 0 );
+	this->C_Radome = new wxChoice( this->MWindow, wxID_ANY, wxPoint(180, 56), ChoiceSize, emptyArray, 0 );
 	this->C_Radome->SetFont( GlobalFont );
 
 	this->T_Product = new wxStaticText(this->MWindow, wxID_ANY, wxT("PRODUIT"), wxPoint(10, 110), LabelSize, wxTEXT_ALIGNMENT_LEFT);
 	this->T_Product->SetFont( GlobalFont );
 	this->T_Product->SetForegroundColour(LabelColor);
 
-	this->TC_Product = new wxTextCtrl(this->MWindow, wxID_ANY, wxEmptyString, wxPoint(220, 106), ChoiceSize, wxTE_READONLY);
+	this->TC_Product = new wxTextCtrl(this->MWindow, wxID_ANY, wxEmptyString, wxPoint(180, 106), ChoiceSize, wxTE_READONLY);
 	this->TC_Product->SetFont( GlobalFont );
 
 	this->T_WorkCard = new wxStaticText(this->MWindow, wxID_ANY, wxT("GAMME"), wxPoint(10, 160), LabelSize, wxTEXT_ALIGNMENT_LEFT);
@@ -35,7 +37,7 @@ void Program::BuildWindowContent()
 	this->T_WorkCard->SetForegroundColour(LabelColor);
 
 	const wxArrayString workCardArray;
-	this->C_WorkCard = new wxChoice(this->MWindow, wxID_ANY, wxPoint(220, 154), ChoiceSize, workCardArray, 0);
+	this->C_WorkCard = new wxChoice(this->MWindow, wxID_ANY, wxPoint(180, 154), ChoiceSize, workCardArray, 0);
 	this->C_WorkCard->SetFont(GlobalFont);
 
 	this->T_Operator = new wxStaticText(this->MWindow, wxID_ANY, wxT("OPERATEUR"), wxPoint(10, 210), LabelSize, wxTEXT_ALIGNMENT_LEFT);
@@ -43,7 +45,7 @@ void Program::BuildWindowContent()
 	this->T_Operator->SetForegroundColour(LabelColor);
 
 	const wxArrayString operatorArray;
-	this->C_Operator = new wxChoice(this->MWindow, wxID_ANY, wxPoint(220, 206), ChoiceSize, operatorArray, 0);
+	this->C_Operator = new wxChoice(this->MWindow, wxID_ANY, wxPoint(180, 206), ChoiceSize, operatorArray, 0);
 	this->C_Operator->SetFont(GlobalFont);
 
 	this->T_Post = new wxStaticText(this->MWindow, wxID_ANY, wxT("POSTE"), wxPoint(10, 260), LabelSize, wxTEXT_ALIGNMENT_LEFT);
@@ -51,11 +53,12 @@ void Program::BuildWindowContent()
 	this->T_Post->SetForegroundColour(LabelColor);
 
 	const wxArrayString postArray;
-	this->C_Post = new wxChoice(this->MWindow, wxID_ANY, wxPoint(220, 256), wxSize(310, 40), postArray, 0);
+	this->C_Post = new wxChoice(this->MWindow, wxID_ANY, wxPoint(180, 256), wxSize(310, 40), postArray, 0);
 	this->C_Post->SetFont(GlobalFont);
 
 	this->T_Date = new wxStaticText(this->MWindow, wxID_ANY, wxT("DATE"), wxPoint(540, 260), wxSize(80, 40), wxTEXT_ALIGNMENT_LEFT);
 	this->T_Date->SetFont(GlobalFont);
+	this->T_Date->SetForegroundColour(LabelColor);
 
 	this->DP_Date = new wxDatePickerCtrl(this->MWindow, wxID_ANY, wxDefaultDateTime, wxPoint(620, 254), wxSize(150, 40), wxDP_DEFAULT);
 	this->DP_Date->SetFont(GlobalFont);
