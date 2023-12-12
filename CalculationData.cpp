@@ -102,11 +102,11 @@ void CalculationData::RafaleCalculateData( Program* hInst, const std::string& fi
                     if (this->RayDifference[index1 - 1][index2] != UnassignedDoubleValue && this->RayDifference[index1][index2] != UnassignedDoubleValue && this->RayDifference[index1 + 1][index2] != UnassignedDoubleValue &&
                         this->Height[index1 - 1][index2] != UnassignedIntValue && this->Height[index1][index2] != UnassignedIntValue && this->Height[index1 + 1][index2] != UnassignedIntValue)
                     {
-                        double deltaHeightForward = this->Height[index1 + 1][index2] - this->Height[index1][index2];
-                        double deltaHeightBackward = this->Height[index1][index2] - this->Height[index1 - 1][index2];
-                        double deltaRayonForward = this->RayDifference[index1 + 1][index2] - this->RayDifference[index1][index2];
-                        double deltaRayonBackward = this->RayDifference[index1][index2] - this->RayDifference[index1 - 1][index2];
-                        double heightSpan = this->Height[index1 + 1][index2] - this->Height[index1 - 1][index2];
+                        const double deltaHeightForward = this->Height[index1 + 1][index2] - this->Height[index1][index2];
+                        const double deltaHeightBackward = this->Height[index1][index2] - this->Height[index1 - 1][index2];
+                        const double deltaRayonForward = this->RayDifference[index1 + 1][index2] - this->RayDifference[index1][index2];
+                        const double deltaRayonBackward = this->RayDifference[index1][index2] - this->RayDifference[index1 - 1][index2];
+                        const double heightSpan = this->Height[index1 + 1][index2] - this->Height[index1 - 1][index2];
 
                         this->Undulation[index1][index2] = -((deltaHeightForward * deltaRayonBackward) - (deltaHeightBackward * deltaRayonForward)) / (heightSpan * heightSpan);
                     }
