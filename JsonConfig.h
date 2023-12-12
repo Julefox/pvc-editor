@@ -13,7 +13,7 @@ public:
 
 	float TheoreticalHeight;
 	float HeightTolerance;
-	std::map<int, std::vector<double>> TheoreticalRadius;
+	double TheoreticalRadius[22][8];
 };
 
 void from_json(const nlohmann::json& j, ProductData& p);

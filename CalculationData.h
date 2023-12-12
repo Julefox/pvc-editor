@@ -12,9 +12,9 @@ public:
 
 	float RadomeLength;
 
-	std::map<int, std::vector<double>> RayMeasure;
-	std::map<int, std::vector<double>> RayDifference;
-	std::map<int, std::vector<double>> Undulation;
+	double RayMeasure[22][8];
+	double RayDifference[22][8];
+	double Undulation[22][8];
 	int Height[22][8];
 private:
 	void MapInit();

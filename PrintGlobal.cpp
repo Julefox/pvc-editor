@@ -68,17 +68,17 @@ void PrintGlobal::Rafale_DrawMainPv( Program* hInst, wxDC*dc, const int pageIdx 
 {
     dc->SetPen(*wxBLACK_PEN);
 
-    for (auto& kv : hInst->ActiveProductData.TheoreticalRadius)
-    {
-        const std::vector<double>& valeurs = kv.second; // Accès direct à la valeur, qui est un std::vector<float>
-        float somme = 0.0;
-        for (double valeur : valeurs)
-        {
-            somme += valeur;
-        }
-        float moyenne = valeurs.empty() ? 0.0f : somme / static_cast<double>(valeurs.size()); // Vérification de la division par zéro et cast pour la taille
-        std::cout << "Moyenne pour la clé " << kv.first << ": " << moyenne << std::endl; // Utilisation de .first pour obtenir la clé
-    }
+    //for (auto& kv : hInst->ActiveProductData.TheoreticalRadius)
+    //{
+    //    const std::vector<double>& valeurs = kv.second; // Accès direct à la valeur, qui est un std::vector<float>
+    //    float somme = 0.0;
+    //    for (double valeur : valeurs)
+    //    {
+    //        somme += valeur;
+    //    }
+    //    float moyenne = valeurs.empty() ? 0.0f : somme / static_cast<double>(valeurs.size()); // Vérification de la division par zéro et cast pour la taille
+    //    std::cout << "Moyenne pour la clé " << kv.first << ": " << moyenne << std::endl; // Utilisation de .first pour obtenir la clé
+    //}
 
     // Cadre Principal
     dc->DrawLine(20, 30, 1100, 30);    // Haut
@@ -114,8 +114,15 @@ void PrintGlobal::Rafale_DrawMainPv( Program* hInst, wxDC*dc, const int pageIdx 
     dc->DrawLabel(StringUtility::ReplaceWxString(hInst->C_JsonConfig.Operators[hInst->C_Operator->GetCurrentSelection()], JsonLineSeparator, EndLineReplacer), wxRect(680, 66, 280, 72), wxALIGN_CENTRE);
 
     dc->SetFont(wxFont(12, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
-    dc->DrawLabel("Produit: " + hInst->C_Product->GetString(hInst->C_Product->GetCurrentSelection()), wxRect(140, 66, 270, 72), wxALIGN_CENTRE);
-    dc->DrawLabel("N° " + hInst->TC_Shell->GetValue(), wxRect(410, 66, 270, 72), wxALIGN_CENTRE);
+    dc->DrawLabel("Ensemble:", wxRect(150, 66, 200, 36), wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
+    if (hInst->ActiveProductData.RadomeType == Rafale_C)
+    {
+        dc->DrawLabel("N° " + hInst->TC_Shell->GetValue(), wxRect(550, 66, 200, 36), wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
+    }
+    dc->DrawLabel("Sous ensemble:", wxRect(150, 102, 200, 36), wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
+    dc->DrawLabel("N° " + hInst->TC_Radome->GetValue(), wxRect(550, 102, 200, 36), wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
+    dc->DrawLabel(hInst->C_Product->GetString(hInst->C_Product->GetCurrentSelection()), wxRect(350, 66, 200, 36), wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
+    dc->DrawLabel("Radôme", wxRect(350, 102, 200, 36), wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
 }
 
 void PrintGlobal::Mirage_DrawMainPv( Program* hInst, wxDC* dc, const int pageIdx )

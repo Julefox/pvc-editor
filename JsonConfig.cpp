@@ -13,17 +13,30 @@ void from_json(const nlohmann::json& j, ProductData& p)
 	if (j.contains("TheoreticalRadius"))
 	{
 		const nlohmann::json& theoreticalDataJson = j.at("TheoreticalRadius");
-		for (auto& [keyStr, values] : theoreticalDataJson.items())
+		for (const auto& keyval : theoreticalDataJson.items())
 		{
-			int key = std::stoi(keyStr);
-			std::vector<double> valueList;
-			for (auto& val : values)
+			const int i = 21 - lround(std::stoi(keyval.key()) / 100.0f);
+
+			if (i < 0 || i > 20)
 			{
-				valueList.push_back(val.get<double>());
+				continue;
 			}
-			p.TheoreticalRadius[key] = valueList;
+
+			int columnIndex = 0;
+			for (const auto& val : keyval.value())
+			{
+				p.TheoreticalRadius[i][columnIndex++] = val.get<double>();
+			}
 		}
 	}
+
+	//for (int row = 20; row >= 0; --row)
+	//{
+	//	for (int col = 7; col >= 0; --col)
+	//	{
+	//		std::cout << p.TheoreticalRadius[row][col] << " " << row << " " << col << std::endl;
+	//	}
+	//}
 
 	if (!j.contains("RadomeType"))
 		return;

@@ -250,15 +250,13 @@ void Program::GetRadomeType(const std::string& fileName)
 				this->RadomeName = StringUtility::KeepOnlyDigits(StringUtility::StringToWString(fileName));
 				this->Calculation = CalculationData(this, filePath);
 
-				const eRadomeType radomeType = productData.RadomeType;
-
-				if (radomeType == Mirage_C || radomeType == Rafale_C)
+				if (productData.RadomeType == Mirage_C || productData.RadomeType == Rafale_C)
 				{
 					this->TC_Shell->SetValue(this->RadomeName);
 					this->TC_Shell->SetEditable(true);
 					this->TC_Radome->SetValue("");
 				}
-				else if (radomeType == Mirage_R || radomeType == Rafale_R)
+				else if (productData.RadomeType == Mirage_R || productData.RadomeType == Rafale_R)
 				{
 					this->TC_Shell->SetValue("Sans Objet");
 					this->TC_Shell->SetEditable(false);
