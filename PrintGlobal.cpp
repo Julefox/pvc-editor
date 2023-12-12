@@ -153,7 +153,9 @@ void PrintGlobal::Mirage_DrawMainPv( Program* hInst, wxDC* dc, const int pageIdx
     dc->SetFont(wxFont(9, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
     dc->DrawLabel(L"****\nDépartement\nde la Qualité\net du Contrôle", wxRect(20, 60, 120, 60), wxALIGN_CENTRE);
     dc->DrawLabel(L"Date de contrôle / Marque", wxRect(805, 704, 300, 30), wxALIGN_LEFT | wxALIGN_TOP);
-    dc->DrawLabel(hInst->DP_Date->GetValue().Format("%d/%m/20%y"), wxRect(850, 720, 300, 30), wxALIGN_LEFT | wxALIGN_TOP);
+
+    dc->SetFont(wxFont(12, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
+    dc->DrawLabel(hInst->DP_Date->GetValue().Format("%d/%m/20%y"), wxRect(820, 728, 300, 30), wxALIGN_LEFT | wxALIGN_TOP);
 
     dc->SetFont(wxFont(10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
     dc->DrawLabel("Indice", wxRect(900, 30, 200, 20), wxALIGN_CENTRE);
