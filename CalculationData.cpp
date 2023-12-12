@@ -81,10 +81,9 @@ void CalculationData::RafaleCalculateData( Program* hInst, const std::string& fi
         {
             for (int index2 = 0; index2 < 8; index2++)
             {
-                std::cout << (this->RayMeasure.find(index1) != this->RayMeasure.end()) << " " << (hInst->ActiveProductData.TheoreticalRadius.find(index1) != hInst->ActiveProductData.TheoreticalRadius.end()) << std::endl;
                 if (this->RayMeasure.find(index1) != this->RayMeasure.end() && hInst->ActiveProductData.TheoreticalRadius.find(index1) != hInst->ActiveProductData.TheoreticalRadius.end())
                 {
-                    //if (this->RayMeasure[index1][index2] != UnassignedDoubleValue && hInst->ActiveProductData.TheoreticalRadius[index1][index2] != UnassignedDoubleValue)
+                    if (this->RayMeasure[index1][index2] != UnassignedDoubleValue && hInst->ActiveProductData.TheoreticalRadius[index1][index2] != UnassignedDoubleValue)
                     {
                         this->RayDifference[index1][index2] = this->RayMeasure[index1][index2] - hInst->ActiveProductData.TheoreticalRadius[index1][index2];
                         std::cout << this->RayDifference[index1][index2] << std::endl;
@@ -110,44 +109,43 @@ void CalculationData::RafaleCalculateData( Program* hInst, const std::string& fi
                         double heightSpan = this->Height[index1 + 1][index2] - this->Height[index1 - 1][index2];
 
                         this->Undulation[index1][index2] = -((deltaHeightForward * deltaRayonBackward) - (deltaHeightBackward * deltaRayonForward)) / (heightSpan * heightSpan);
-                        std::cout << this->Undulation[index1][index2] << std::endl;
                     }
                 }
             }
         }
 
-        for (int index1 = 0; index1 < 19; index1++)
-        {
-            for (int index2 = 0; index2 < 8; index2++)
-            {
-                //if (this->RayMeasure.find(index1) != this->RayMeasure.end() && this->RayDifference.find(index1) != this->RayDifference.end() && hInst->ActiveProductData.TheoreticalRadius.find(index1) != hInst->ActiveProductData.TheoreticalRadius.end())
-                {
-                    if (Undulation[index1 + 1][index2] != UnassignedDoubleValue)
-                    {
-                        double ondulationValue = Undulation[index1 + 1][index2];
-                        std::string color = "BLUE"; // Par défaut, la couleur est bleue.
-
-                        if ((index2 > 2) && (index2 < 6))
-                        {
-                            if (fabs(ondulationValue) > 0.003)
-                                color = "RED";
-                        }
-                        else
-                        {
-                            if (fabs(ondulationValue) > 0.005)
-                                color = "RED";
-                        }
-
-                        std::cout << "Ondulation [" << index1 + 1 << "][" << index2 << "] = "
-                            << ondulationValue * 100.0 << "% (" << color << ")" << std::endl;
-                    }
-                    else
-                    {
-                        std::cout << "Ondulation [" << index1 + 1 << "][" << index2 << "] = Non Mesurée" << std::endl;
-                    }
-                }
-            }
-        }
+        //for (int index1 = 0; index1 < 19; index1++)
+        //{
+        //    for (int index2 = 0; index2 < 8; index2++)
+        //    {
+        //        //if (this->RayMeasure.find(index1) != this->RayMeasure.end() && this->RayDifference.find(index1) != this->RayDifference.end() && hInst->ActiveProductData.TheoreticalRadius.find(index1) != hInst->ActiveProductData.TheoreticalRadius.end())
+        //        {
+        //            if (Undulation[index1 + 1][index2] != UnassignedDoubleValue)
+        //            {
+        //                double ondulationValue = Undulation[index1 + 1][index2];
+        //                std::string color = "BLUE"; // Par défaut, la couleur est bleue.
+        //
+        //                if ((index2 > 2) && (index2 < 6))
+        //                {
+        //                    if (fabs(ondulationValue) > 0.003)
+        //                        color = "RED";
+        //                }
+        //                else
+        //                {
+        //                    if (fabs(ondulationValue) > 0.005)
+        //                        color = "RED";
+        //                }
+        //
+        //                std::cout << "Ondulation [" << index1 + 1 << "][" << index2 << "] = "
+        //                    << ondulationValue * 100.0 << "% (" << color << ")" << std::endl;
+        //            }
+        //            else
+        //            {
+        //                std::cout << "Ondulation [" << index1 + 1 << "][" << index2 << "] = Non Mesurée" << std::endl;
+        //            }
+        //        }
+        //    }
+        //}
 	}
 }
 

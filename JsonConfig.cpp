@@ -20,7 +20,6 @@ void from_json(const nlohmann::json& j, ProductData& p)
 			for (auto& val : values)
 			{
 				valueList.push_back(val.get<float>());
-				std::cout << val << std::endl;
 			}
 			p.TheoreticalRadius[key] = valueList;
 		}
