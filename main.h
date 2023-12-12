@@ -3,6 +3,7 @@
 #include "pch.h"
 #include "main.h"
 #include "JsonConfig.h"
+#include "CalculationData.h"
 
 class Program : public wxApp
 {
@@ -34,9 +35,12 @@ public:
 
     JsonConfig C_JsonConfig;
 
-    eRadomeType RadomeType;
     std::wstring RadomeName;
     std::wstring RadomeDescName;
+
+    ProductData ActiveProductData;
+
+    CalculationData Calculation;
 
     bool OnInit() override
     {
@@ -52,7 +56,7 @@ public:
         this->GetConfigFile();
 
         // DEBUG ONLY
-        this->GetRadomeType( "604" );
+        this->GetRadomeType( "3252C" );
         wxCommandEvent devPrint(wxEVT_COMMAND_BUTTON_CLICKED, -1);
         this->Callback_OnPrintButtonPressed(devPrint);
         // DEBUG END

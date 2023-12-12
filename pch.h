@@ -24,6 +24,8 @@
 #include <wx/button.h>
 #include <wx/frame.h>
 #include <wx/print.h>
+#include <wx/string.h>
+#include <wx/textfile.h>
 #include <fstream>
 #include "nlohmann/json.hpp"
 #include "const.h"

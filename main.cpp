@@ -151,11 +151,11 @@ void Program::Callback_OnPrintButtonPressed( wxCommandEvent& event )
 {
 	event.Skip();
 
-	if ( this->RadomeType == Rafale_C || this->RadomeType == Rafale_R )
+	if ( this->ActiveProductData.RadomeType == Rafale_C || this->ActiveProductData.RadomeType == Rafale_R )
 	{
 		PrintRafale::DrawRafalePage( this->MWindow );
 	}
-	else if ( this->RadomeType == Mirage_C || this->RadomeType == Mirage_R )
+	else if ( this->ActiveProductData.RadomeType == Mirage_C || this->ActiveProductData.RadomeType == Mirage_R )
 	{
 		PrintMirage::DrawMiragePage( this->MWindow );
 	}
@@ -174,9 +174,10 @@ void Program::GetRadomeType(const std::string& fileName)
 		{
 			if (line.find(productData.ProgramIdx) != std::string::npos)
 			{
-				this->RadomeType = productData.RadomeType;
+				this->ActiveProductData = productData;
 				this->RadomeName = StringUtility::StringToWString(fileName);
 				this->RadomeDescName = StringUtility::StringToWString(productData.NameDescription);
+				this->Calculation = CalculationData(this, filePath);
 				return;
 			}
 		}
@@ -184,7 +185,6 @@ void Program::GetRadomeType(const std::string& fileName)
 		++count;
 	}
 
-	this->RadomeType = Default;
 	this->RadomeDescName = L"...";
 }
 

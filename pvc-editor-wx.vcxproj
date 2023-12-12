@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CalculationData.cpp" />
     <ClCompile Include="const.cpp" />
     <ClCompile Include="JsonConfig.cpp" />
     <ClCompile Include="main.cpp" />
@@ -147,6 +148,7 @@
     <ClCompile Include="PrintRafale.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CalculationData.h" />
     <ClInclude Include="const.h" />
     <ClInclude Include="JsonConfig.h" />
     <ClInclude Include="main.h" />

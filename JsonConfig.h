@@ -8,6 +8,11 @@ public:
 	std::string ProgramIdx;
 	std::string NameDescription;
 	eRadomeType RadomeType = Default;
+	std::string ModificationIdx;
+	std::string OperationCode;
+	std::map<int, std::vector<float>> TheoreticalRadius;
+	float TheoreticalHeight;
+	float HeightTolerance;
 };
 
 void from_json(const nlohmann::json& j, ProductData& p);

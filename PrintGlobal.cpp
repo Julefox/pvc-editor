@@ -68,40 +68,54 @@ void PrintGlobal::Rafale_DrawMainPv( Program* hInst, wxDC*dc, const int pageIdx 
 {
     dc->SetPen(*wxBLACK_PEN);
 
+    for (auto& kv : hInst->ActiveProductData.TheoreticalRadius)
+    {
+        const std::vector<float>& valeurs = kv.second; // Accès direct à la valeur, qui est un std::vector<float>
+        float somme = 0.0;
+        for (float valeur : valeurs)
+        {
+            somme += valeur;
+        }
+        float moyenne = valeurs.empty() ? 0.0f : somme / static_cast<float>(valeurs.size()); // Vérification de la division par zéro et cast pour la taille
+        std::cout << "Moyenne pour la clé " << kv.first << ": " << moyenne << std::endl; // Utilisation de .first pour obtenir la clé
+    }
+
     // Cadre Principal
     dc->DrawLine(20, 30, 1100, 30);    // Haut
     dc->DrawLine(20, 760, 1100, 760);  // Bas
     dc->DrawLine(20, 30, 20, 760);     // Gauche
     dc->DrawLine(1100, 30, 1100, 760); // Droit
 
-    dc->DrawLine(20, 120, 1100, 120); // Separateur Bordereaux Horizontal Bas
-    dc->DrawLine(140, 64, 960, 64);   // Separateur Bordereaux Horizontal Milieu
-    dc->DrawLine(960, 91, 1100, 91);  // Separateur Bordereaux Horizontal Milieu Petit
-    dc->DrawLine(140, 30, 140, 120);  // Separateur Bordereaux Vertical 0
-    dc->DrawLine(680, 30, 680, 120);  // Separateur Bordereaux Vertical 1
-    dc->DrawLine(960, 30, 960, 120);  // Separateur Bordereaux Vertical 2
+    dc->DrawLine(20, 138, 1100, 138); // Separateur Bordereaux Horizontal Bas
+    dc->DrawLine(140, 66, 1100, 66);  // Separateur Bordereaux Horizontal Milieu
+    dc->DrawLine(960, 102, 1100, 102);  // Separateur Bordereaux Horizontal Milieu Petit
+    dc->DrawLine(140, 30, 140, 138);  // Separateur Bordereaux Vertical 0
+    dc->DrawLine(680, 30, 680, 138);  // Separateur Bordereaux Vertical 1
+    dc->DrawLine(960, 30, 960, 138);  // Separateur Bordereaux Vertical 2
 
-    dc->DrawLine(800, 720, 1100, 720); // Separateur Date Horizontal
-    dc->DrawLine(800, 720, 800, 760);  // Separateur Date Vertical
+    dc->DrawLine(800, 720, 1100, 720); // Separateur Signature Horizontal
+    dc->DrawLine(800, 720, 800, 760);  // Separateur Signature Vertical
 
     dc->SetFont(wxFont(16, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
-    dc->DrawLabel("AIA/CP", wxRect(20, 32, 120, 30), wxALIGN_CENTRE);
-    dc->DrawLabel("PROCES-VERBAL DE CONTROLE", wxRect(140, 32, 540, 30), wxALIGN_CENTRE);
+    dc->DrawLabel("AIA/CP", wxRect(20, 30, 120, 36), wxALIGN_CENTRE);
+    dc->DrawLabel("PROCES-VERBAL DE CONTROLE", wxRect(140, 30, 540, 36), wxALIGN_CENTRE);
 
     dc->SetFont(wxFont(9, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
-    dc->DrawLabel(L"****\nDépartement\nde la Qualité\net du Contrôle", wxRect(20, 60, 120, 60), wxALIGN_CENTRE);
+    dc->DrawLabel(L"****", wxRect(20, 66, 120, 22), wxALIGN_CENTRE);
+    dc->DrawLabel(L"Département\nde la Qualité\net du Contrôle", wxRect(20, 80, 120, 58), wxALIGN_CENTRE);
     dc->DrawLabel(L"Date de contrôle / Marque", wxRect(805, 724, 300, 30), wxALIGN_LEFT | wxALIGN_TOP);
     dc->DrawLabel(hInst->DP_Date->GetValue().Format("%d/%m/20%y"), wxRect(850, 740, 300, 30), wxALIGN_LEFT | wxALIGN_TOP);
 
     dc->SetFont(wxFont(10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
-    dc->DrawLabel(wxString::Format("Page %d/%d", pageIdx, this->ImpressNum), wxRect(960, 91, 140, 29), wxALIGN_CENTRE);
-    dc->DrawLabel(StringUtility::ReplaceWxString(hInst->C_JsonConfig.Posts[hInst->C_Post->GetCurrentSelection()], JsonLineSeparator, EndLineReplacer), wxRect(960, 30, 140, 61), wxALIGN_CENTRE);
-    dc->DrawLabel(StringUtility::ReplaceWxString(hInst->C_JsonConfig.WorkCards[hInst->C_WorkCard->GetCurrentSelection()], JsonLineSeparator, EndLineReplacer), wxRect(680, 30, 280, 34), wxALIGN_CENTRE);
-    dc->DrawLabel(StringUtility::ReplaceWxString(hInst->C_JsonConfig.Operators[hInst->C_Operator->GetCurrentSelection()], JsonLineSeparator, EndLineReplacer), wxRect(680, 64, 280, 58), wxALIGN_CENTRE);
+    dc->DrawLabel(wxString::Format("Page %d/%d", pageIdx, this->ImpressNum), wxRect(960, 102, 140, 36), wxALIGN_CENTRE);
+    dc->DrawLabel(L"Ind. " + hInst->ActiveProductData.ModificationIdx, wxRect(960, 30, 140, 36), wxALIGN_CENTRE);
+    dc->DrawLabel(StringUtility::ReplaceWxString(hInst->C_JsonConfig.Posts[hInst->C_Post->GetCurrentSelection()], JsonLineSeparator, EndLineReplacer), wxRect(960, 66, 140, 36), wxALIGN_CENTRE);
+    dc->DrawLabel(StringUtility::ReplaceWxString(hInst->C_JsonConfig.WorkCards[hInst->C_WorkCard->GetCurrentSelection()], JsonLineSeparator, EndLineReplacer), wxRect(680, 30, 280, 36), wxALIGN_CENTRE);
+    dc->DrawLabel(StringUtility::ReplaceWxString(hInst->C_JsonConfig.Operators[hInst->C_Operator->GetCurrentSelection()], JsonLineSeparator, EndLineReplacer), wxRect(680, 66, 280, 72), wxALIGN_CENTRE);
 
     dc->SetFont(wxFont(12, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
-    dc->DrawLabel("Produit: " + hInst->TC_Product->GetValue(), wxRect(140, 64, 270, 56), wxALIGN_CENTRE);
-    dc->DrawLabel("N° " + hInst->RadomeName, wxRect(410, 64, 270, 56), wxALIGN_CENTRE);
+    dc->DrawLabel("Produit: " + hInst->TC_Product->GetValue(), wxRect(140, 66, 270, 72), wxALIGN_CENTRE);
+    dc->DrawLabel("N° " + hInst->RadomeName, wxRect(410, 66, 270, 72), wxALIGN_CENTRE);
 }
 
 void PrintGlobal::Mirage_DrawMainPv( Program* hInst, wxDC* dc, const int pageIdx )
@@ -134,12 +148,12 @@ void PrintGlobal::Mirage_DrawMainPv( Program* hInst, wxDC* dc, const int pageIdx
 
     dc->SetFont(wxFont(10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
     dc->DrawLabel("Indice", wxRect(900, 30, 200, 20), wxALIGN_CENTRE);
-    dc->DrawLabel("SI", wxRect(900, 50, 200, 20), wxALIGN_CENTRE);
+    dc->DrawLabel(hInst->ActiveProductData.ModificationIdx, wxRect(900, 50, 200, 20), wxALIGN_CENTRE);
     dc->DrawLabel(wxString::Format("Page %d/%d", pageIdx, this->ImpressNum), wxRect(900, 70, 200, 50), wxALIGN_CENTRE);
 
     dc->SetFont(wxFont(10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL));
     dc->DrawLabel("Code opération", wxRect(680, 32, 220, 14), wxALIGN_CENTRE);
-    dc->DrawLabel("ANZ_EDVGC", wxRect(680, 44, 220, 26), wxALIGN_CENTRE);
+    dc->DrawLabel(hInst->ActiveProductData.OperationCode, wxRect(680, 44, 220, 26), wxALIGN_CENTRE);
     dc->DrawLabel("Approuvé par", wxRect(680, 72, 220, 10), wxALIGN_CENTRE);
     dc->DrawLabel(StringUtility::ReplaceWxString(hInst->C_JsonConfig.Operators[hInst->C_Operator->GetCurrentSelection()], JsonLineSeparator, EndLineReplacer), wxRect(680, 80, 220, 40), wxALIGN_CENTRE);
 

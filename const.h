@@ -11,6 +11,9 @@ inline int ProgIdxMirage_R = 3981;
 inline int ProgIdxRafale_C = 3986;
 inline int ProgIdxRafale_R = 3985;
 
+inline double UnassignedDoubleValue = -(1 << 10);
+inline int UnassignedIntValue = -(1 << 10);
+
 inline const std::string ExecutivePath = (std::string)wxGetCwd();
 inline const std::string CsvPath = ExecutivePath + "\\csv\\*.csv";
 inline const std::string ConfigPath = ExecutivePath + "\\resources\\config.json";
