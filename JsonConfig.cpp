@@ -30,13 +30,14 @@ void from_json(const nlohmann::json& j, ProductData& p)
 		}
 	}
 
-	//for (int row = 20; row >= 0; --row)
-	//{
-	//	for (int col = 7; col >= 0; --col)
-	//	{
-	//		std::cout << p.TheoreticalRadius[row][col] << " " << row << " " << col << std::endl;
-	//	}
-	//}
+	if (j.contains("UndulationTolerance"))
+	{
+		const nlohmann::json& theoreticalDataJson = j.at("UndulationTolerance");
+		for (const auto& keyval : theoreticalDataJson.items())
+		{
+			p.UndulationTolerance[keyval.key()] = keyval.value().get<double>();
+		}
+	}
 
 	if (!j.contains("RadomeType"))
 		return;

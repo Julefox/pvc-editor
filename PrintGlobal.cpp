@@ -93,8 +93,8 @@ void PrintGlobal::Rafale_DrawMainPv( Program* hInst, wxDC*dc, const int pageIdx 
     dc->DrawLine(680, 30, 680, 138);  // Separateur Bordereaux Vertical 1
     dc->DrawLine(960, 30, 960, 138);  // Separateur Bordereaux Vertical 2
 
-    dc->DrawLine(800, 720, 1100, 720); // Separateur Signature Horizontal
-    dc->DrawLine(800, 720, 800, 760);  // Separateur Signature Vertical
+    dc->DrawLine(800, 700, 1100, 700); // Separateur Signature Horizontal
+    dc->DrawLine(800, 700, 800, 760);  // Separateur Signature Vertical
 
     dc->SetFont(wxFont(16, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
     dc->DrawLabel("AIA/CP", wxRect(20, 30, 120, 36), wxALIGN_CENTRE);
@@ -103,8 +103,10 @@ void PrintGlobal::Rafale_DrawMainPv( Program* hInst, wxDC*dc, const int pageIdx 
     dc->SetFont(wxFont(9, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
     dc->DrawLabel(L"****", wxRect(20, 66, 120, 22), wxALIGN_CENTRE);
     dc->DrawLabel(L"Département\nde la Qualité\net du Contrôle", wxRect(20, 80, 120, 58), wxALIGN_CENTRE);
-    dc->DrawLabel(L"Date de contrôle / Marque", wxRect(805, 724, 300, 30), wxALIGN_LEFT | wxALIGN_TOP);
-    dc->DrawLabel(hInst->DP_Date->GetValue().Format("%d/%m/20%y"), wxRect(850, 740, 300, 30), wxALIGN_LEFT | wxALIGN_TOP);
+    dc->DrawLabel(L"Date de contrôle / Marque", wxRect(805, 704, 300, 30), wxALIGN_LEFT | wxALIGN_TOP);
+
+    dc->SetFont(wxFont(12, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
+    dc->DrawLabel(hInst->DP_Date->GetValue().Format("%d/%m/20%y"), wxRect(820, 728, 300, 30), wxALIGN_LEFT | wxALIGN_TOP);
 
     dc->SetFont(wxFont(10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
     dc->DrawLabel(wxString::Format("Page %d/%d", pageIdx, this->ImpressNum), wxRect(960, 102, 140, 36), wxALIGN_CENTRE);

@@ -38,6 +38,18 @@ enum eRadomeType
 	Rafale_R
 };
 
+inline const std::map<std::string, int> RadomeIndexPosition =
+{
+	{ "H",  0 },
+	{ "HD", 1 },
+	{ "D",  2 },
+	{ "BD", 3 },
+	{ "B",  4 },
+	{ "BG", 5 },
+	{ "G",  6 },
+	{ "HG", 7 }
+};
+
 class StringUtility
 {
 public:

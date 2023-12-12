@@ -74,7 +74,7 @@ void CalculationData::RafaleCalculateData( Program* hInst, const std::string& fi
 
                 this->Height[i][j] = lround(radHeight);
 
-                //std::cout << this->RayMeasure[i][j] << std::endl;
+                std::cout << this->Height[i][j] << std::endl;
             }
         }
         textFile.Close();
@@ -106,43 +106,52 @@ void CalculationData::RafaleCalculateData( Program* hInst, const std::string& fi
                     const double heightSpan = this->Height[index1 + 1][index2] - this->Height[index1 - 1][index2];
 
                     this->Undulation[index1][index2] = -((deltaHeightForward * deltaRayonBackward) - (deltaHeightBackward * deltaRayonForward)) / (heightSpan * heightSpan);
-                    //std::cout << std::fixed << std::setprecision(2) << this->Undulation[index1][index2] << " = " << hInst->ActiveProductData.TheoreticalRadius[index1][index2] << std::endl;
                 }
             }
         }
 
-        for (int index1 = 1; index1 < 20; index1++)
+        // Parametrage des tolérances d'ondulation
+        for (const auto& pair : hInst->ActiveProductData.UndulationTolerance)
         {
-            for (int index2 = 0; index2 < 8; index2++)
+            const auto& key = pair.first;
+            const auto& value = pair.second;
+            const auto& it = RadomeIndexPosition.find(key);
+
+            if (it != RadomeIndexPosition.end())
             {
-                //if (this->RayMeasure.find(index1) != this->RayMeasure.end() && this->RayDifference.find(index1) != this->RayDifference.end() && hInst->ActiveProductData.TheoreticalRadius.find(index1) != hInst->ActiveProductData.TheoreticalRadius.end())
-                {
-                    if (Undulation[index1 + 1][index2] != UnassignedDoubleValue)
-                    {
-                        double ondulationValue = Undulation[index1 + 1][index2];
-                        std::string color = "BLUE"; // Par défaut, la couleur est bleue.
-        
-                        if ((index2 > 2) && (index2 < 6))
-                        {
-                            if (fabs(ondulationValue) > 0.003)
-                                color = "RED";
-                        }
-                        else
-                        {
-                            if (fabs(ondulationValue) > 0.005)
-                                color = "RED";
-                        }
-        
-                        std::cout << "Ondulation [" << index1 + 1 << "][" << index2 << "] = "
-                            << ondulationValue * 100.0 << "% (" << color << ")" << std::endl;
-                    }
-                    else
-                    {
-                        std::cout << "Ondulation [" << index1 + 1 << "][" << index2 << "] = Non Mesurée" << std::endl;
-                    }
-                }
+                this->UndulationTolerance[it->second] = value;
             }
         }
+
+        //for (int index1 = 1; index1 < 20; index1++)
+        //{
+        //    for (int index2 = 0; index2 < 8; index2++)
+        //    {
+        //        if (Undulation[index1 + 1][index2] != UnassignedDoubleValue)
+        //        {
+        //            double ondulationValue = Undulation[index1 + 1][index2];
+        //            std::string color = "BLUE"; // Par défaut, la couleur est bleue.
+        //
+        //            if ((index2 > 2) && (index2 < 6))
+        //            {
+        //                if (fabs(ondulationValue) > 0.003)
+        //                    color = "RED";
+        //            }
+        //            else
+        //            {
+        //                if (fabs(ondulationValue) > 0.005)
+        //                    color = "RED";
+        //            }
+        //
+        //            std::cout << "Ondulation [" << index1 + 1 << "][" << index2 << "] = "
+        //                << ondulationValue * 10.0 << "% (" << color << ")" << std::endl;
+        //        }
+        //        else
+        //        {
+        //            std::cout << "Ondulation [" << index1 + 1 << "][" << index2 << "] = Non Mesurée" << std::endl;
+        //        }
+        //    }
+        //}
 	}
 }
 
@@ -158,4 +167,9 @@ void CalculationData::MapInit()
             this->Height[i][j] = UnassignedIntValue;
         }
 	}
+
+    for (int i = 0; i < 8; i++)
+    {
+        this->UndulationTolerance[i] = 0.0f;
+    }
 }
