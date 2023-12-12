@@ -33,10 +33,6 @@ void PrintMirage::MiragePage_01()
     wxDC* dc    = GetDC();
     SetDcScale(this, dc);
     Mirage_DrawMainPv(hInst, dc, 1);
-
-    // DEV ONLY
-    Mirage_DrawGraphic(hInst, dc, "B");
-    // DEV END
 }
 
 void PrintMirage::MiragePage_02()

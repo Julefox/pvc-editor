@@ -73,8 +73,6 @@ void CalculationData::RafaleCalculateData( Program* hInst, const std::string& fi
                 }
 
                 this->Height[i][j] = lround(radHeight);
-
-                std::cout << this->Height[i][j] << std::endl;
             }
         }
         textFile.Close();
@@ -96,8 +94,12 @@ void CalculationData::RafaleCalculateData( Program* hInst, const std::string& fi
         {
             for (int index2 = 0; index2 < 8; index2++)
             {
-                if (this->RayDifference[index1 - 1][index2] != UnassignedDoubleValue && this->RayDifference[index1][index2] != UnassignedDoubleValue && this->RayDifference[index1 + 1][index2] != UnassignedDoubleValue &&
-                    this->Height[index1 - 1][index2] != UnassignedIntValue && this->Height[index1][index2] != UnassignedIntValue && this->Height[index1 + 1][index2] != UnassignedIntValue)
+                if (this->RayDifference[index1 - 1][index2] != UnassignedDoubleValue &&
+                    this->RayDifference[index1][index2] != UnassignedDoubleValue &&
+                    this->RayDifference[index1 + 1][index2] != UnassignedDoubleValue &&
+                    this->Height[index1 - 1][index2] != UnassignedIntValue &&
+                    this->Height[index1][index2] != UnassignedIntValue &&
+                    this->Height[index1 + 1][index2] != UnassignedIntValue)
                 {
                     const double deltaHeightForward = this->Height[index1 + 1][index2] - this->Height[index1][index2];
                     const double deltaHeightBackward = this->Height[index1][index2] - this->Height[index1 - 1][index2];
