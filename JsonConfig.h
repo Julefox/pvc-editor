@@ -6,13 +6,14 @@ struct ProductData
 {
 public:
 	std::string ProgramIdx;
-	std::string NameDescription;
 	eRadomeType RadomeType = Default;
-	std::string ModificationIdx;
-	std::string OperationCode;
-	std::map<int, std::vector<double>> TheoreticalRadius;
+	std::vector< std::string > ProductNames;
+	std::vector< std::string > WorkCards;
+	std::vector< std::string > OperationCodes;
+
 	float TheoreticalHeight;
 	float HeightTolerance;
+	std::map<int, std::vector<double>> TheoreticalRadius;
 };
 
 void from_json(const nlohmann::json& j, ProductData& p);
@@ -22,8 +23,8 @@ class JsonConfig
 public:
 	std::vector< ProductData > Products;
 	std::vector< std::string > Operators;
-	std::vector< std::string > WorkCards;
 	std::vector< std::string > Posts;
+	std::string MirageAnnexHeader;
 
 	static JsonConfig LoadJsonConfig(const std::string& filename)
 	{
@@ -45,7 +46,7 @@ public:
 	{
 		if (j.contains("Products")) j.at("Products").get_to(Products);
 		if (j.contains("Operators")) j.at("Operators").get_to(Operators);
-		if (j.contains("WorkCards")) j.at("WorkCards").get_to(WorkCards);
 		if (j.contains("Posts")) j.at("Posts").get_to(Posts);
+		if (j.contains("MirageAnnexHeader")) j.at("MirageAnnexHeader").get_to(MirageAnnexHeader);
 	}
 };

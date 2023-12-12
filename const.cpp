@@ -12,6 +12,18 @@ std::wstring StringUtility::StringToWString(const std::string& str)
     return wStr;
 }
 
+std::wstring StringUtility::KeepOnlyDigits(const std::wstring& str) {
+    std::wstring result;
+    for (wchar_t ch : str)
+    {
+        if (ch >= L'0' && ch <= L'9')
+        {
+            result += ch;
+        }
+    }
+    return result;
+}
+
 std::string StringUtility::WideStringToString( const std::wstring& wStr )
 {
     if (wStr.empty()) return {};

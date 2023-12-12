@@ -4,9 +4,9 @@
 void from_json(const nlohmann::json& j, ProductData& p)
 {
 	if (j.contains("ProgramIdx")) j.at("ProgramIdx").get_to(p.ProgramIdx);
-	if (j.contains("NameDescription")) j.at("NameDescription").get_to(p.NameDescription);
-	if (j.contains("ModificationIdx")) j.at("ModificationIdx").get_to(p.ModificationIdx);
-	if (j.contains("OperationCode")) j.at("OperationCode").get_to(p.OperationCode);
+	if (j.contains("ProductNames")) j.at("ProductNames").get_to(p.ProductNames);
+	if (j.contains("WorkCards")) j.at("WorkCards").get_to(p.WorkCards);
+	if (j.contains("OperationCodes")) j.at("OperationCodes").get_to(p.OperationCodes);
 	if (j.contains("TheoreticalHeight")) j.at("TheoreticalHeight").get_to(p.TheoreticalHeight);
 	if (j.contains("HeightTolerance")) j.at("HeightTolerance").get_to(p.HeightTolerance);
 

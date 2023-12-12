@@ -108,14 +108,14 @@ void PrintGlobal::Rafale_DrawMainPv( Program* hInst, wxDC*dc, const int pageIdx 
 
     dc->SetFont(wxFont(10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
     dc->DrawLabel(wxString::Format("Page %d/%d", pageIdx, this->ImpressNum), wxRect(960, 102, 140, 36), wxALIGN_CENTRE);
-    dc->DrawLabel(L"Ind. " + hInst->ActiveProductData.ModificationIdx, wxRect(960, 30, 140, 36), wxALIGN_CENTRE);
+    dc->DrawLabel(L"Ind. " + hInst->C_OperationCode->GetString(hInst->C_OperationCode->GetCurrentSelection()).AfterLast('_'), wxRect(960, 30, 140, 36), wxALIGN_CENTRE);
     dc->DrawLabel(StringUtility::ReplaceWxString(hInst->C_JsonConfig.Posts[hInst->C_Post->GetCurrentSelection()], JsonLineSeparator, EndLineReplacer), wxRect(960, 66, 140, 36), wxALIGN_CENTRE);
-    dc->DrawLabel(StringUtility::ReplaceWxString(hInst->C_JsonConfig.WorkCards[hInst->C_WorkCard->GetCurrentSelection()], JsonLineSeparator, EndLineReplacer), wxRect(680, 30, 280, 36), wxALIGN_CENTRE);
+    dc->DrawLabel(hInst->C_WorkCard->GetString(hInst->C_WorkCard->GetCurrentSelection()) + "\n" + hInst->C_OperationCode->GetString(hInst->C_OperationCode->GetCurrentSelection()).BeforeLast('_'), wxRect(680, 30, 280, 36), wxALIGN_CENTRE);
     dc->DrawLabel(StringUtility::ReplaceWxString(hInst->C_JsonConfig.Operators[hInst->C_Operator->GetCurrentSelection()], JsonLineSeparator, EndLineReplacer), wxRect(680, 66, 280, 72), wxALIGN_CENTRE);
 
     dc->SetFont(wxFont(12, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
-    dc->DrawLabel("Produit: " + hInst->TC_Product->GetValue(), wxRect(140, 66, 270, 72), wxALIGN_CENTRE);
-    dc->DrawLabel("N° " + hInst->RadomeName, wxRect(410, 66, 270, 72), wxALIGN_CENTRE);
+    dc->DrawLabel("Produit: " + hInst->C_Product->GetString(hInst->C_Product->GetCurrentSelection()), wxRect(140, 66, 270, 72), wxALIGN_CENTRE);
+    dc->DrawLabel("N° " + hInst->TC_Shell->GetValue(), wxRect(410, 66, 270, 72), wxALIGN_CENTRE);
 }
 
 void PrintGlobal::Mirage_DrawMainPv( Program* hInst, wxDC* dc, const int pageIdx )
@@ -148,21 +148,24 @@ void PrintGlobal::Mirage_DrawMainPv( Program* hInst, wxDC* dc, const int pageIdx
 
     dc->SetFont(wxFont(10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
     dc->DrawLabel("Indice", wxRect(900, 30, 200, 20), wxALIGN_CENTRE);
-    dc->DrawLabel(hInst->ActiveProductData.ModificationIdx, wxRect(900, 50, 200, 20), wxALIGN_CENTRE);
+    dc->DrawLabel(hInst->C_OperationCode->GetString(hInst->C_OperationCode->GetCurrentSelection()).AfterLast('_'), wxRect(900, 50, 200, 20), wxALIGN_CENTRE);
     dc->DrawLabel(wxString::Format("Page %d/%d", pageIdx, this->ImpressNum), wxRect(900, 70, 200, 50), wxALIGN_CENTRE);
 
     dc->SetFont(wxFont(10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL));
     dc->DrawLabel("Code opération", wxRect(680, 32, 220, 14), wxALIGN_CENTRE);
-    dc->DrawLabel(hInst->ActiveProductData.OperationCode, wxRect(680, 44, 220, 26), wxALIGN_CENTRE);
+    dc->DrawLabel(hInst->C_OperationCode->GetString(hInst->C_OperationCode->GetCurrentSelection()).BeforeLast('_'), wxRect(680, 44, 220, 26), wxALIGN_CENTRE);
     dc->DrawLabel("Approuvé par", wxRect(680, 72, 220, 10), wxALIGN_CENTRE);
     dc->DrawLabel(StringUtility::ReplaceWxString(hInst->C_JsonConfig.Operators[hInst->C_Operator->GetCurrentSelection()], JsonLineSeparator, EndLineReplacer), wxRect(680, 80, 220, 40), wxALIGN_CENTRE);
 
     dc->DrawLabel("Ensemble:", wxRect(144, 70, 136, 25), wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
+    if(hInst->ActiveProductData.RadomeType == Mirage_C)
+    {
+        dc->DrawLabel("N° " + hInst->TC_Shell->GetValue(), wxRect(480, 70, 200, 25), wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
+    }
     dc->DrawLabel("Sous ensemble:", wxRect(144, 95, 136, 25), wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
-    dc->DrawLabel("N° " + hInst->RadomeName, wxRect(480, 70, 200, 25), wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
-    dc->DrawLabel("N° " + hInst->RadomeName, wxRect(480, 95, 200, 25), wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
+    dc->DrawLabel("N° " + hInst->TC_Radome->GetValue(), wxRect(480, 95, 200, 25), wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
     dc->SetFont(wxFont(10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
-    dc->DrawLabel(hInst->TC_Product->GetValue(), wxRect(280, 70, 200, 25), wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
+    dc->DrawLabel(hInst->C_Product->GetString(hInst->C_Product->GetCurrentSelection()), wxRect(280, 70, 200, 25), wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
     dc->DrawLabel("Radôme", wxRect(280, 95, 200, 25), wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
 
     dc->SetTextForeground(wxColour(224, 102, 102)); // Red
@@ -171,5 +174,5 @@ void PrintGlobal::Mirage_DrawMainPv( Program* hInst, wxDC* dc, const int pageIdx
 
     dc->SetTextForeground(wxColour(0, 0, 0)); // Black
     dc->SetFont(wxFont(8, wxFONTFAMILY_SWISS, wxFONTSTYLE_ITALIC, wxFONTWEIGHT_NORMAL));
-    dc->DrawLabel(L"Annexe 1 à P/CP/E028 Ind A", wxRect(20, 10, 1080, 20), wxALIGN_CENTRE);
+    dc->DrawLabel(StringUtility::StringToWString(hInst->C_JsonConfig.MirageAnnexHeader), wxRect(20, 10, 1080, 20), wxALIGN_CENTRE);
 }

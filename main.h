@@ -13,14 +13,23 @@ public:
     wxStaticText* T_ApplicationName;
     wxStaticText* T_AffiliationPath;
 
-    wxStaticText* T_Radome;
-    wxChoice* C_Radome;
+    wxStaticText* T_File;
+    wxChoice* C_File;
 
     wxStaticText* T_Product;
-    wxTextCtrl* TC_Product;
+    wxChoice* C_Product;
+
+    wxStaticText* T_Shell;
+    wxTextCtrl* TC_Shell;
+
+    wxStaticText* T_Radome;
+    wxTextCtrl* TC_Radome;
 
     wxStaticText* T_WorkCard;
     wxChoice* C_WorkCard;
+
+    wxStaticText* T_OperationCode;
+    wxChoice* C_OperationCode;
 
     wxStaticText* T_Operator;
     wxChoice* C_Operator;
@@ -36,7 +45,6 @@ public:
     JsonConfig C_JsonConfig;
 
     std::wstring RadomeName;
-    std::wstring RadomeDescName;
 
     ProductData ActiveProductData;
 
@@ -46,10 +54,10 @@ public:
     {
         DebugConsole();
 
-        auto* window = new wxFrame(nullptr, wxID_ANY, "Editeur PVC", wxDefaultPosition);
-        window->SetSizeHints(wxSize(MwWindowSizeWidth, MwWindowSizeHeight), wxSize(MwWindowSizeWidth, MwWindowSizeHeight));
-        window->SetBackgroundColour(wxColour(62, 67, 73));
-        window->CenterOnScreen();
+        auto* window = new wxFrame(nullptr, wxID_ANY, "Editeur PVC", wxDefaultPosition, MwWindowSize);
+        window->SetSizeHints(MwWindowSize, MwWindowSize);
+        window->SetBackgroundColour(MainColor);
+        window->EnableMaximizeButton(false);
 
         MWindow = this->GetTopWindow();
 
@@ -62,6 +70,7 @@ public:
         //this->Callback_OnPrintButtonPressed(devPrint);
         // DEBUG END
 
+        window->CenterOnScreen();
         window->Show();
         return true;
     }
