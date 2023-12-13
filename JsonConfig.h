@@ -11,9 +11,9 @@ public:
 	std::vector< std::string > WorkCards;
 	std::vector< std::string > OperationCodes;
 
-	float TheoreticalHeight;
-	float HeightTolerance;
-	float RadiusTolerance;
+	float TheoreticalHeight = 0.0f;
+	float HeightTolerance = 0.0f;
+	float RadiusTolerance = 0.0f;
 	double TheoreticalRadius[22][8];
 	std::map<std::string, double> UndulationTolerance;
 };
@@ -27,6 +27,8 @@ public:
 	std::vector< std::string > Operators;
 	std::vector< std::string > Posts;
 	std::string MirageAnnexHeader;
+	std::string RafaleFrameLeftContent;
+	std::string RafaleFrameRightContent;
 
 	static JsonConfig LoadJsonConfig(const std::string& filename)
 	{
@@ -50,5 +52,7 @@ public:
 		if (j.contains("Operators")) j.at("Operators").get_to(Operators);
 		if (j.contains("Posts")) j.at("Posts").get_to(Posts);
 		if (j.contains("MirageAnnexHeader")) j.at("MirageAnnexHeader").get_to(MirageAnnexHeader);
+		if (j.contains("RafaleFrameLeftContent")) j.at("RafaleFrameLeftContent").get_to(RafaleFrameLeftContent);
+		if (j.contains("RafaleFrameRightContent")) j.at("RafaleFrameRightContent").get_to(RafaleFrameRightContent);
 	}
 };

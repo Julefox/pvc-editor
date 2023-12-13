@@ -218,7 +218,9 @@
         "Dufieux~Poste 2000D",
         "Dufieux~Poste 2000DA"
     ],
-    "MirageAnnexHeader": "Annexe 1 à P/CP/E/028 Ind B",
+    "MirageAnnexHeader":       "Annexe 1 à P/CP/E/028 Ind B",
+    "RafaleFrameLeftContent":  "Montage sur bobine TAS Réf. 61056798AA",
+    "RafaleFrameRightContent": "Comprise danse le plan de pose~(matérialisé par les quatres plots du faux cadre 1)~et le sommet réél du radôme",
     "EasterEgg": true
   }
   

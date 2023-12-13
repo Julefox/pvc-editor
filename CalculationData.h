@@ -10,7 +10,7 @@ public:
 	CalculationData() = default;
 	explicit CalculationData(Program* hInst, const std::string& filePath);
 
-	float RadomeLength;
+	float RadomeHeight;
 
 	double RayMeasure[22][8];
 	double RayDifference[22][8];

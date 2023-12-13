@@ -11,9 +11,9 @@ inline int ProgIdxMirage_R = 3981;
 inline int ProgIdxRafale_C = 3986;
 inline int ProgIdxRafale_R = 3985;
 
-inline const double Epsilon = 1e-6;
-inline const double UnassignedDoubleValue = 1 << 10;
-inline const int UnassignedIntValue = 1 << 10;
+inline constexpr double Epsilon = 1e-6;
+inline constexpr double UnassignedDoubleValue = 1 << 10;
+inline constexpr int UnassignedIntValue = 1 << 10;
 
 inline const std::string ExecutivePath = (std::string)wxGetCwd();
 inline const std::string CsvPath = ExecutivePath + "\\csv\\*.csv";

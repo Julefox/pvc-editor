@@ -23,7 +23,8 @@ bool PrintGlobal::HasPage( const int page )
 
 void PrintGlobal::SetToleranceColor(wxDC* dc, const double value, const double tolerance)
 {
-    if (fabs(value) > tolerance)
+    const double castValue = static_cast<int>(value * 100) / 100; // transforme 0.0001 en 0.00
+    if (fabs(castValue) > tolerance)
     {
         dc->SetTextForeground(RedColor);
     }

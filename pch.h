@@ -8,6 +8,7 @@
 #include <wx/xrc/xmlres.h>
 #include <wx/string.h>
 #include <wx/stattext.h>
+#include <wx/sound.h>
 #include <wx/gdicmn.h>
 #include <wx/font.h>
 #include <wx/colour.h>

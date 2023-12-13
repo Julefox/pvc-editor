@@ -46,7 +46,7 @@ void CalculationData::RafaleCalculateData( Program* hInst, const std::string& fi
 
                 if (array[1].ToDouble(&height))
                 {
-                    this->RadomeLength = static_cast<float>(height);
+                    this->RadomeHeight = static_cast<float>(height);
                 }
             }
 
@@ -73,11 +73,6 @@ void CalculationData::RafaleCalculateData( Program* hInst, const std::string& fi
                 }
 
                 this->Height[i][j] = lround(radHeight);
-
-                if(i==20)
-                {
-                    std::cout << j << " " << this->Height[i][j] << std::endl;
-                }
             }
         }
         textFile.Close();
@@ -87,7 +82,7 @@ void CalculationData::RafaleCalculateData( Program* hInst, const std::string& fi
         {
             for (int index2 = 0; index2 < 8; index2++)
             {
-                if (this->RayMeasure[index1][index2] != UnassignedDoubleValue && hInst->ActiveProductData.TheoreticalRadius[index1][index2] != UnassignedDoubleValue)
+                if (std::abs(this->RayMeasure[index1][index2] - UnassignedDoubleValue) > Epsilon && std::abs(hInst->ActiveProductData.TheoreticalRadius[index1][index2] - UnassignedDoubleValue) > Epsilon)
                 {
                     this->RayDifference[index1][index2] = this->RayMeasure[index1][index2] - hInst->ActiveProductData.TheoreticalRadius[index1][index2];
                 }
@@ -99,12 +94,12 @@ void CalculationData::RafaleCalculateData( Program* hInst, const std::string& fi
         {
             for (int index2 = 0; index2 < 8; index2++)
             {
-                if (this->RayDifference[index1 - 1][index2] != UnassignedDoubleValue &&
-                    this->RayDifference[index1][index2] != UnassignedDoubleValue &&
-                    this->RayDifference[index1 + 1][index2] != UnassignedDoubleValue &&
-                    this->Height[index1 - 1][index2] != UnassignedIntValue &&
-                    this->Height[index1][index2] != UnassignedIntValue &&
-                    this->Height[index1 + 1][index2] != UnassignedIntValue)
+                if (std::abs(this->RayDifference[index1 - 1][index2] - UnassignedDoubleValue) > Epsilon &&
+                    std::abs(this->RayDifference[index1][index2] - UnassignedDoubleValue) > Epsilon &&
+                    std::abs(this->RayDifference[index1 + 1][index2] - UnassignedDoubleValue) > Epsilon &&
+                    std::abs(this->Height[index1 - 1][index2] - UnassignedIntValue) > Epsilon &&
+                    std::abs(this->Height[index1][index2] - UnassignedIntValue) > Epsilon &&
+                    std::abs(this->Height[index1 + 1][index2] - UnassignedIntValue) > Epsilon)
                 {
                     const double deltaHeightForward = this->Height[index1 + 1][index2] - this->Height[index1][index2];
                     const double deltaHeightBackward = this->Height[index1][index2] - this->Height[index1 - 1][index2];
@@ -129,36 +124,6 @@ void CalculationData::RafaleCalculateData( Program* hInst, const std::string& fi
                 this->UndulationTolerance[it->second] = value;
             }
         }
-
-        //for (int index1 = 1; index1 < 20; index1++)
-        //{
-        //    for (int index2 = 0; index2 < 8; index2++)
-        //    {
-        //        if (Undulation[index1 + 1][index2] != UnassignedDoubleValue)
-        //        {
-        //            double ondulationValue = Undulation[index1 + 1][index2];
-        //            std::string color = "BLUE"; // Par défaut, la couleur est bleue.
-        //
-        //            if ((index2 > 2) && (index2 < 6))
-        //            {
-        //                if (fabs(ondulationValue) > 0.003)
-        //                    color = "RED";
-        //            }
-        //            else
-        //            {
-        //                if (fabs(ondulationValue) > 0.005)
-        //                    color = "RED";
-        //            }
-        //
-        //            std::cout << "Ondulation [" << index1 + 1 << "][" << index2 << "] = "
-        //                << ondulationValue * 10.0 << "% (" << color << ")" << std::endl;
-        //        }
-        //        else
-        //        {
-        //            std::cout << "Ondulation [" << index1 + 1 << "][" << index2 << "] = Non Mesurée" << std::endl;
-        //        }
-        //    }
-        //}
 	}
 }
 
