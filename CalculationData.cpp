@@ -73,6 +73,11 @@ void CalculationData::RafaleCalculateData( Program* hInst, const std::string& fi
                 }
 
                 this->Height[i][j] = lround(radHeight);
+
+                if(i==20)
+                {
+                    std::cout << j << " " << this->Height[i][j] << std::endl;
+                }
             }
         }
         textFile.Close();

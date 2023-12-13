@@ -21,6 +21,17 @@ bool PrintGlobal::HasPage( const int page )
     return ( page >= 1 && page <= ImpressNum );
 }
 
+void PrintGlobal::SetToleranceColor(wxDC* dc, const double value, const double tolerance)
+{
+    if (fabs(value) > tolerance)
+    {
+        dc->SetTextForeground(RedColor);
+    }
+    else
+    {
+        dc->SetTextForeground(BlueColor);
+    }
+}
 
 void PrintGlobal::SetDcScale( wxPrintout* print, wxDC* dc )
 {
@@ -67,18 +78,6 @@ void PrintGlobal::SetDcScale( wxPrintout* print, wxDC* dc )
 void PrintGlobal::Rafale_DrawMainPv( Program* hInst, wxDC*dc, const int pageIdx )
 {
     dc->SetPen(*wxBLACK_PEN);
-
-    //for (auto& kv : hInst->ActiveProductData.TheoreticalRadius)
-    //{
-    //    const std::vector<double>& valeurs = kv.second; // Accès direct à la valeur, qui est un std::vector<float>
-    //    float somme = 0.0;
-    //    for (double valeur : valeurs)
-    //    {
-    //        somme += valeur;
-    //    }
-    //    float moyenne = valeurs.empty() ? 0.0f : somme / static_cast<double>(valeurs.size()); // Vérification de la division par zéro et cast pour la taille
-    //    std::cout << "Moyenne pour la clé " << kv.first << ": " << moyenne << std::endl; // Utilisation de .first pour obtenir la clé
-    //}
 
     // Cadre Principal
     dc->DrawLine(20, 30, 1100, 30);    // Haut
@@ -179,11 +178,11 @@ void PrintGlobal::Mirage_DrawMainPv( Program* hInst, wxDC* dc, const int pageIdx
     dc->DrawLabel(hInst->C_Product->GetString(hInst->C_Product->GetCurrentSelection()), wxRect(280, 70, 200, 25), wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
     dc->DrawLabel("Radôme", wxRect(280, 95, 200, 25), wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
 
-    dc->SetTextForeground(wxColour(224, 102, 102)); // Red
+    dc->SetTextForeground(RedColor);
     dc->SetFont(wxFont(8, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL));
     dc->DrawLabel(L"Ce document est la propriété de l'AIA-CP, il ne peut être reproduit ou communiqué sans autorisation écrite.", wxRect(20, 760, 1080, 30), wxALIGN_CENTRE);
 
-    dc->SetTextForeground(wxColour(0, 0, 0)); // Black
+    dc->SetTextForeground(BlackColor);
     dc->SetFont(wxFont(8, wxFONTFAMILY_SWISS, wxFONTSTYLE_ITALIC, wxFONTWEIGHT_NORMAL));
     dc->DrawLabel(StringUtility::StringToWString(hInst->C_JsonConfig.MirageAnnexHeader), wxRect(20, 10, 1080, 20), wxALIGN_CENTRE);
 }

@@ -9,6 +9,7 @@ void from_json(const nlohmann::json& j, ProductData& p)
 	if (j.contains("OperationCodes")) j.at("OperationCodes").get_to(p.OperationCodes);
 	if (j.contains("TheoreticalHeight")) j.at("TheoreticalHeight").get_to(p.TheoreticalHeight);
 	if (j.contains("HeightTolerance")) j.at("HeightTolerance").get_to(p.HeightTolerance);
+	if (j.contains("RadiusTolerance")) j.at("RadiusTolerance").get_to(p.RadiusTolerance);
 
 	if (j.contains("TheoreticalRadius"))
 	{

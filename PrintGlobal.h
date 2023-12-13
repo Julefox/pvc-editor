@@ -18,6 +18,7 @@ public:
 	int ImpressNum = 0;
 
 	static void SetDcScale( wxPrintout* print, wxDC* dc );
+	static void SetToleranceColor(wxDC* dc, double value, double tolerance);
 	void Rafale_DrawMainPv( Program* hInst, wxDC* dc, int pageIdx );
 	void Mirage_DrawMainPv( Program* hInst, wxDC* dc, int pageIdx );
 };

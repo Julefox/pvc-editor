@@ -13,6 +13,7 @@ public:
 
 	float TheoreticalHeight;
 	float HeightTolerance;
+	float RadiusTolerance;
 	double TheoreticalRadius[22][8];
 	std::map<std::string, double> UndulationTolerance;
 };

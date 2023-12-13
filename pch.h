@@ -27,6 +27,7 @@
 #include <wx/string.h>
 #include <wx/textfile.h>
 #include <fstream>
+#include <cmath>
 #include "nlohmann/json.hpp"
 #include "const.h"
 
