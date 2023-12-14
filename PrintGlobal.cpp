@@ -98,7 +98,10 @@ void PrintGlobal::Rafale_DrawMainPv( Program* hInst, wxDC*dc, const int pageIdx 
 
     dc->SetFont(wxFont(16, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
     dc->DrawLabel("AIA/CP", wxRect(20, 30, 120, 36), wxALIGN_CENTRE);
-    dc->DrawLabel("PROCES-VERBAL DE CONTROLE", wxRect(140, 30, 540, 36), wxALIGN_CENTRE);
+
+    const wxString title = hInst->ActiveProductData.RadomeType == Rafale_C ? "PROCES-VERBAL DE CONTROLE" : "FEUILLE DE RELEVE";
+
+    dc->DrawLabel(title, wxRect(140, 30, 540, 36), wxALIGN_CENTRE);
 
     dc->SetFont(wxFont(9, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
     dc->DrawLabel(L"****", wxRect(20, 66, 120, 22), wxALIGN_CENTRE);

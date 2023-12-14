@@ -15,6 +15,9 @@ inline constexpr double Epsilon = 1e-6;
 inline constexpr double UnassignedDoubleValue = 1 << 10;
 inline constexpr int UnassignedIntValue = 1 << 10;
 
+inline constexpr int MIRAGE_MAX_HEIGHT = 2110;
+inline constexpr int MIRAGE_HEIGHT_STEP = 200;
+
 inline const std::string ExecutivePath = (std::string)wxGetCwd();
 inline const std::string CsvPath = ExecutivePath + "\\csv\\*.csv";
 inline const std::string ConfigPath = ExecutivePath + "\\resources\\config.json";

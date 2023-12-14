@@ -11,26 +11,6 @@ void from_json(const nlohmann::json& j, ProductData& p)
 	if (j.contains("HeightTolerance")) j.at("HeightTolerance").get_to(p.HeightTolerance);
 	if (j.contains("RadiusTolerance")) j.at("RadiusTolerance").get_to(p.RadiusTolerance);
 
-	if (j.contains("TheoreticalRadius"))
-	{
-		const nlohmann::json& theoreticalDataJson = j.at("TheoreticalRadius");
-		for (const auto& keyval : theoreticalDataJson.items())
-		{
-			const int i = 21 - lround(std::stoi(keyval.key()) / 100.0f);
-
-			if (i < 0 || i > 20)
-			{
-				continue;
-			}
-
-			int columnIndex = 0;
-			for (const auto& val : keyval.value())
-			{
-				p.TheoreticalRadius[i][columnIndex++] = val.get<double>();
-			}
-		}
-	}
-
 	if (j.contains("UndulationTolerance"))
 	{
 		const nlohmann::json& theoreticalDataJson = j.at("UndulationTolerance");
@@ -64,5 +44,40 @@ void from_json(const nlohmann::json& j, ProductData& p)
 	else
 	{
 		p.RadomeType = Default;
+	}
+
+	if (j.contains("TheoreticalRadius"))
+	{
+		const nlohmann::json& theoreticalDataJson = j.at("TheoreticalRadius");
+		for (const auto& keyval : theoreticalDataJson.items())
+		{
+			int i = 0;
+
+			if (p.RadomeType == Rafale_C || p.RadomeType == Rafale_R)
+			{
+				i = 21 - lround(std::stoi(keyval.key()) / 100.0f);
+
+				if (i < 0 || i > 20)
+				{
+					continue;
+				}
+			}
+			else if(p.RadomeType == Mirage_C || p.RadomeType == Mirage_R)
+			{
+				i = (MIRAGE_MAX_HEIGHT - lround(std::stoi(keyval.key())) + MIRAGE_HEIGHT_STEP / 2) / MIRAGE_HEIGHT_STEP;
+				i = std::max(1, std::min(i + 1, 12));
+			}
+
+			if (i < 0 || i > 20)
+			{
+				continue;
+			}
+
+			int columnIndex = 0;
+			for (const auto& val : keyval.value())
+			{
+				p.TheoreticalRadius[i][columnIndex++] = val.get<double>();
+			}
+		}
 	}
 }

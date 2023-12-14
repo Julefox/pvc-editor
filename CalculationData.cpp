@@ -9,11 +9,11 @@ CalculationData::CalculationData(Program* hInst, const std::string& filePath)
     }
     else if (hInst->ActiveProductData.RadomeType == Mirage_C || hInst->ActiveProductData.RadomeType == Mirage_R)
     {
-        
+        this->MirageCalculateData(hInst, filePath);
     }
 }
 
-void CalculationData::RafaleCalculateData( Program* hInst, const std::string& filePath )
+void CalculationData::RafaleCalculateData(Program* hInst, const std::string& filePath)
 {
 	wxTextFile textFile;
 
@@ -78,36 +78,36 @@ void CalculationData::RafaleCalculateData( Program* hInst, const std::string& fi
         textFile.Close();
 
         // Calcul de la différence de rayon
-        for (int index1 = 0; index1 < 22; index1++)
+        for (int k = 0; k < 22; k++)
         {
-            for (int index2 = 0; index2 < 8; index2++)
+            for (int l = 0; l < 8; l++)
             {
-                if (std::abs(this->RayMeasure[index1][index2] - UnassignedDoubleValue) > Epsilon && std::abs(hInst->ActiveProductData.TheoreticalRadius[index1][index2] - UnassignedDoubleValue) > Epsilon)
+                if (std::abs(this->RayMeasure[k][l] - UnassignedDoubleValue) > Epsilon && std::abs(hInst->ActiveProductData.TheoreticalRadius[k][l] - UnassignedDoubleValue) > Epsilon)
                 {
-                    this->RayDifference[index1][index2] = this->RayMeasure[index1][index2] - hInst->ActiveProductData.TheoreticalRadius[index1][index2];
+                    this->RayDifference[k][l] = this->RayMeasure[k][l] - hInst->ActiveProductData.TheoreticalRadius[k][l];
                 }
             }
         }
 
         // Calcul de l'ondulation
-        for (int index1 = 1; index1 < 21; index1++)
+        for (int k = 1; k < 21; k++)
         {
-            for (int index2 = 0; index2 < 8; index2++)
+            for (int l = 0; l < 8; l++)
             {
-                if (std::abs(this->RayDifference[index1 - 1][index2] - UnassignedDoubleValue) > Epsilon &&
-                    std::abs(this->RayDifference[index1][index2] - UnassignedDoubleValue) > Epsilon &&
-                    std::abs(this->RayDifference[index1 + 1][index2] - UnassignedDoubleValue) > Epsilon &&
-                    std::abs(this->Height[index1 - 1][index2] - UnassignedIntValue) > Epsilon &&
-                    std::abs(this->Height[index1][index2] - UnassignedIntValue) > Epsilon &&
-                    std::abs(this->Height[index1 + 1][index2] - UnassignedIntValue) > Epsilon)
+                if (std::abs(this->RayDifference[k - 1][l] - UnassignedDoubleValue) > Epsilon &&
+                    std::abs(this->RayDifference[k][l] - UnassignedDoubleValue) > Epsilon &&
+                    std::abs(this->RayDifference[k + 1][l] - UnassignedDoubleValue) > Epsilon &&
+                    std::abs(this->Height[k - 1][l] - UnassignedIntValue) > Epsilon &&
+                    std::abs(this->Height[k][l] - UnassignedIntValue) > Epsilon &&
+                    std::abs(this->Height[k + 1][l] - UnassignedIntValue) > Epsilon)
                 {
-                    const double deltaHeightForward = this->Height[index1 + 1][index2] - this->Height[index1][index2];
-                    const double deltaHeightBackward = this->Height[index1][index2] - this->Height[index1 - 1][index2];
-                    const double deltaRayonForward = this->RayDifference[index1 + 1][index2] - this->RayDifference[index1][index2];
-                    const double deltaRayonBackward = this->RayDifference[index1][index2] - this->RayDifference[index1 - 1][index2];
-                    const double heightSpan = this->Height[index1 + 1][index2] - this->Height[index1 - 1][index2];
+                    const double deltaHeightForward = this->Height[k + 1][l] - this->Height[k][l];
+                    const double deltaHeightBackward = this->Height[k][l] - this->Height[k - 1][l];
+                    const double deltaRayonForward = this->RayDifference[k + 1][l] - this->RayDifference[k][l];
+                    const double deltaRayonBackward = this->RayDifference[k][l] - this->RayDifference[k - 1][l];
+                    const double heightSpan = this->Height[k + 1][l] - this->Height[k - 1][l];
 
-                    this->Undulation[index1][index2] = -((deltaHeightForward * deltaRayonBackward) - (deltaHeightBackward * deltaRayonForward)) / (heightSpan * heightSpan);
+                    this->Undulation[k][l] = -((deltaHeightForward * deltaRayonBackward) - (deltaHeightBackward * deltaRayonForward)) / (heightSpan * heightSpan);
                 }
             }
         }
@@ -125,6 +125,117 @@ void CalculationData::RafaleCalculateData( Program* hInst, const std::string& fi
             }
         }
 	}
+}
+
+void CalculationData::MirageCalculateData(Program* hInst, const std::string& filePath)
+{
+    wxTextFile textFile;
+
+    this->MapInit();
+
+    if (textFile.Open(filePath))
+    {
+        int lineIdx = 0;
+        int i = 0;
+        int j = -1;
+        int angles0 = -1;
+        int angles1 = -1;
+
+        double radHeight = 0.0f;
+        double radRay = 0.0f;
+        double radAng = 0.0f;
+
+        wxString line;
+
+        while (!textFile.Eof())
+        {
+            lineIdx++;
+            line = textFile.GetNextLine();
+
+            wxArrayString array = wxSplit(line, ';');
+
+            if (lineIdx > 2 && array.Count() >= 3)
+            {
+                array[0].ToDouble(&radRay);
+                array[1].ToDouble(&radHeight);
+                array[2].ToDouble(&radAng);
+
+                radHeight = std::abs(radHeight); // -100.04 => 100.04
+
+                angles1 = angles0;
+                angles0 = lround(radAng);
+
+                // Méthode pour toujours trouver entre 1 et 12
+                i = (MIRAGE_MAX_HEIGHT - lround(radHeight) + MIRAGE_HEIGHT_STEP / 2) / MIRAGE_HEIGHT_STEP;
+                i = std::max(1, std::min(i + 1, 12));
+
+                if (angles0 == angles1)
+                {
+                    this->RayMeasure[i][j] = radRay;
+                }
+                else
+                {
+                    j++;
+                    this->RayMeasure[i][j] = radRay;
+                }
+
+                this->Height[i][j] = lround(radHeight);
+
+                //std::cout << this->Height[i][j] << " " << i << " " << j << " " << radRay << " " << radHeight << " " << lround(radHeight / 100.0f) << std::endl;
+            }
+        }
+        textFile.Close();
+
+        // Calcul de la différence de rayon
+        for (int k = 0; k < 14; k++)
+        {
+            for (int l = 0; l < 8; l++)
+            {
+                if (std::abs(this->RayMeasure[k][l] - UnassignedDoubleValue) > Epsilon && std::abs(hInst->ActiveProductData.TheoreticalRadius[k][l] - UnassignedDoubleValue) > Epsilon)
+                {
+                    this->RayDifference[k][l] = this->RayMeasure[k][l] - hInst->ActiveProductData.TheoreticalRadius[k][l];
+
+                    std::cout << this->RayDifference[k][l] << " = " << this->RayMeasure[k][l] << " - " << hInst->ActiveProductData.TheoreticalRadius[k][l] << std::endl;
+                }
+            }
+        }
+
+        // Calcul de l'ondulation
+        for (int k = 1; k < 13; k++)
+        {
+            for (int l = 0; l < 8; l++)
+            {
+                if (std::abs(this->RayDifference[k - 1][l] - UnassignedDoubleValue) > Epsilon &&
+                    std::abs(this->RayDifference[k][l] - UnassignedDoubleValue) > Epsilon &&
+                    std::abs(this->RayDifference[k + 1][l] - UnassignedDoubleValue) > Epsilon &&
+                    std::abs(this->Height[k - 1][l] - UnassignedIntValue) > Epsilon &&
+                    std::abs(this->Height[k][l] - UnassignedIntValue) > Epsilon &&
+                    std::abs(this->Height[k + 1][l] - UnassignedIntValue) > Epsilon)
+                {
+                    const double deltaHeightForward = this->Height[k + 1][l] - this->Height[k][l];
+                    const double deltaHeightBackward = this->Height[k][l] - this->Height[k - 1][l];
+                    const double deltaRayonForward = this->RayDifference[k + 1][l] - this->RayDifference[k][l];
+                    const double deltaRayonBackward = this->RayDifference[k][l] - this->RayDifference[k - 1][l];
+                    const double heightSpan = this->Height[k + 1][l] - this->Height[k - 1][l];
+
+                    this->Undulation[k][l] = -((deltaHeightForward * deltaRayonBackward) - (deltaHeightBackward * deltaRayonForward)) / (heightSpan * heightSpan);
+                }
+            }
+        }
+
+        // Parametrage des tolérances d'ondulation
+        for (const auto& pair : hInst->ActiveProductData.UndulationTolerance)
+        {
+            const auto& key = pair.first;
+            const auto& value = pair.second;
+            const auto& it = RadomeIndexPosition.find(key);
+
+            if (it != RadomeIndexPosition.end())
+            {
+                this->UndulationTolerance[it->second] = value;
+            }
+        }
+    }
 }
 
 void CalculationData::MapInit()

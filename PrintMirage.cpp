@@ -33,6 +33,174 @@ void PrintMirage::MiragePage_01()
     wxDC* dc    = GetDC();
     SetDcScale(this, dc);
     Mirage_DrawMainPv(hInst, dc, 1);
+
+    // Cadre Principal
+    dc->DrawLine(40, 158, 1080, 158);   // Haut
+    dc->DrawLine(40, 680, 1080, 680);   // Bas
+    dc->DrawLine(40, 158, 40, 680);     // Gauche
+    dc->DrawLine(1080, 158, 1080, 680); // Droit
+
+    dc->DrawLine(40, 190, 1080, 190);   // Séparateur Titre
+    dc->SetFont(wxFont(12, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
+    dc->DrawLabel("Contrôle profil (Ecart entre rayon théorique et rayon mesuré)", wxRect(40, 158, 1040, 32), wxALIGN_CENTER);
+
+    dc->SetFont(wxFont(8, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
+
+    constexpr int case_h_small = 19 /* Doit etre 18.85f */, case_h_large = 37 /* Doit etre 37.69f */, case_w = 80, x_start = 40, y_start = 190;
+
+    const std::vector<wxString> headers = { "Section", "Haut./Pointe", "Rayon", "Tol.", "H + 2°", "HD", "D", "BD", "B + 2°", "BG", "G", "HG", "Haut./Base" };
+
+    for (int i = 0; i < static_cast <int>(headers.size()); i++)
+    {
+        dc->DrawLabel(headers[i], wxRect(x_start + case_w * i, y_start, case_w, case_h_small), wxALIGN_CENTER);
+    }
+
+    // Pour certaines raisons, dessiner TOUTE les lignes avant les valeurs
+    float x = x_start, y = y_start;
+    for (int i = 1; i <= 21; i++)
+    {
+        dc->DrawLine(40, y, 1080, y);
+
+        if (i <= 13)
+        {
+            x += case_w;
+            dc->DrawLine(x, 190, x, 680);
+        }
+    }
+
+    x = x_start, y = y_start;
+    for (int i = 1; i <= 21; i++)
+    {
+        dc->DrawLine(40, y, 1080, y);
+
+        if (i <= 13)
+        {
+            x += case_w;
+            dc->DrawLine(x, 190, x, 680);
+        }
+
+        // Hauteur Radome // Petit hack pour trouver les valeurs qui ne sont pas trouver (en particulier la 20e ligne)
+        int measure_height_up = 0;   // 2e Colonne
+        int measure_height_down = 0; // 13e Colonne
+        {
+            for (int idx = 0; idx < 8; idx++)
+            {
+                if (std::abs(hInst->Calculation.Height[i][idx] - UnassignedDoubleValue) > Epsilon)
+                {
+                    measure_height_up = 2114 - hInst->Calculation.Height[i][idx];
+                    measure_height_down = hInst->Calculation.Height[i][idx];
+                    break;
+                }
+            }
+        }
+
+        // Rayon Théorique
+        double theoretical_radius = 0.0f;
+        {
+            double sum = 0.0f;
+
+            for (const double& rad : hInst->ActiveProductData.TheoreticalRadius[i])
+            {
+                sum += rad;
+            }
+
+            theoretical_radius = sum / std::size(hInst->ActiveProductData.TheoreticalRadius[i]);
+        }
+
+        if (i == 16)
+        {
+            y += case_h_small;
+            dc->DrawLabel(std::to_wstring(i), wxRect(40, y, case_w, case_h_large), wxALIGN_CENTER); // 1e Colonne
+            dc->DrawLabel(wxString::Format("%d", measure_height_up), wxRect(x_start + case_w * 1, y, case_w, case_h_large), wxALIGN_CENTER); // 2e Colonne
+            dc->DrawLabel(wxString::Format("%.2f", theoretical_radius), wxRect(x_start + case_w * 2, y, case_w, case_h_large), wxALIGN_CENTER); // 3e Colonne
+            dc->DrawLabel(wxString::Format("+/- %.1f", hInst->ActiveProductData.RadiusTolerance), wxRect(x_start + case_w * 3, y, case_w, case_h_large), wxALIGN_CENTER); // 4e Colonne
+            dc->DrawLabel(std::to_wstring(measure_height_down), wxRect(x_start + case_w * 12, y, case_w, case_h_large), wxALIGN_CENTER); // 13e Colonne
+
+            // Ecart Rayon
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    dc->SetTextForeground(BlackColor);
+                    dc->DrawLabel(wxString::Format("%.2f", hInst->ActiveProductData.TheoreticalRadius[i][j]), wxRect(x_start + case_w * (j + 4), y, case_w, case_h_small), wxALIGN_CENTER);
+
+                    const double rayDiff = hInst->Calculation.RayDifference[i][j];
+
+                    if (std::abs(rayDiff - UnassignedDoubleValue) > Epsilon)
+                    {
+                        SetToleranceColor(dc, rayDiff, hInst->ActiveProductData.RadiusTolerance);
+                        dc->DrawLabel(wxString::Format("%.2f", rayDiff), wxRect(x_start + case_w * (j + 4), y + case_h_small, case_w, case_h_small), wxALIGN_CENTER);
+                    }
+                    else
+                    {
+                        dc->GradientFillLinear(wxRect(x_start + case_w * (j + 4), y + case_h_small, case_w, case_h_small + 1), GrayColor, GrayColor);
+                    }
+                }
+
+                dc->SetTextForeground(BlackColor);
+            }
+        }
+        else if (i < 17)
+        {
+            y += case_h_small;
+            dc->DrawLabel(std::to_wstring(i), wxRect(40, y, case_w, case_h_small), wxALIGN_CENTER); // 1e Colonne
+            dc->DrawLabel(wxString::Format("%d", measure_height_up), wxRect(x_start + case_w * 1, y, case_w, case_h_small), wxALIGN_CENTER); // 2e Colonne
+            dc->DrawLabel(wxString::Format("%.2f", theoretical_radius), wxRect(x_start + case_w * 2, y, case_w, case_h_small), wxALIGN_CENTER); // 3e Colonne
+            dc->DrawLabel(wxString::Format("+/- %.1f", hInst->ActiveProductData.RadiusTolerance), wxRect(x_start + case_w * 3, y, case_w, case_h_small), wxALIGN_CENTER); // 4e Colonne
+            dc->DrawLabel(std::to_wstring(measure_height_down), wxRect(x_start + case_w * 12, y, case_w, case_h_small), wxALIGN_CENTER); // 13e Colonne
+
+            // Ecart Rayon
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    const double rayDiff = hInst->Calculation.RayDifference[i][j];
+
+                    if (std::abs(rayDiff - UnassignedDoubleValue) > Epsilon)
+                    {
+                        SetToleranceColor(dc, rayDiff, hInst->ActiveProductData.RadiusTolerance);
+                        dc->DrawLabel(wxString::Format("%.2f", rayDiff), wxRect(x_start + case_w * (j + 4), y, case_w, case_h_small), wxALIGN_CENTER);
+                    }
+                    else
+                    {
+                        dc->GradientFillLinear(wxRect(x_start + case_w * (j + 4), y, case_w, case_h_small + 1), GrayColor, GrayColor);
+                    }
+                }
+
+                dc->SetTextForeground(BlackColor);
+            }
+        }
+        else if (i < 21)
+        {
+            y += case_h_large;
+            dc->DrawLabel(std::to_wstring(i), wxRect(40, y, case_w, case_h_large), wxALIGN_CENTER); // 1e Colonne
+            dc->DrawLabel(wxString::Format("%d", measure_height_up), wxRect(x_start + case_w * 1, y, case_w, case_h_large), wxALIGN_CENTER); // 2e Colonne
+            dc->DrawLabel(wxString::Format("%.2f", theoretical_radius), wxRect(x_start + case_w * 2, y, case_w, case_h_large), wxALIGN_CENTER); // 3e Colonne
+            dc->DrawLabel(wxString::Format("+/- %.1f", hInst->ActiveProductData.RadiusTolerance), wxRect(x_start + case_w * 3, y, case_w, case_h_large), wxALIGN_CENTER); // 4e Colonne
+            dc->DrawLabel(std::to_wstring(measure_height_down), wxRect(x_start + case_w * 12, y, case_w, case_h_large), wxALIGN_CENTER); // 13e Colonne
+
+            // Ecart Rayon
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    dc->SetTextForeground(BlackColor);
+                    dc->DrawLabel(wxString::Format("%.2f", hInst->ActiveProductData.TheoreticalRadius[i][j]), wxRect(x_start + case_w * (j + 4), y, case_w, case_h_small), wxALIGN_CENTER);
+
+                    const double rayDiff = hInst->Calculation.RayDifference[i][j];
+
+                    if (std::abs(rayDiff - UnassignedDoubleValue) > Epsilon)
+                    {
+                        SetToleranceColor(dc, rayDiff, hInst->ActiveProductData.RadiusTolerance);
+                        dc->DrawLabel(wxString::Format("%.2f", rayDiff), wxRect(x_start + case_w * (j + 4), y + case_h_small, case_w, case_h_small), wxALIGN_CENTER);
+                    }
+                    else
+                    {
+                        dc->GradientFillLinear(wxRect(x_start + case_w * (j + 4), y + case_h_small, case_w, case_h_small), GrayColor, GrayColor);
+                    }
+                }
+
+                dc->SetTextForeground(BlackColor);
+            }
+        }
+    }
 }
 
 void PrintMirage::MiragePage_02()

@@ -20,4 +20,5 @@ public:
 private:
 	void MapInit();
 	void RafaleCalculateData(Program* hInst, const std::string& filePath);
+	void MirageCalculateData(Program* hInst, const std::string& filePath);
 };
