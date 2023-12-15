@@ -182,13 +182,13 @@ void CalculationData::MirageCalculateData(Program* hInst, const std::string& fil
                     j_temp = 5;
                     break;
                 case 5:
-                    j_temp = 1;
+                    j_temp = 3;
                     break;
                 case 6:
                     j_temp = 2;
                     break;
                 case 7:
-                    j_temp = 3;
+                    j_temp = 1;
                     break;
                 default:
                     break;
@@ -207,7 +207,7 @@ void CalculationData::MirageCalculateData(Program* hInst, const std::string& fil
 
                 this->Height[i][j_temp] = lround(radHeight);
 
-                //if(i==1)std::cout << this->Height[i][j] << " " << i << " " << j << " " << radRay << " " << radHeight << std::endl;
+                if(i==1)std::cout << this->Height[i][j_temp] << " " << i << " " << j_temp << " " << radRay << " " << radHeight << std::endl;
             }
         }
         textFile.Close();
