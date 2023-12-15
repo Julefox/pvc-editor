@@ -87,7 +87,7 @@ void PrintMirage::MiragePage_01()
             {
                 if (std::abs(hInst->Calculation.Height[i][idx] - UnassignedDoubleValue) > Epsilon)
                 {
-                    measure_height_up = 2114 - hInst->Calculation.Height[i][idx];
+                    measure_height_up = hInst->Calculation.Height[i][idx] - 33.30;
                     measure_height_down = hInst->Calculation.Height[i][idx];
                     break;
                 }

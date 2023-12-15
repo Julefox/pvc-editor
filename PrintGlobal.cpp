@@ -119,15 +119,29 @@ void PrintGlobal::Rafale_DrawMainPv( Program* hInst, wxDC*dc, const int pageIdx 
     dc->DrawLabel(StringUtility::ReplaceWxString(hInst->C_JsonConfig.Operators[hInst->C_Operator->GetCurrentSelection()], JsonLineSeparator, EndLineReplacer), wxRect(680, 66, 280, 72), wxALIGN_CENTRE);
 
     dc->SetFont(wxFont(12, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
-    dc->DrawLabel("Ensemble:", wxRect(150, 66, 200, 36), wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
     if (hInst->ActiveProductData.RadomeType == Rafale_C)
     {
+        dc->DrawLabel("Ensemble:", wxRect(150, 66, 200, 36), wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
         dc->DrawLabel("N° " + hInst->TC_Shell->GetValue(), wxRect(550, 66, 200, 36), wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
+        dc->DrawLabel("Sous ensemble:", wxRect(150, 102, 200, 36), wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
+        dc->DrawLabel("N° " + hInst->TC_Radome->GetValue(), wxRect(550, 102, 200, 36), wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
+        dc->DrawLabel(hInst->C_Product->GetString(hInst->C_Product->GetCurrentSelection()), wxRect(350, 66, 200, 36), wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
+        dc->DrawLabel("Radôme", wxRect(350, 102, 200, 36), wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
     }
-    dc->DrawLabel("Sous ensemble:", wxRect(150, 102, 200, 36), wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
-    dc->DrawLabel("N° " + hInst->TC_Radome->GetValue(), wxRect(550, 102, 200, 36), wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
-    dc->DrawLabel(hInst->C_Product->GetString(hInst->C_Product->GetCurrentSelection()), wxRect(350, 66, 200, 36), wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
-    dc->DrawLabel("Radôme", wxRect(350, 102, 200, 36), wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
+    else
+    {
+        dc->DrawLabel("Ensemble:", wxRect(150, 66, 200, 72), wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
+        dc->DrawLabel(hInst->C_Product->GetString(hInst->C_Product->GetCurrentSelection()), wxRect(350, 66, 200, 72), wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
+        dc->DrawLabel("N° " + hInst->TC_Radome->GetValue(), wxRect(550, 66, 200, 72), wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
+    }
+
+    dc->SetTextForeground(RedColor);
+    dc->SetFont(wxFont(8, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL));
+    dc->DrawLabel(Copyright, wxRect(20, 760, 1080, 30), wxALIGN_CENTRE);
+
+    dc->SetTextForeground(BlackColor);
+    dc->SetFont(wxFont(8, wxFONTFAMILY_SWISS, wxFONTSTYLE_ITALIC, wxFONTWEIGHT_NORMAL));
+    dc->DrawLabel(StringUtility::StringToWString(hInst->C_JsonConfig.RafaleAnnexHeader), wxRect(20, 10, 1080, 20), wxALIGN_CENTRE);
 }
 
 void PrintGlobal::Mirage_DrawMainPv( Program* hInst, wxDC* dc, const int pageIdx )
@@ -151,7 +165,10 @@ void PrintGlobal::Mirage_DrawMainPv( Program* hInst, wxDC* dc, const int pageIdx
 
     dc->SetFont(wxFont(16, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
     dc->DrawLabel("AIA/CP", wxRect(20, 32, 120, 30), wxALIGN_CENTRE);
-    dc->DrawLabel("PROCES-VERBAL DE CONTROLE", wxRect(140, 32, 540, 40), wxALIGN_CENTRE);
+
+    const wxString title = hInst->ActiveProductData.RadomeType == Mirage_C ? "PROCES-VERBAL DE CONTROLE" : "FEUILLE DE RELEVE";
+
+    dc->DrawLabel(title, wxRect(140, 32, 540, 40), wxALIGN_CENTRE);
 
     dc->SetFont(wxFont(9, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
     dc->DrawLabel(L"****\nDépartement\nde la Qualité\net du Contrôle", wxRect(20, 60, 120, 60), wxALIGN_CENTRE);
@@ -171,20 +188,26 @@ void PrintGlobal::Mirage_DrawMainPv( Program* hInst, wxDC* dc, const int pageIdx
     dc->DrawLabel("Approuvé par", wxRect(680, 72, 220, 10), wxALIGN_CENTRE);
     dc->DrawLabel(StringUtility::ReplaceWxString(hInst->C_JsonConfig.Operators[hInst->C_Operator->GetCurrentSelection()], JsonLineSeparator, EndLineReplacer), wxRect(680, 80, 220, 40), wxALIGN_CENTRE);
 
-    dc->DrawLabel("Ensemble:", wxRect(144, 70, 136, 25), wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
+    dc->SetFont(wxFont(10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
     if(hInst->ActiveProductData.RadomeType == Mirage_C)
     {
+        dc->DrawLabel("Ensemble:", wxRect(144, 70, 136, 25), wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
         dc->DrawLabel("N° " + hInst->TC_Shell->GetValue(), wxRect(480, 70, 200, 25), wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
+        dc->DrawLabel("Sous ensemble:", wxRect(144, 95, 136, 25), wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
+        dc->DrawLabel("N° " + hInst->TC_Radome->GetValue(), wxRect(480, 95, 200, 25), wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
+        dc->DrawLabel(hInst->C_Product->GetString(hInst->C_Product->GetCurrentSelection()), wxRect(280, 70, 200, 25), wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
+        dc->DrawLabel("Radôme", wxRect(280, 95, 200, 25), wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
     }
-    dc->DrawLabel("Sous ensemble:", wxRect(144, 95, 136, 25), wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
-    dc->DrawLabel("N° " + hInst->TC_Radome->GetValue(), wxRect(480, 95, 200, 25), wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
-    dc->SetFont(wxFont(10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
-    dc->DrawLabel(hInst->C_Product->GetString(hInst->C_Product->GetCurrentSelection()), wxRect(280, 70, 200, 25), wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
-    dc->DrawLabel("Radôme", wxRect(280, 95, 200, 25), wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
+    else
+    {
+        dc->DrawLabel("Ensemble:", wxRect(144, 70, 136, 50), wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
+        dc->DrawLabel(hInst->C_Product->GetString(hInst->C_Product->GetCurrentSelection()), wxRect(280, 70, 200, 50), wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
+        dc->DrawLabel("N° " + hInst->TC_Radome->GetValue(), wxRect(480, 70, 200, 50), wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
+    }
 
     dc->SetTextForeground(RedColor);
     dc->SetFont(wxFont(8, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL));
-    dc->DrawLabel(L"Ce document est la propriété de l'AIA-CP, il ne peut être reproduit ou communiqué sans autorisation écrite.", wxRect(20, 760, 1080, 30), wxALIGN_CENTRE);
+    dc->DrawLabel(Copyright, wxRect(20, 760, 1080, 30), wxALIGN_CENTRE);
 
     dc->SetTextForeground(BlackColor);
     dc->SetFont(wxFont(8, wxFONTFAMILY_SWISS, wxFONTSTYLE_ITALIC, wxFONTWEIGHT_NORMAL));

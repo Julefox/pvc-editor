@@ -59,7 +59,6 @@ void CalculationData::RafaleCalculateData(Program* hInst, const std::string& fil
                 angles1 = angles0;
                 angles0 = lround(radAng);
 
-
                 i = 21 - lround(radHeight / 100.0f);
 
                 if (angles0 == angles1)
@@ -154,7 +153,7 @@ void CalculationData::MirageCalculateData(Program* hInst, const std::string& fil
 
             wxArrayString array = wxSplit(line, ';');
 
-            if (lineIdx > 2 && array.Count() >= 3)
+            if (lineIdx > 1 && array.Count() >= 3)
             {
                 array[0].ToDouble(&radRay);
                 array[1].ToDouble(&radHeight);
@@ -169,25 +168,52 @@ void CalculationData::MirageCalculateData(Program* hInst, const std::string& fil
                 i = (MIRAGE_MAX_HEIGHT - lround(radHeight) + MIRAGE_HEIGHT_STEP / 2) / MIRAGE_HEIGHT_STEP;
                 i = std::max(1, std::min(i + 1, 12));
 
+                int j_temp = j;
+
+                switch (j)
+                {
+                case 1:
+                    j_temp = 7;
+                    break;
+                case 2:
+                    j_temp = 6;
+                    break;
+                case 3:
+                    j_temp = 5;
+                    break;
+                case 5:
+                    j_temp = 1;
+                    break;
+                case 6:
+                    j_temp = 2;
+                    break;
+                case 7:
+                    j_temp = 3;
+                    break;
+                default:
+                    break;
+                }
+
                 if (angles0 == angles1)
                 {
-                    this->RayMeasure[i][j] = radRay;
+                    this->RayMeasure[i][j_temp] = radRay;
                 }
                 else
                 {
                     j++;
-                    this->RayMeasure[i][j] = radRay;
+                    j_temp++;
+                    this->RayMeasure[i][j_temp] = radRay;
                 }
 
-                this->Height[i][j] = lround(radHeight);
+                this->Height[i][j_temp] = lround(radHeight);
 
-                //std::cout << this->Height[i][j] << " " << i << " " << j << " " << radRay << " " << radHeight << " " << lround(radHeight / 100.0f) << std::endl;
+                //if(i==1)std::cout << this->Height[i][j] << " " << i << " " << j << " " << radRay << " " << radHeight << std::endl;
             }
         }
         textFile.Close();
 
         // Calcul de la différence de rayon
-        for (int k = 0; k < 14; k++)
+        for (int k = 1; k < 13; k++)
         {
             for (int l = 0; l < 8; l++)
             {
@@ -195,7 +221,7 @@ void CalculationData::MirageCalculateData(Program* hInst, const std::string& fil
                 {
                     this->RayDifference[k][l] = this->RayMeasure[k][l] - hInst->ActiveProductData.TheoreticalRadius[k][l];
 
-                    std::cout << this->RayDifference[k][l] << " = " << this->RayMeasure[k][l] << " - " << hInst->ActiveProductData.TheoreticalRadius[k][l] << std::endl;
+                    //std::cout << this->RayDifference[k][l] << " = " << this->RayMeasure[k][l] << " - " << hInst->ActiveProductData.TheoreticalRadius[k][l] << std::endl;
                 }
             }
         }

@@ -27,6 +27,7 @@ public:
 	std::vector< std::string > Operators;
 	std::vector< std::string > Posts;
 	std::string MirageAnnexHeader;
+	std::string RafaleAnnexHeader;
 	std::string RafaleFrameLeftContent;
 	std::string RafaleFrameRightContent;
 
@@ -52,6 +53,7 @@ public:
 		if (j.contains("Operators")) j.at("Operators").get_to(Operators);
 		if (j.contains("Posts")) j.at("Posts").get_to(Posts);
 		if (j.contains("MirageAnnexHeader")) j.at("MirageAnnexHeader").get_to(MirageAnnexHeader);
+		if (j.contains("RafaleAnnexHeader")) j.at("RafaleAnnexHeader").get_to(RafaleAnnexHeader);
 		if (j.contains("RafaleFrameLeftContent")) j.at("RafaleFrameLeftContent").get_to(RafaleFrameLeftContent);
 		if (j.contains("RafaleFrameRightContent")) j.at("RafaleFrameRightContent").get_to(RafaleFrameRightContent);
 	}

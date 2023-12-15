@@ -2,13 +2,9 @@
     "Products":
     [
         {
-            "ProgramIdx": "3980",
-            "RadomeType": "Mirage_C",
-            "ProductNames":
-            [
-                "Coque Mirage 2000D RENO",
-                "Coque Mirage 2000D"
-            ],
+            "ProgramIdx":   "3980",
+            "RadomeType":   "Mirage_C",
+            "ProductNames": [ "Coque Mirage 2000D" ],
             "WorkCards":
             [
                 "M2D0866765001",
@@ -52,13 +48,9 @@
             }
         },
         {
-            "ProgramIdx": "3981",
-            "RadomeType": "Mirage_R",
-            "ProductNames":
-            [
-                "Radôme Mirage 2000D RENO",
-                "Radôme Mirage 2000D"
-            ],
+            "ProgramIdx":   "3981",
+            "RadomeType":   "Mirage_R",
+            "ProductNames": [ "Radôme Mirage 2000D" ],
             "WorkCards":
             [
                 "M2D0866765001",
@@ -211,6 +203,7 @@
         "Dufieux~Poste 2000DA"
     ],
     "MirageAnnexHeader":       "Annexe 1 à P/CP/E/028 Ind B",
+    "RafaleAnnexHeader":       "Annexe X à P/CP/E/0XX Ind X",
     "RafaleFrameLeftContent":  "Montage sur bobine TAS Réf. 61056798AA",
     "RafaleFrameRightContent": "Comprise danse le plan de pose~(matérialisé par les quatres plots du faux cadre 1)~et le sommet réél du radôme",
     "EasterEgg": true

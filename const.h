@@ -22,6 +22,8 @@ inline const std::string ExecutivePath = (std::string)wxGetCwd();
 inline const std::string CsvPath = ExecutivePath + "\\csv\\*.csv";
 inline const std::string ConfigPath = ExecutivePath + "\\resources\\config.json";
 
+inline const std::string Copyright = "Ce document est la propriété de l'AIA-CP, il ne peut être reproduit ou communiqué sans autorisation écrite.";
+
 inline wxString JsonLineSeparator = "~";
 inline wxString EndLineReplacer = "\n";
 inline wxString SpaceReplacer = " ";
