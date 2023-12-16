@@ -11,12 +11,33 @@ void from_json(const nlohmann::json& j, ProductData& p)
 	if (j.contains("HeightTolerance")) j.at("HeightTolerance").get_to(p.HeightTolerance);
 	if (j.contains("RadiusTolerance")) j.at("RadiusTolerance").get_to(p.RadiusTolerance);
 
+	if (j.contains("TheoreticalRadius"))
+	{
+		const nlohmann::json& json = j.at("TheoreticalRadius");
+		for (const auto& keyVal : json.items())
+		{
+			int key = std::stoi(keyVal.key());
+			std::map<eSideType, double> innerMap;
+			for (const auto& innerKeyVal : keyVal.value().items())
+			{
+				eSideType innerKey = JsonConfig::ConvertEnumSideType(innerKeyVal.key());
+				const double innerValue = innerKeyVal.value().get<double>();
+				innerMap[innerKey] = innerValue;
+			}
+			p.TheoreticalRadius[key] = innerMap;
+
+
+		}
+	}
+
 	if (j.contains("UndulationTolerance"))
 	{
-		const nlohmann::json& theoreticalDataJson = j.at("UndulationTolerance");
-		for (const auto& keyval : theoreticalDataJson.items())
+		const nlohmann::json& json = j.at("UndulationTolerance");
+		for (const auto& keyVal : json.items())
 		{
-			p.UndulationTolerance[keyval.key()] = keyval.value().get<double>();
+			eSideType key = JsonConfig::ConvertEnumSideType(keyVal.key());
+			const double value = keyVal.value().get<double>();
+			p.UndulationTolerance[key] = value;
 		}
 	}
 
@@ -24,60 +45,116 @@ void from_json(const nlohmann::json& j, ProductData& p)
 		return;
 	
 	const std::string radomeTypeStr = j.at("RadomeType").get<std::string>();
-	
-	if (radomeTypeStr.find("Mirage_C") != std::string::npos)
+
+	p.RadomeType = JsonConfig::ConvertEnumRadomeType(radomeTypeStr);
+}
+
+eRadomeType JsonConfig::ConvertEnumRadomeType(const std::string& str)
+{
+	if (str.find("Mirage_C") != std::string::npos)
 	{
-		p.RadomeType = Mirage_C;
-	}
-	else if (radomeTypeStr.find("Mirage_R") != std::string::npos)
-	{
-		p.RadomeType = Mirage_R;
-	}
-	else if (radomeTypeStr.find("Rafale_C") != std::string::npos)
-	{
-		p.RadomeType = Rafale_C;
-	}
-	else if (radomeTypeStr.find("Rafale_R") != std::string::npos)
-	{
-		p.RadomeType = Rafale_R;
-	}
-	else
-	{
-		p.RadomeType = Default;
+		return Mirage_C;
 	}
 
-	if (j.contains("TheoreticalRadius"))
+	if (str.find("Mirage_R") != std::string::npos)
 	{
-		const nlohmann::json& theoreticalDataJson = j.at("TheoreticalRadius");
-		for (const auto& keyval : theoreticalDataJson.items())
-		{
-			int i = 0;
-
-			if (p.RadomeType == Rafale_C || p.RadomeType == Rafale_R)
-			{
-				i = 21 - lround(std::stoi(keyval.key()) / 100.0f);
-
-				if (i < 0 || i > 20)
-				{
-					continue;
-				}
-			}
-			else if(p.RadomeType == Mirage_C || p.RadomeType == Mirage_R)
-			{
-				i = (MIRAGE_MAX_HEIGHT - lround(std::stoi(keyval.key())) + MIRAGE_HEIGHT_STEP / 2) / MIRAGE_HEIGHT_STEP;
-				i = std::max(1, std::min(i + 1, 12));
-			}
-
-			if (i < 0 || i > 20)
-			{
-				continue;
-			}
-
-			int columnIndex = 0;
-			for (const auto& val : keyval.value())
-			{
-				p.TheoreticalRadius[i][columnIndex++] = val.get<double>();
-			}
-		}
+		return Mirage_R;
 	}
+
+	if (str.find("Rafale_C") != std::string::npos)
+	{
+		return Rafale_C;
+	}
+
+	if (str.find("Rafale_R") != std::string::npos)
+	{
+		return Rafale_R;
+	}
+
+	return Default;
+}
+
+eSideType JsonConfig::ConvertEnumSideType(const std::string& str)
+{
+	if (str.find("RBE_HG") != std::string::npos)
+	{
+		return RBE_HG;
+	}
+
+	if (str.find("RBE_HD") != std::string::npos)
+	{
+		return RBE_HD;
+	}
+
+	if (str.find("RBE_H") != std::string::npos)
+	{
+		return RBE_H;
+	}
+
+	if (str.find("RBE_BD") != std::string::npos)
+	{
+		return RBE_BD;
+	}
+
+	if (str.find("RBE_BG") != std::string::npos)
+	{
+		return RBE_BG;
+	}
+
+	if (str.find("RBE_B") != std::string::npos)
+	{
+		return RBE_B;
+	}
+
+	if (str.find("RBE_D") != std::string::npos)
+	{
+		return RBE_D;
+	}
+
+	if (str.find("RBE_G") != std::string::npos)
+	{
+		return RBE_G;
+	}
+
+	if (str.find("AND_HD") != std::string::npos)
+	{
+		return AND_HD;
+	}
+
+	if (str.find("AND_HG") != std::string::npos)
+	{
+		return AND_HG;
+	}
+
+	if (str.find("AND_H") != std::string::npos)
+	{
+		return AND_H;
+	}
+
+	if (str.find("AND_BD") != std::string::npos)
+	{
+		return AND_BD;
+	}
+
+	if (str.find("AND_BG") != std::string::npos)
+	{
+		return AND_BG;
+	}
+
+	if (str.find("AND_B") != std::string::npos)
+	{
+		return AND_B;
+	}
+
+	if (str.find("AND_D") != std::string::npos)
+	{
+		return AND_D;
+	}
+
+	if (str.find("AND_G") != std::string::npos)
+	{
+		return AND_G;
+	}
+
+	return NOT_FOUND;
 }

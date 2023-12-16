@@ -48,6 +48,31 @@ enum eRadomeType
 	Rafale_R
 };
 
+enum eSideType
+{
+	// Rafale
+	RBE_H  = 0,
+	RBE_HD = 1,
+	RBE_D  = 2,
+	RBE_BD = 3,
+	RBE_B  = 4,
+	RBE_BG = 5,
+	RBE_G  = 6,
+	RBE_HG = 7,
+
+	// Mirage 2000
+	AND_H  = 0,
+	AND_HD = 7,
+	AND_D  = 6,
+	AND_BD = 5,
+	AND_B  = 4,
+	AND_BG = 3,
+	AND_G  = 2,
+	AND_HG = 1,
+
+	NOT_FOUND = -1
+};
+
 inline const std::map<std::string, int> RadomeIndexPosition =
 {
 	{ "H",  0 },

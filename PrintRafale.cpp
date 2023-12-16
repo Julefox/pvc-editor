@@ -56,7 +56,7 @@ void PrintRafale::RafalePage_01()
     }
 
     // Pour certaines raisons, dessiner TOUTE les lignes avant les valeurs
-    float x = x_start, y = y_start;
+    int x = x_start, y = y_start;
     for (int i = 1; i <= 21; i++)
     {
         dc->DrawLine(40, y, 1080, y);
@@ -85,10 +85,12 @@ void PrintRafale::RafalePage_01()
         {
             for (int idx = 0; idx < 8; idx++)
             {
-                if (std::abs(hInst->Calculation.Height[i][idx] - UnassignedDoubleValue) > Epsilon)
+                const PointMeasure& point = hInst->Calculation.PointData[i][CalculationData::GetRafaleSide(idx)];
+
+                if (std::abs(point.Height - UnassignedDoubleValue) > Epsilon)
                 {
-                    measure_height_up = 2114 - hInst->Calculation.Height[i][idx];
-                    measure_height_down = hInst->Calculation.Height[i][idx];
+                    measure_height_up = 2114 - point.Height;
+                    measure_height_down = point.Height;
                     break;
                 }
             }
@@ -99,12 +101,36 @@ void PrintRafale::RafalePage_01()
         {
             double sum = 0.0f;
 
-            for (const double& rad : hInst->ActiveProductData.TheoreticalRadius[i])
+            for (int side = 0; side < 8; side++)
             {
-                sum += rad;
-            }
+                PointMeasure point = hInst->Calculation.PointData[i][CalculationData::GetRafaleSide(side)];
 
-            theoretical_radius = sum / std::size(hInst->ActiveProductData.TheoreticalRadius[i]);
+                if (std::abs(point.Height - UnassignedDoubleValue) > Epsilon)
+                {
+                    for (int rad = 0; rad < 8; rad++)
+                    {
+                        sum += hInst->ActiveProductData.TheoreticalRadius[point.Height][CalculationData::GetRafaleSide(rad)];
+                    }
+
+                    theoretical_radius = sum / 8;
+                    break;
+                }
+            }
+        }
+
+        // Pour certaines raisons, trouver le bon rayon théorique
+        int height = 0.0f;
+        {
+            for (int j = 0; j < 8; j++)
+            {
+                const PointMeasure point = hInst->Calculation.PointData[i][CalculationData::GetRafaleSide(j)];
+
+                if (std::abs(point.Height - UnassignedDoubleValue) > Epsilon)
+                {
+                    height = point.Height;
+                    break;
+                }
+            }
         }
 
         if(i == 16)
@@ -113,22 +139,23 @@ void PrintRafale::RafalePage_01()
             dc->DrawLabel(std::to_wstring(i), wxRect(40, y, case_w, case_h_large), wxALIGN_CENTER); // 1e Colonne
             dc->DrawLabel(wxString::Format("%d", measure_height_up), wxRect(x_start + case_w * 1, y, case_w, case_h_large), wxALIGN_CENTER); // 2e Colonne
             dc->DrawLabel(wxString::Format("%.2f", theoretical_radius), wxRect(x_start + case_w * 2, y, case_w, case_h_large), wxALIGN_CENTER); // 3e Colonne
-            dc->DrawLabel(wxString::Format("+/- %.1f", hInst->ActiveProductData.RadiusTolerance), wxRect(x_start + case_w * 3, y, case_w, case_h_large), wxALIGN_CENTER); // 4e Colonne
+            dc->DrawLabel(wxString::Format("± %.1f", hInst->ActiveProductData.RadiusTolerance), wxRect(x_start + case_w * 3, y, case_w, case_h_large), wxALIGN_CENTER); // 4e Colonne
             dc->DrawLabel(std::to_wstring(measure_height_down), wxRect(x_start + case_w * 12, y, case_w, case_h_large), wxALIGN_CENTER); // 13e Colonne
 
             // Ecart Rayon
             {
                 for (int j = 0; j < 8; j++)
                 {
+                    const eSideType side = CalculationData::GetRafaleSide(j);
+                    const PointMeasure& point = hInst->Calculation.PointData[i][side];
+
                     dc->SetTextForeground(BlackColor);
-                    dc->DrawLabel(wxString::Format("%.2f", hInst->ActiveProductData.TheoreticalRadius[i][j]), wxRect(x_start + case_w * (j + 4), y, case_w, case_h_small), wxALIGN_CENTER);
-
-                    const double rayDiff = hInst->Calculation.RayDifference[i][j];
-
-                    if (std::abs(rayDiff - UnassignedDoubleValue) > Epsilon)
+                    dc->DrawLabel(wxString::Format("%.2f", hInst->ActiveProductData.TheoreticalRadius[height][side]), wxRect(x_start + case_w * (j + 4), y, case_w, case_h_small), wxALIGN_CENTER);
+                    
+                    if (std::abs(point.RayDifference - UnassignedDoubleValue) > Epsilon)
                     {
-                        SetToleranceColor(dc, rayDiff, hInst->ActiveProductData.RadiusTolerance);
-                        dc->DrawLabel(wxString::Format("%.2f", rayDiff), wxRect(x_start + case_w * (j + 4), y + case_h_small, case_w, case_h_small), wxALIGN_CENTER);
+                        SetToleranceColor(dc, point.RayDifference, hInst->ActiveProductData.RadiusTolerance);
+                        dc->DrawLabel(wxString::Format("%.2f", point.RayDifference), wxRect(x_start + case_w * (j + 4), y + case_h_small, case_w, case_h_small), wxALIGN_CENTER);
                     }
                     else
                     {
@@ -145,19 +172,20 @@ void PrintRafale::RafalePage_01()
             dc->DrawLabel(std::to_wstring(i), wxRect(40, y, case_w, case_h_small), wxALIGN_CENTER); // 1e Colonne
             dc->DrawLabel(wxString::Format("%d", measure_height_up), wxRect(x_start + case_w * 1, y, case_w, case_h_small), wxALIGN_CENTER); // 2e Colonne
             dc->DrawLabel(wxString::Format("%.2f", theoretical_radius), wxRect(x_start + case_w * 2, y, case_w, case_h_small), wxALIGN_CENTER); // 3e Colonne
-            dc->DrawLabel(wxString::Format("+/- %.1f", hInst->ActiveProductData.RadiusTolerance), wxRect(x_start + case_w * 3, y, case_w, case_h_small), wxALIGN_CENTER); // 4e Colonne
+            dc->DrawLabel(wxString::Format("± %.1f", hInst->ActiveProductData.RadiusTolerance), wxRect(x_start + case_w * 3, y, case_w, case_h_small), wxALIGN_CENTER); // 4e Colonne
             dc->DrawLabel(std::to_wstring(measure_height_down), wxRect(x_start + case_w * 12, y, case_w, case_h_small), wxALIGN_CENTER); // 13e Colonne
 
             // Ecart Rayon
             {
             	for ( int j = 0; j < 8; j++ )
 	            {
-                    const double rayDiff = hInst->Calculation.RayDifference[i][j];
+                    const eSideType side = CalculationData::GetRafaleSide(j);
+                    const PointMeasure& point = hInst->Calculation.PointData[i][side];
                 
-                    if (std::abs(rayDiff - UnassignedDoubleValue) > Epsilon)
+                    if (std::abs(point.RayDifference - UnassignedDoubleValue) > Epsilon)
                     {
-                        SetToleranceColor( dc, rayDiff, hInst->ActiveProductData.RadiusTolerance );
-                        dc->DrawLabel(wxString::Format("%.2f", rayDiff), wxRect(x_start + case_w * (j + 4), y, case_w, case_h_small), wxALIGN_CENTER);
+                        SetToleranceColor( dc, point.RayDifference, hInst->ActiveProductData.RadiusTolerance );
+                        dc->DrawLabel(wxString::Format("%.2f", point.RayDifference), wxRect(x_start + case_w * (j + 4), y, case_w, case_h_small), wxALIGN_CENTER);
                     }
                     else
                     {
@@ -174,22 +202,28 @@ void PrintRafale::RafalePage_01()
             dc->DrawLabel(std::to_wstring(i), wxRect(40, y, case_w, case_h_large), wxALIGN_CENTER); // 1e Colonne
             dc->DrawLabel(wxString::Format("%d", measure_height_up), wxRect(x_start + case_w * 1, y, case_w, case_h_large), wxALIGN_CENTER); // 2e Colonne
             dc->DrawLabel(wxString::Format("%.2f", theoretical_radius), wxRect(x_start + case_w * 2, y, case_w, case_h_large), wxALIGN_CENTER); // 3e Colonne
-            dc->DrawLabel(wxString::Format("+/- %.1f", hInst->ActiveProductData.RadiusTolerance), wxRect(x_start + case_w * 3, y, case_w , case_h_large), wxALIGN_CENTER); // 4e Colonne
+            dc->DrawLabel(wxString::Format("± %.1f", hInst->ActiveProductData.RadiusTolerance), wxRect(x_start + case_w * 3, y, case_w , case_h_large), wxALIGN_CENTER); // 4e Colonne
             dc->DrawLabel(std::to_wstring(measure_height_down), wxRect(x_start + case_w * 12, y, case_w, case_h_large), wxALIGN_CENTER); // 13e Colonne
 
             // Ecart Rayon
             {
                 for (int j = 0; j < 8; j++)
                 {
+                    const eSideType side = CalculationData::GetRafaleSide(j);
+                    const PointMeasure& point = hInst->Calculation.PointData[i][side];
+
                     dc->SetTextForeground(BlackColor);
-                    dc->DrawLabel(wxString::Format("%.2f", hInst->ActiveProductData.TheoreticalRadius[i][j]), wxRect(x_start + case_w * (j + 4), y, case_w, case_h_small), wxALIGN_CENTER);
-
-                    const double rayDiff = hInst->Calculation.RayDifference[i][j];
-
-                    if (std::abs(rayDiff - UnassignedDoubleValue) > Epsilon)
+                    dc->DrawLabel(wxString::Format("%.2f", hInst->ActiveProductData.TheoreticalRadius[height][side]), wxRect(x_start + case_w * (j + 4), y, case_w, case_h_small), wxALIGN_CENTER);
+                    
+                    if (side == RBE_H && measure_height_up > 1800) // Ignore les points sur le cache syst. SPECTRA
                     {
-                        SetToleranceColor(dc, rayDiff, hInst->ActiveProductData.RadiusTolerance);
-                        dc->DrawLabel(wxString::Format("%.2f", rayDiff), wxRect(x_start + case_w * (j + 4), y + case_h_small, case_w, case_h_small), wxALIGN_CENTER);
+                        dc->SetTextForeground(BlueColor);
+                        dc->DrawLabel("CAPOT", wxRect(x_start + case_w * (j + 4), y + case_h_small, case_w, case_h_small), wxALIGN_CENTER);
+                    }
+                    else if (std::abs(point.RayDifference - UnassignedDoubleValue) > Epsilon)
+                    {
+                        SetToleranceColor(dc, point.RayDifference, hInst->ActiveProductData.RadiusTolerance);
+                        dc->DrawLabel(wxString::Format("%.2f", point.RayDifference), wxRect(x_start + case_w * (j + 4), y + case_h_small, case_w, case_h_small), wxALIGN_CENTER);
                     }
                     else
                     {
@@ -224,14 +258,14 @@ void PrintRafale::RafalePage_02()
 
     constexpr int case_h = 23 /* Doit etre 23.3f */, case_w = 95, x_start = 40, y_start = 190;
 
-    const wxString h =  wxString::Format("H + 2° %.1f", hInst->Calculation.UndulationTolerance[0]) + "%";
-    const wxString hd = wxString::Format("HD %.1f", hInst->Calculation.UndulationTolerance[1]) + "%";
-    const wxString d =  wxString::Format("D %.1f", hInst->Calculation.UndulationTolerance[2]) + "%";
-    const wxString bd = wxString::Format("BD %.1f", hInst->Calculation.UndulationTolerance[3]) + "%";
-    const wxString b =  wxString::Format("B + 2° %.1f", hInst->Calculation.UndulationTolerance[4]) + "%";
-    const wxString bg = wxString::Format("BG %.1f", hInst->Calculation.UndulationTolerance[5]) + "%";
-    const wxString g =  wxString::Format("G %.1f", hInst->Calculation.UndulationTolerance[6]) + "%";
-    const wxString hg = wxString::Format("HG %.1f", hInst->Calculation.UndulationTolerance[7]) + "%";
+    const wxString h =  wxString::Format("H + 2° %.1f", hInst->ActiveProductData.UndulationTolerance[RBE_H]) + "%";
+    const wxString hd = wxString::Format("HD %.1f", hInst->ActiveProductData.UndulationTolerance[RBE_HD]) + "%";
+    const wxString d =  wxString::Format("D %.1f", hInst->ActiveProductData.UndulationTolerance[RBE_D]) + "%";
+    const wxString bd = wxString::Format("BD %.1f", hInst->ActiveProductData.UndulationTolerance[RBE_BD]) + "%";
+    const wxString b =  wxString::Format("B + 2° %.1f", hInst->ActiveProductData.UndulationTolerance[RBE_B]) + "%";
+    const wxString bg = wxString::Format("BG %.1f", hInst->ActiveProductData.UndulationTolerance[RBE_BG]) + "%";
+    const wxString g =  wxString::Format("G %.1f", hInst->ActiveProductData.UndulationTolerance[RBE_G]) + "%";
+    const wxString hg = wxString::Format("HG %.1f", hInst->ActiveProductData.UndulationTolerance[RBE_HG]) + "%";
 
     const std::vector<wxString> headers = { "Section", "Haut./Pointe", h, hd, d, bd, b, bg, g, hg, "Haut./Base"};
 
@@ -241,7 +275,7 @@ void PrintRafale::RafalePage_02()
     }
 
     // Pour certaines raisons, dessiner TOUTE les lignes avant les valeurs
-    float x = x_start, y = y_start;
+    int x = x_start, y = y_start;
     for (int i = 1; i < 21; i++)
     {
         y += case_h;
@@ -266,10 +300,12 @@ void PrintRafale::RafalePage_02()
         {
             for (int idx = 0; idx < 8; idx++)
             {
-                if (std::abs(hInst->Calculation.Height[i][idx] - UnassignedDoubleValue) > Epsilon)
+                const PointMeasure& point = hInst->Calculation.PointData[i][CalculationData::GetRafaleSide(idx)];
+
+                if (std::abs(point.Height - UnassignedDoubleValue) > Epsilon)
                 {
-                    measure_height_up = 2114 - hInst->Calculation.Height[i][idx];
-                    measure_height_down = hInst->Calculation.Height[i][idx];
+                    measure_height_up = 2114 - point.Height;
+                    measure_height_down = point.Height;
                     break;
                 }
             }
@@ -283,20 +319,13 @@ void PrintRafale::RafalePage_02()
         {
             for (int j = 0; j < 8; j++)
             {
-                const double undulationDiff = hInst->Calculation.Undulation[i][j];
-                std::string key;
-                for (const auto& pair : RadomeIndexPosition)
-                {
-                    if (pair.second == j)
-                    {
-                        key = pair.first;
-                    }
-                }
+                const eSideType side = CalculationData::GetRafaleSide(j);
+                const PointMeasure& point = hInst->Calculation.PointData[i][side];
 
-                if (std::abs(undulationDiff - UnassignedDoubleValue) > Epsilon && hInst->ActiveProductData.UndulationTolerance.find( key ) != hInst->ActiveProductData.UndulationTolerance.end())
+                if (std::abs(point.Undulation - UnassignedDoubleValue) > Epsilon && !(side == RBE_H && measure_height_up > 1800)) // Ignore les points sur le cache syst. SPECTRA
                 {
-                    SetToleranceColor(dc, undulationDiff, hInst->ActiveProductData.UndulationTolerance[key]);
-                    dc->DrawLabel(wxString::Format("%.2f", hInst->Calculation.Undulation[i][j] * 100) + "%", wxRect(x_start + case_w * (j + 2), y, case_w, case_h), wxALIGN_CENTER);
+                    SetToleranceColor(dc, point.Undulation, point.UndulationTolerance);
+                    dc->DrawLabel(wxString::Format("%.2f", point.Undulation) + "%", wxRect(x_start + case_w * (j + 2), y, case_w, case_h), wxALIGN_CENTER);
                 }
                 else
                 {

@@ -14,8 +14,9 @@ public:
 	float TheoreticalHeight = 0.0f;
 	float HeightTolerance = 0.0f;
 	float RadiusTolerance = 0.0f;
-	double TheoreticalRadius[22][8];
-	std::map<std::string, double> UndulationTolerance;
+
+	std::map<int, std::map<eSideType, double>> TheoreticalRadius;
+	std::map<eSideType, double> UndulationTolerance;
 };
 
 void from_json(const nlohmann::json& j, ProductData& p);
@@ -57,4 +58,8 @@ public:
 		if (j.contains("RafaleFrameLeftContent")) j.at("RafaleFrameLeftContent").get_to(RafaleFrameLeftContent);
 		if (j.contains("RafaleFrameRightContent")) j.at("RafaleFrameRightContent").get_to(RafaleFrameRightContent);
 	}
+
+	static eRadomeType ConvertEnumRadomeType(const std::string& str);
+
+	static eSideType ConvertEnumSideType(const std::string& str);
 };

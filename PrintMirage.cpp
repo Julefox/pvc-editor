@@ -85,12 +85,12 @@ void PrintMirage::MiragePage_01()
         {
             for (int idx = 0; idx < 8; idx++)
             {
-                if (std::abs(hInst->Calculation.Height[i][idx] - UnassignedDoubleValue) > Epsilon)
-                {
-                    measure_height_up = hInst->Calculation.Height[i][idx] - 33.30;
-                    measure_height_down = hInst->Calculation.Height[i][idx];
-                    break;
-                }
+                //if (std::abs(hInst->Calculation.Height[i][idx] - UnassignedDoubleValue) > Epsilon)
+                //{
+                //    measure_height_up = hInst->Calculation.Height[i][idx] - 33.30;
+                //    measure_height_down = hInst->Calculation.Height[i][idx];
+                //    break;
+                //}
             }
         }
 
@@ -99,12 +99,12 @@ void PrintMirage::MiragePage_01()
         {
             double sum = 0.0f;
 
-            for (const double& rad : hInst->ActiveProductData.TheoreticalRadius[i])
-            {
-                sum += rad;
-            }
-
-            theoretical_radius = sum / std::size(hInst->ActiveProductData.TheoreticalRadius[i]);
+            //for (const double& rad : hInst->ActiveProductData.TheoreticalRadius[i])
+            //{
+            //    sum += rad;
+            //}
+            //
+            //theoretical_radius = sum / std::size(hInst->ActiveProductData.TheoreticalRadius[i]);
         }
 
         if (i == 16)
@@ -121,19 +121,19 @@ void PrintMirage::MiragePage_01()
                 for (int j = 0; j < 8; j++)
                 {
                     dc->SetTextForeground(BlackColor);
-                    dc->DrawLabel(wxString::Format("%.2f", hInst->ActiveProductData.TheoreticalRadius[i][j]), wxRect(x_start + case_w * (j + 4), y, case_w, case_h_small), wxALIGN_CENTER);
+                    //dc->DrawLabel(wxString::Format("%.2f", hInst->ActiveProductData.TheoreticalRadius[i][j]), wxRect(x_start + case_w * (j + 4), y, case_w, case_h_small), wxALIGN_CENTER);
 
-                    const double rayDiff = hInst->Calculation.RayDifference[i][j];
-
-                    if (std::abs(rayDiff - UnassignedDoubleValue) > Epsilon)
-                    {
-                        SetToleranceColor(dc, rayDiff, hInst->ActiveProductData.RadiusTolerance);
-                        dc->DrawLabel(wxString::Format("%.2f", rayDiff), wxRect(x_start + case_w * (j + 4), y + case_h_small, case_w, case_h_small), wxALIGN_CENTER);
-                    }
-                    else
-                    {
-                        dc->GradientFillLinear(wxRect(x_start + case_w * (j + 4), y + case_h_small, case_w, case_h_small + 1), GrayColor, GrayColor);
-                    }
+                    //const double rayDiff = hInst->Calculation.RayDifference[i][j];
+                    //
+                    //if (std::abs(rayDiff - UnassignedDoubleValue) > Epsilon)
+                    //{
+                    //    SetToleranceColor(dc, rayDiff, hInst->ActiveProductData.RadiusTolerance);
+                    //    dc->DrawLabel(wxString::Format("%.2f", rayDiff), wxRect(x_start + case_w * (j + 4), y + case_h_small, case_w, case_h_small), wxALIGN_CENTER);
+                    //}
+                    //else
+                    //{
+                    //    dc->GradientFillLinear(wxRect(x_start + case_w * (j + 4), y + case_h_small, case_w, case_h_small + 1), GrayColor, GrayColor);
+                    //}
                 }
 
                 dc->SetTextForeground(BlackColor);
@@ -152,17 +152,17 @@ void PrintMirage::MiragePage_01()
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    const double rayDiff = hInst->Calculation.RayDifference[i][j];
-
-                    if (std::abs(rayDiff - UnassignedDoubleValue) > Epsilon)
-                    {
-                        SetToleranceColor(dc, rayDiff, hInst->ActiveProductData.RadiusTolerance);
-                        dc->DrawLabel(wxString::Format("%.2f", rayDiff), wxRect(x_start + case_w * (j + 4), y, case_w, case_h_small), wxALIGN_CENTER);
-                    }
-                    else
-                    {
-                        dc->GradientFillLinear(wxRect(x_start + case_w * (j + 4), y, case_w, case_h_small + 1), GrayColor, GrayColor);
-                    }
+                    //const double rayDiff = hInst->Calculation.RayDifference[i][j];
+                    //
+                    //if (std::abs(rayDiff - UnassignedDoubleValue) > Epsilon)
+                    //{
+                    //    SetToleranceColor(dc, rayDiff, hInst->ActiveProductData.RadiusTolerance);
+                    //    dc->DrawLabel(wxString::Format("%.2f", rayDiff), wxRect(x_start + case_w * (j + 4), y, case_w, case_h_small), wxALIGN_CENTER);
+                    //}
+                    //else
+                    //{
+                    //    dc->GradientFillLinear(wxRect(x_start + case_w * (j + 4), y, case_w, case_h_small + 1), GrayColor, GrayColor);
+                    //}
                 }
 
                 dc->SetTextForeground(BlackColor);
@@ -182,19 +182,19 @@ void PrintMirage::MiragePage_01()
                 for (int j = 0; j < 8; j++)
                 {
                     dc->SetTextForeground(BlackColor);
-                    dc->DrawLabel(wxString::Format("%.2f", hInst->ActiveProductData.TheoreticalRadius[i][j]), wxRect(x_start + case_w * (j + 4), y, case_w, case_h_small), wxALIGN_CENTER);
+                    //dc->DrawLabel(wxString::Format("%.2f", hInst->ActiveProductData.TheoreticalRadius[i][j]), wxRect(x_start + case_w * (j + 4), y, case_w, case_h_small), wxALIGN_CENTER);
 
-                    const double rayDiff = hInst->Calculation.RayDifference[i][j];
-
-                    if (std::abs(rayDiff - UnassignedDoubleValue) > Epsilon)
-                    {
-                        SetToleranceColor(dc, rayDiff, hInst->ActiveProductData.RadiusTolerance);
-                        dc->DrawLabel(wxString::Format("%.2f", rayDiff), wxRect(x_start + case_w * (j + 4), y + case_h_small, case_w, case_h_small), wxALIGN_CENTER);
-                    }
-                    else
-                    {
-                        dc->GradientFillLinear(wxRect(x_start + case_w * (j + 4), y + case_h_small, case_w, case_h_small), GrayColor, GrayColor);
-                    }
+                    //const double rayDiff = hInst->Calculation.RayDifference[i][j];
+                    //
+                    //if (std::abs(rayDiff - UnassignedDoubleValue) > Epsilon)
+                    //{
+                    //    SetToleranceColor(dc, rayDiff, hInst->ActiveProductData.RadiusTolerance);
+                    //    dc->DrawLabel(wxString::Format("%.2f", rayDiff), wxRect(x_start + case_w * (j + 4), y + case_h_small, case_w, case_h_small), wxALIGN_CENTER);
+                    //}
+                    //else
+                    //{
+                    //    dc->GradientFillLinear(wxRect(x_start + case_w * (j + 4), y + case_h_small, case_w, case_h_small), GrayColor, GrayColor);
+                    //}
                 }
 
                 dc->SetTextForeground(BlackColor);
