@@ -23,7 +23,7 @@ bool PrintGlobal::HasPage( const int page )
 
 void PrintGlobal::SetToleranceColor(wxDC* dc, const double value, const double tolerance)
 {
-    const double castValue = static_cast<int>(value * 100) / 100; // transforme 0.0001 en 0.00
+    const double castValue = static_cast<int>(value * 100) / static_cast<double>(100); // transforme 0.0001 en 0.00
     if (fabs(castValue) > tolerance)
     {
         dc->SetTextForeground(RedColor);
@@ -181,8 +181,6 @@ void PrintGlobal::Mirage_DrawMainPv( Program* hInst, wxDC* dc, const int pageIdx
     dc->DrawLabel("Indice", wxRect(900, 30, 200, 20), wxALIGN_CENTRE);
     dc->DrawLabel(hInst->C_OperationCode->GetString(hInst->C_OperationCode->GetCurrentSelection()).AfterLast('_'), wxRect(900, 50, 200, 20), wxALIGN_CENTRE);
     dc->DrawLabel(wxString::Format("Page %d/%d", pageIdx, this->ImpressNum), wxRect(900, 70, 200, 50), wxALIGN_CENTRE);
-
-    dc->SetFont(wxFont(10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL));
     dc->DrawLabel("Code opération", wxRect(680, 32, 220, 14), wxALIGN_CENTRE);
     dc->DrawLabel(hInst->C_OperationCode->GetString(hInst->C_OperationCode->GetCurrentSelection()).BeforeLast('_'), wxRect(680, 44, 220, 26), wxALIGN_CENTRE);
     dc->DrawLabel("Approuvé par", wxRect(680, 72, 220, 10), wxALIGN_CENTRE);
@@ -212,4 +210,22 @@ void PrintGlobal::Mirage_DrawMainPv( Program* hInst, wxDC* dc, const int pageIdx
     dc->SetTextForeground(BlackColor);
     dc->SetFont(wxFont(8, wxFONTFAMILY_SWISS, wxFONTSTYLE_ITALIC, wxFONTWEIGHT_NORMAL));
     dc->DrawLabel(StringUtility::StringToWString(hInst->C_JsonConfig.MirageAnnexHeader), wxRect(20, 10, 1080, 20), wxALIGN_CENTRE);
+}
+
+void PrintGlobal::DrawArray(wxDC* dc, const int x, const int y, const int w, const int wIdx, const int h, const int hIdx)
+{
+    dc->DrawLine(x, y, x + w * wIdx, y);                       // Haut
+    dc->DrawLine(x, y + h * hIdx, x + w * wIdx, y + h * hIdx); // Bas
+    dc->DrawLine(x, y, x, y + h * hIdx);                       // Gauche
+    dc->DrawLine(x + w * wIdx, y, x + w * wIdx, y + h * hIdx); // Droit
+
+	for( int i = 0; i < wIdx; i++ )
+	{
+        dc->DrawLine(x + w * i, y, x + w * i, y + h * hIdx);
+	}
+
+    for (int i = 0; i < wIdx; i++)
+    {
+        dc->DrawLine(x, y + h * i, x + w * wIdx, y + h * i);
+    }
 }

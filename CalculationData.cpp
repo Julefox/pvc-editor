@@ -168,8 +168,6 @@ void CalculationData::MirageCalculateData(Program* hInst, const std::string& fil
                 // BAD
                 if (point.Height == 90) i = 12;
 
-                std::cout << point.Height << " " << i << "\n";
-
                 if (angles0 != angles1)
                 {
                     j++;

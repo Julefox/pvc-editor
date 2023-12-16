@@ -117,7 +117,7 @@
             },
             "UndulationTolerance":
             {
-                "RBE_H":  0.00,
+                "RBE_H":  0.50,
                 "RBE_HD": 0.50,
                 "RBE_D":  0.50,
                 "RBE_BD": 0.30,
@@ -191,7 +191,6 @@
     "MirageAnnexHeader":       "Annexe 1 à P/CP/E/028 Ind B",
     "RafaleAnnexHeader":       "Annexe X à P/CP/E/0XX Ind X",
     "RafaleFrameLeftContent":  "Montage sur bobine TAS Réf. 61056798AA",
-    "RafaleFrameRightContent": "Comprise danse le plan de pose~(matérialisé par les quatres plots du faux cadre 1)~et le sommet réél du radôme",
-    "EasterEgg": true
+    "RafaleFrameRightContent": "Comprise danse le plan de pose~(matérialisé par les quatres plots du faux cadre 1)~et le sommet réél du radôme"
   }
   
