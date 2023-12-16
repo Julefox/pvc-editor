@@ -62,27 +62,33 @@ enum eSideType
 
 	// Mirage 2000
 	AND_H  = 0,
-	AND_HD = 7,
-	AND_D  = 6,
-	AND_BD = 5,
+	AND_HD = 1,
+	AND_D  = 2,
+	AND_BD = 3,
 	AND_B  = 4,
-	AND_BG = 3,
-	AND_G  = 2,
-	AND_HG = 1,
+	AND_BG = 5,
+	AND_G  = 6,
+	AND_HG = 7,
 
-	NOT_FOUND = -1
+	NO_SIDE = 0
 };
 
-inline const std::map<std::string, int> RadomeIndexPosition =
+enum eSectionType
 {
-	{ "H",  0 },
-	{ "HD", 1 },
-	{ "D",  2 },
-	{ "BD", 3 },
-	{ "B",  4 },
-	{ "BG", 5 },
-	{ "G",  6 },
-	{ "HG", 7 }
+	// Mirage 2000
+	AND_0F = 0,
+	AND_01 = 1,
+	AND_02 = 2,
+	AND_03 = 3,
+	AND_04 = 4,
+	AND_05 = 5,
+	AND_06 = 6,
+	AND_07 = 7,
+	AND_08 = 8,
+	AND_09 = 9,
+	AND_10 = 10,
+
+	NO_SECTION = 0
 };
 
 class StringUtility

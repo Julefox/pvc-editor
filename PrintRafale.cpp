@@ -119,7 +119,7 @@ void PrintRafale::RafalePage_01()
         }
 
         // Pour certaines raisons, trouver le bon rayon théorique
-        int height = 0.0f;
+        int height = 0;
         {
             for (int j = 0; j < 8; j++)
             {
@@ -150,16 +150,16 @@ void PrintRafale::RafalePage_01()
                     const PointMeasure& point = hInst->Calculation.PointData[i][side];
 
                     dc->SetTextForeground(BlackColor);
-                    dc->DrawLabel(wxString::Format("%.2f", hInst->ActiveProductData.TheoreticalRadius[height][side]), wxRect(x_start + case_w * (j + 4), y, case_w, case_h_small), wxALIGN_CENTER);
+                    dc->DrawLabel(wxString::Format("%.2f", hInst->ActiveProductData.TheoreticalRadius[height][side]), wxRect(x_start + case_w * (side + 4), y, case_w, case_h_small), wxALIGN_CENTER);
                     
                     if (std::abs(point.RayDifference - UnassignedDoubleValue) > Epsilon)
                     {
                         SetToleranceColor(dc, point.RayDifference, hInst->ActiveProductData.RadiusTolerance);
-                        dc->DrawLabel(wxString::Format("%.2f", point.RayDifference), wxRect(x_start + case_w * (j + 4), y + case_h_small, case_w, case_h_small), wxALIGN_CENTER);
+                        dc->DrawLabel(wxString::Format("%.2f", point.RayDifference), wxRect(x_start + case_w * (side + 4), y + case_h_small, case_w, case_h_small), wxALIGN_CENTER);
                     }
                     else
                     {
-                        dc->GradientFillLinear(wxRect(x_start + case_w * (j + 4), y + case_h_small, case_w, case_h_small + 1), GrayColor, GrayColor);
+                        dc->GradientFillLinear(wxRect(x_start + case_w * (side + 4), y + case_h_small, case_w, case_h_small + 1), GrayColor, GrayColor);
                     }
                 }
 
@@ -185,11 +185,11 @@ void PrintRafale::RafalePage_01()
                     if (std::abs(point.RayDifference - UnassignedDoubleValue) > Epsilon)
                     {
                         SetToleranceColor( dc, point.RayDifference, hInst->ActiveProductData.RadiusTolerance );
-                        dc->DrawLabel(wxString::Format("%.2f", point.RayDifference), wxRect(x_start + case_w * (j + 4), y, case_w, case_h_small), wxALIGN_CENTER);
+                        dc->DrawLabel(wxString::Format("%.2f", point.RayDifference), wxRect(x_start + case_w * (side + 4), y, case_w, case_h_small), wxALIGN_CENTER);
                     }
                     else
                     {
-                        dc->GradientFillLinear(wxRect(x_start + case_w * (j + 4), y, case_w, case_h_small + 1), GrayColor, GrayColor);
+                        dc->GradientFillLinear(wxRect(x_start + case_w * (side + 4), y, case_w, case_h_small + 1), GrayColor, GrayColor);
                     }
 	            }
 
@@ -213,21 +213,21 @@ void PrintRafale::RafalePage_01()
                     const PointMeasure& point = hInst->Calculation.PointData[i][side];
 
                     dc->SetTextForeground(BlackColor);
-                    dc->DrawLabel(wxString::Format("%.2f", hInst->ActiveProductData.TheoreticalRadius[height][side]), wxRect(x_start + case_w * (j + 4), y, case_w, case_h_small), wxALIGN_CENTER);
+                    dc->DrawLabel(wxString::Format("%.2f", hInst->ActiveProductData.TheoreticalRadius[height][side]), wxRect(x_start + case_w * (side + 4), y, case_w, case_h_small), wxALIGN_CENTER);
                     
                     if (side == RBE_H && measure_height_up > 1800) // Ignore les points sur le cache syst. SPECTRA
                     {
                         dc->SetTextForeground(BlueColor);
-                        dc->DrawLabel("CAPOT", wxRect(x_start + case_w * (j + 4), y + case_h_small, case_w, case_h_small), wxALIGN_CENTER);
+                        dc->DrawLabel("CAPOT", wxRect(x_start + case_w * (side + 4), y + case_h_small, case_w, case_h_small), wxALIGN_CENTER);
                     }
                     else if (std::abs(point.RayDifference - UnassignedDoubleValue) > Epsilon)
                     {
                         SetToleranceColor(dc, point.RayDifference, hInst->ActiveProductData.RadiusTolerance);
-                        dc->DrawLabel(wxString::Format("%.2f", point.RayDifference), wxRect(x_start + case_w * (j + 4), y + case_h_small, case_w, case_h_small), wxALIGN_CENTER);
+                        dc->DrawLabel(wxString::Format("%.2f", point.RayDifference), wxRect(x_start + case_w * (side + 4), y + case_h_small, case_w, case_h_small), wxALIGN_CENTER);
                     }
                     else
                     {
-                        dc->GradientFillLinear(wxRect(x_start + case_w * (j + 4), y + case_h_small, case_w, case_h_small), GrayColor, GrayColor);
+                        dc->GradientFillLinear(wxRect(x_start + case_w * (side + 4), y + case_h_small, case_w, case_h_small), GrayColor, GrayColor);
                     }
                 }
 
@@ -325,11 +325,11 @@ void PrintRafale::RafalePage_02()
                 if (std::abs(point.Undulation - UnassignedDoubleValue) > Epsilon && !(side == RBE_H && measure_height_up > 1800)) // Ignore les points sur le cache syst. SPECTRA
                 {
                     SetToleranceColor(dc, point.Undulation, point.UndulationTolerance);
-                    dc->DrawLabel(wxString::Format("%.2f", point.Undulation) + "%", wxRect(x_start + case_w * (j + 2), y, case_w, case_h), wxALIGN_CENTER);
+                    dc->DrawLabel(wxString::Format("%.2f", point.Undulation) + "%", wxRect(x_start + case_w * (side + 2), y, case_w, case_h), wxALIGN_CENTER);
                 }
                 else
                 {
-                    dc->GradientFillLinear(wxRect(x_start + case_w * (j + 2), y, case_w, case_h + 1), GrayColor, GrayColor);
+                    dc->GradientFillLinear(wxRect(x_start + case_w * (side + 2), y, case_w, case_h + 1), GrayColor, GrayColor);
                 }
             }
 

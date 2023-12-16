@@ -125,7 +125,6 @@ void CalculationData::MirageCalculateData(Program* hInst, const std::string& fil
 {
     wxTextFile textFile;
 
-    /*
     if (textFile.Open(filePath))
     {
         int lineIdx = 0;
@@ -162,22 +161,21 @@ void CalculationData::MirageCalculateData(Program* hInst, const std::string& fil
                 i = (MIRAGE_MAX_HEIGHT - lround(radHeight) + MIRAGE_HEIGHT_STEP / 2) / MIRAGE_HEIGHT_STEP;
                 i = std::max(1, std::min(i + 1, 12));
 
-                int j_temp = IntOffset( j );
+                PointMeasure point;
+                point.RayMeasure = radRay;
+                point.Height = lround(radHeight);
 
-                if (angles0 == angles1)
-                {
-                    this->RayMeasure[i][j_temp] = radRay;
-                }
-                else
+                // BAD
+                if (point.Height == 90) i = 12;
+
+                std::cout << point.Height << " " << i << "\n";
+
+                if (angles0 != angles1)
                 {
                     j++;
-                    j_temp++;
-                    this->RayMeasure[i][j_temp] = radRay;
                 }
 
-                this->Height[i][j_temp] = lround(radHeight);
-
-                //std::cout << this->Height[i][j_temp] << " " << i << " " << j_temp << " " << radRay << " " << radHeight << std::endl;
+                this->PointData[i][GetMirageSide(j)] = point;
             }
         }
         textFile.Close();
@@ -187,11 +185,13 @@ void CalculationData::MirageCalculateData(Program* hInst, const std::string& fil
         {
             for (int l = 0; l < 8; l++)
             {
-                if (std::abs(this->RayMeasure[k][IntOffset(l)] - UnassignedDoubleValue) > Epsilon && std::abs(hInst->ActiveProductData.TheoreticalRadius[k][IntOffset(l)] - UnassignedDoubleValue) > Epsilon)
-                {
-                    this->RayDifference[k][IntOffset(l)] = this->RayMeasure[k][IntOffset(l)] - hInst->ActiveProductData.TheoreticalRadius[k][IntOffset(l)];
+                const eSideType side = GetMirageSide(l);
+                PointMeasure& point = this->PointData[k][side];
 
-                    //std::cout << this->RayDifference[k][l] << " = " << this->RayMeasure[k][l] << " - " << hInst->ActiveProductData.TheoreticalRadius[k][l] << std::endl;
+                if (std::abs(point.RayMeasure - UnassignedDoubleValue) > Epsilon && std::abs(hInst->ActiveProductData.TheoreticalRadius[k][side] - UnassignedDoubleValue) > Epsilon)
+                {
+                    point.RayDifference = point.RayMeasure - hInst->ActiveProductData.TheoreticalRadius[point.Height][side];
+                    //std::cout << point.RayDifference << " " << point.RayMeasure << " " << point.Height << " " << side << " " << hInst->ActiveProductData.TheoreticalRadius[point.Height][side] << "\n";
                 }
             }
         }
@@ -201,37 +201,31 @@ void CalculationData::MirageCalculateData(Program* hInst, const std::string& fil
         {
             for (int l = 0; l < 8; l++)
             {
-                if (std::abs(this->RayDifference[k - 1][IntOffset(l)] - UnassignedDoubleValue) > Epsilon &&
-                    std::abs(this->RayDifference[k][IntOffset(l)] - UnassignedDoubleValue) > Epsilon &&
-                    std::abs(this->RayDifference[k + 1][IntOffset(l)] - UnassignedDoubleValue) > Epsilon &&
-                    std::abs(this->Height[k - 1][IntOffset(l)] - UnassignedIntValue) > Epsilon &&
-                    std::abs(this->Height[k][IntOffset(l)] - UnassignedIntValue) > Epsilon &&
-                    std::abs(this->Height[k + 1][IntOffset(l)] - UnassignedIntValue) > Epsilon)
-                {
-                    const double deltaHeightForward = this->Height[k + 1][IntOffset(l)] - this->Height[k][IntOffset(l)];
-                    const double deltaHeightBackward = this->Height[k][IntOffset(l)] - this->Height[k - 1][IntOffset(l)];
-                    const double deltaRayonForward = this->RayDifference[k + 1][IntOffset(l)] - this->RayDifference[k][IntOffset(l)];
-                    const double deltaRayonBackward = this->RayDifference[k][IntOffset(l)] - this->RayDifference[k - 1][IntOffset(l)];
-                    const double heightSpan = this->Height[k + 1][IntOffset(l)] - this->Height[k - 1][IntOffset(l)];
+                const eSideType side = GetMirageSide(l);
+                const PointMeasure& backPoint = this->PointData[k - 1][side];
+                PointMeasure& point = this->PointData[k][side];
+                const PointMeasure& forwardPoint = this->PointData[k + 1][side];
 
-                    this->Undulation[k][IntOffset(l)] = -((deltaHeightForward * deltaRayonBackward) - (deltaHeightBackward * deltaRayonForward)) / (heightSpan * heightSpan);
+                if (std::abs(backPoint.RayDifference - UnassignedDoubleValue) > Epsilon &&
+                    std::abs(point.RayDifference - UnassignedDoubleValue) > Epsilon &&
+                    std::abs(forwardPoint.RayDifference - UnassignedDoubleValue) > Epsilon &&
+                    std::abs(backPoint.Height - UnassignedIntValue) > Epsilon &&
+                    std::abs(point.Height - UnassignedIntValue) > Epsilon &&
+                    std::abs(forwardPoint.Height - UnassignedIntValue) > Epsilon)
+                {
+                    const double deltaHeightForward = forwardPoint.Height - point.Height;
+                    const double deltaHeightBackward = point.Height - backPoint.Height;
+                    const double deltaRayonForward = forwardPoint.RayDifference - point.RayDifference;
+                    const double deltaRayonBackward = point.RayDifference - backPoint.RayDifference;
+                    const double heightSpan = forwardPoint.Height - backPoint.Height;
+
+                    point.Undulation = -((deltaHeightForward * deltaRayonBackward - deltaHeightBackward * deltaRayonForward) / (heightSpan * heightSpan)) * 100;
+                    point.UndulationTolerance = hInst->ActiveProductData.UndulationTolerance[side];
+                    //std::cout << std::fixed << std::setprecision(2) << point.Undulation << " " << point.Height << " " << side << " " << point.UndulationTolerance << "\n";
                 }
             }
         }
-
-        // Parametrage des tolérances d'ondulation
-        for (const auto& pair : hInst->ActiveProductData.UndulationTolerance)
-        {
-            const auto& key = pair.first;
-            const auto& value = pair.second;
-            const auto& it = RadomeIndexPosition.find(key);
-
-            if (it != RadomeIndexPosition.end())
-            {
-                this->UndulationTolerance[it->second] = value;
-            }
-        }
-    }*/
+    }
 }
 
 eSideType CalculationData::GetRafaleSide(const int i)
@@ -246,7 +240,7 @@ eSideType CalculationData::GetRafaleSide(const int i)
     case 5:  return RBE_BG;
     case 6:  return RBE_G;
     case 7:  return RBE_HG;
-    default: return NOT_FOUND;
+    default: return NO_SIDE;
     }
 }
 
@@ -262,28 +256,6 @@ eSideType CalculationData::GetMirageSide(const int i)
     case 3:  return AND_BG;
     case 2:  return AND_G;
     case 1:  return AND_HG;
-    default: return NOT_FOUND;
+    default: return NO_SIDE;
     }
 }
-
-int CalculationData::IntOffset( const int i )
-{
-    switch (i)
-    {
-    case 1:
-        return 7;
-    case 2:
-        return 6;
-    case 3:
-        return 5;
-    case 5:
-        return 3;
-    case 6:
-        return 2;
-    case 7:
-        return 1;
-    default:
-        return i;
-    }
-}
-

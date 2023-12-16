@@ -17,6 +17,7 @@ public:
 
 	std::map<int, std::map<eSideType, double>> TheoreticalRadius;
 	std::map<eSideType, double> UndulationTolerance;
+	std::map<eSectionType, double> UndulationToleranceSection;
 };
 
 void from_json(const nlohmann::json& j, ProductData& p);
@@ -62,4 +63,6 @@ public:
 	static eRadomeType ConvertEnumRadomeType(const std::string& str);
 
 	static eSideType ConvertEnumSideType(const std::string& str);
+
+	static eSectionType ConvertEnumSectionType(const std::string& str);
 };

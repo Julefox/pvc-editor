@@ -31,6 +31,4 @@ public:
 private:
 	void RafaleCalculateData(Program* hInst, const std::string& filePath);
 	void MirageCalculateData(Program* hInst, const std::string& filePath);
-
-	inline static int IntOffset(int i);
 };

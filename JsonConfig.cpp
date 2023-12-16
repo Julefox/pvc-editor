@@ -41,6 +41,17 @@ void from_json(const nlohmann::json& j, ProductData& p)
 		}
 	}
 
+	if (j.contains("UndulationToleranceSection"))
+	{
+		const nlohmann::json& json = j.at("UndulationToleranceSection");
+		for (const auto& keyVal : json.items())
+		{
+			eSectionType key = JsonConfig::ConvertEnumSectionType(keyVal.key());
+			const double value = keyVal.value().get<double>();
+			p.UndulationToleranceSection[key] = value;
+		}
+	}
+
 	if (!j.contains("RadomeType"))
 		return;
 	
@@ -156,5 +167,65 @@ eSideType JsonConfig::ConvertEnumSideType(const std::string& str)
 		return AND_G;
 	}
 
-	return NOT_FOUND;
+	return NO_SIDE;
+}
+
+eSectionType JsonConfig::ConvertEnumSectionType(const std::string& str)
+{
+	if (str.find("AND_0F") != std::string::npos)
+	{
+		return AND_0F;
+	}
+
+	if (str.find("AND_01") != std::string::npos)
+	{
+		return AND_01;
+	}
+
+	if (str.find("AND_02") != std::string::npos)
+	{
+		return AND_02;
+	}
+
+	if (str.find("AND_03") != std::string::npos)
+	{
+		return AND_03;
+	}
+
+	if (str.find("AND_04") != std::string::npos)
+	{
+		return AND_04;
+	}
+
+	if (str.find("AND_05") != std::string::npos)
+	{
+		return AND_05;
+	}
+
+	if (str.find("AND_06") != std::string::npos)
+	{
+		return AND_06;
+	}
+
+	if (str.find("AND_07") != std::string::npos)
+	{
+		return AND_07;
+	}
+
+	if (str.find("AND_08") != std::string::npos)
+	{
+		return AND_08;
+	}
+
+	if (str.find("AND_09") != std::string::npos)
+	{
+		return AND_09;
+	}
+
+	if (str.find("AND_10") != std::string::npos)
+	{
+		return AND_10;
+	}
+
+	return NO_SECTION;
 }

@@ -65,9 +65,10 @@ public:
         this->GetConfigFile();
 
         // DEBUG ONLY
-        //this->GetRadomeType( "C475" );
-        //wxCommandEvent devPrint(wxEVT_COMMAND_BUTTON_CLICKED, -1);
-        //this->Callback_OnPrintButtonPressed(devPrint);
+        this->GetRadomeType( "C475" );
+        this->TC_Radome->SetValue("C475");
+        wxCommandEvent devPrint(wxEVT_COMMAND_BUTTON_CLICKED, -1);
+        this->Callback_OnPrintButtonPressed(devPrint);
         // DEBUG END
 
         window->CenterOnScreen();
