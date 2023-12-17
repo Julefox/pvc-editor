@@ -83,7 +83,7 @@ void CalculationData::RafaleCalculateData(Program* hInst, const std::string& fil
 
                 if (std::abs(point.RayMeasure - UnassignedDoubleValue) > Epsilon && std::abs(hInst->ActiveProductData.TheoreticalRadius[k][side] - UnassignedDoubleValue) > Epsilon)
                 {
-                    point.RayDifference = point.RayMeasure - hInst->ActiveProductData.TheoreticalRadius[point.Height][side];
+                    point.RayDifference = MathUtility::RoundValue(point.RayMeasure - hInst->ActiveProductData.TheoreticalRadius[point.Height][side], 2);
                     //std::cout << point.RayDifference << " " << point.RayMeasure << " " << point.Height << " " << side << " " << hInst->ActiveProductData.TheoreticalRadius[point.Height][side] << "\n";
                 }
             }
@@ -112,7 +112,7 @@ void CalculationData::RafaleCalculateData(Program* hInst, const std::string& fil
                     const double deltaRayonBackward = point.RayDifference - backPoint.RayDifference;
                     const double heightSpan = forwardPoint.Height -backPoint.Height;
 
-                    point.Undulation = -((deltaHeightForward * deltaRayonBackward - deltaHeightBackward * deltaRayonForward) / (heightSpan * heightSpan)) * 100;
+                    point.Undulation = MathUtility::RoundValue(-((deltaHeightForward * deltaRayonBackward - deltaHeightBackward * deltaRayonForward) / (heightSpan * heightSpan)) * 100, 2);
                     point.UndulationTolerance = hInst->ActiveProductData.UndulationTolerance[side];
                     //std::cout << std::fixed << std::setprecision(2) << point.Undulation << " " << point.Height << " " << side << " " << point.UndulationTolerance << "\n";
                 }
@@ -188,7 +188,7 @@ void CalculationData::MirageCalculateData(Program* hInst, const std::string& fil
 
                 if (std::abs(point.RayMeasure - UnassignedDoubleValue) > Epsilon && std::abs(hInst->ActiveProductData.TheoreticalRadius[k][side] - UnassignedDoubleValue) > Epsilon)
                 {
-                    point.RayDifference = point.RayMeasure - hInst->ActiveProductData.TheoreticalRadius[point.Height][side];
+                    point.RayDifference = MathUtility::RoundValue(point.RayMeasure - hInst->ActiveProductData.TheoreticalRadius[point.Height][side], 2);
                     //std::cout << point.RayDifference << " " << point.RayMeasure << " " << point.Height << " " << side << " " << hInst->ActiveProductData.TheoreticalRadius[point.Height][side] << "\n";
                 }
             }
@@ -217,7 +217,7 @@ void CalculationData::MirageCalculateData(Program* hInst, const std::string& fil
                     const double deltaRayonBackward = point.RayDifference - backPoint.RayDifference;
                     const double heightSpan = forwardPoint.Height - backPoint.Height;
 
-                    point.Undulation = -((deltaHeightForward * deltaRayonBackward - deltaHeightBackward * deltaRayonForward) / (heightSpan * heightSpan)) * 100;
+                    point.Undulation = MathUtility::RoundValue(-((deltaHeightForward * deltaRayonBackward - deltaHeightBackward * deltaRayonForward) / (heightSpan * heightSpan)) * 100, 2);
                     point.UndulationTolerance = hInst->ActiveProductData.UndulationTolerance[side];
                     //std::cout << std::fixed << std::setprecision(2) << point.Undulation << " " << point.Height << " " << side << " " << point.UndulationTolerance << "\n";
                 }

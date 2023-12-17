@@ -99,3 +99,9 @@ public:
 	static std::string WideStringToString(const std::wstring& wStr);
 	static wxString ReplaceWxString(const wxString& wStr, const wxString& item, const wxString& replace);
 };
+
+class MathUtility
+{
+public:
+	static double RoundValue(double value, int precision);
+};

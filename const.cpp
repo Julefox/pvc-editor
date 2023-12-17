@@ -40,3 +40,9 @@ wxString StringUtility::ReplaceWxString(const wxString& wStr, const wxString& it
     newStr.Replace(item, replace);
     return newStr;
 }
+
+double MathUtility::RoundValue(const double value, const int precision)
+{
+    const double factor = std::pow(10.0, precision);
+    return std::floor(value * factor) / factor;
+}

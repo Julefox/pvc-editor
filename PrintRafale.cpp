@@ -34,10 +34,10 @@ void PrintRafale::RafalePage_01()
     SetDcScale( this, dc );
     Rafale_DrawMainHeader(hInst, dc, 1);
 
-    dc->SetFont(wxFont(12, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
-    DrawRectangle(dc, 40, 150, 1040, 40, "Contrôle profil (Ecart entre rayon théorique et rayon mesuré)");
-
     constexpr int case_h_small = 19, case_h_large = 37, case_w = 80, x_start = 40, y_start = 190;
+
+    dc->SetFont(wxFont(12, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
+    DrawRectangle(dc, x_start, 150, 1040, 40, "Contrôle profil (Ecart entre rayon théorique et rayon mesuré)");
 
     const std::vector<wxString> headers = { "Section", "Haut./Pointe", "Rayon", "Tol.", "H + 2°", "HD", "D", "BD", "B + 2°", "BG", "G", "HG", "Haut./Base" };
 
@@ -145,19 +145,10 @@ void PrintRafale::RafalePage_02()
     SetDcScale(this, dc);
     Rafale_DrawMainHeader(hInst, dc, 2);
 
-    // Cadre Principal
-    dc->DrawLine(40, 158, 1080, 158);   // Haut
-    dc->DrawLine(40, 673, 1080, 673);   // Bas
-    dc->DrawLine(40, 158, 40, 673);     // Gauche
-    dc->DrawLine(1080, 158, 1080, 673); // Droit
+    constexpr int case_h = 23, case_w = 94, x_start = 43, y_start = 190;
 
-    dc->DrawLine(40, 190, 1080, 190);   // Séparateur Titre
     dc->SetFont(wxFont(12, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
-    dc->DrawLabel("Contrôle profil (ondulations)", wxRect(40, 158, 1040, 32), wxALIGN_CENTER);
-
-    dc->SetFont(wxFont(8, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
-
-    constexpr int case_h = 23 /* Doit etre 23.3f */, case_w = 95, x_start = 40, y_start = 190;
+    DrawRectangle(dc, x_start, 150, 1034, 40, "Contrôle profil (ondulations)");
 
     const wxString h =  wxString::Format("H + 2° %.1f", hInst->ActiveProductData.UndulationTolerance[RBE_H]) + "%";
     const wxString hd = wxString::Format("HD %.1f", hInst->ActiveProductData.UndulationTolerance[RBE_HD]) + "%";
@@ -167,75 +158,50 @@ void PrintRafale::RafalePage_02()
     const wxString bg = wxString::Format("BG %.1f", hInst->ActiveProductData.UndulationTolerance[RBE_BG]) + "%";
     const wxString g =  wxString::Format("G %.1f", hInst->ActiveProductData.UndulationTolerance[RBE_G]) + "%";
     const wxString hg = wxString::Format("HG %.1f", hInst->ActiveProductData.UndulationTolerance[RBE_HG]) + "%";
-
+    
     const std::vector<wxString> headers = { "Section", "Haut./Pointe", h, hd, d, bd, b, bg, g, hg, "Haut./Base"};
 
-    for (int i = 0; i < static_cast <int>(headers.size()); i++)
-    {
-        dc->DrawLabel(headers[i], wxRect(x_start + case_w * i, y_start, case_w, case_h), wxALIGN_CENTER);
-    }
+    dc->SetFont(wxFont(8, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
+    DrawArray(dc, x_start, y_start, case_w, 11, case_h, 21, headers);
 
-    // Pour certaines raisons, dessiner TOUTE les lignes avant les valeurs
-    int x = x_start, y = y_start;
+    int x = x_start, y = y_start + case_h;
+
     for (int i = 1; i < 21; i++)
     {
-        y += case_h;
-
-        dc->DrawLine(40, y, 1080, y);
-
-        if (i <= 10)
-        {
-            x += case_w;
-            dc->DrawLine(x, 190, x, 673);
-        }
-    }
-
-    x = x_start, y = y_start;
-    for (int i = 1; i < 21; i++)
-    {
-        y += case_h;
-
-        // Hauteur Radome // Petit hack pour trouver les valeurs qui ne sont pas trouver (en particulier la 20e ligne)
-        int measure_height_up = 0;   // 2e Colonne
-        int measure_height_down = 0; // 13e Colonne
-        {
-            for (int idx = 0; idx < 8; idx++)
-            {
-                const PointMeasure& point = hInst->Calculation.PointData[i][CalculationData::GetRafaleSide(idx)];
-
-                if (std::abs(point.Height - UnassignedDoubleValue) > Epsilon)
-                {
-                    measure_height_up = 2114 - point.Height;
-                    measure_height_down = point.Height;
-                    break;
-                }
-            }
-        }
-
+        CalculateHeight(hInst, i);
+        CalculateTheoreticalRadius(hInst, i);
         dc->DrawLabel(std::to_wstring(i), wxRect(40, y, case_w, case_h), wxALIGN_CENTER); // 1e Colonne
-        dc->DrawLabel(wxString::Format("%d", measure_height_up), wxRect(x_start + case_w * 1, y, case_w, case_h), wxALIGN_CENTER); // 2e Colonne
-        dc->DrawLabel(std::to_wstring(measure_height_down), wxRect(x_start + case_w * 10, y, 1080 - (x_start + case_w * 10), case_h), wxALIGN_CENTER); // 11e Colonne
 
-        // Ondulations
+        if (hInst->ActiveProductData.RadomeType == Rafale_R && i > 15)
         {
-            for (int j = 0; j < 8; j++)
-            {
-                const eSideType side = CalculationData::GetRafaleSide(j);
-                const PointMeasure& point = hInst->Calculation.PointData[i][side];
-
-                if (std::abs(point.Undulation - UnassignedDoubleValue) > Epsilon && !(side == RBE_H && measure_height_up > 1800)) // Ignore les points sur le cache syst. SPECTRA
-                {
-                    SetToleranceColor(dc, point.Undulation, point.UndulationTolerance);
-                    dc->DrawLabel(wxString::Format("%.2f", point.Undulation) + "%", wxRect(x_start + case_w * (side + 2), y, case_w, case_h), wxALIGN_CENTER);
-                }
-                else
-                {
-                    dc->GradientFillLinear(wxRect(x_start + case_w * (side + 2), y, case_w, case_h + 1), GrayColor, GrayColor);
-                }
-            }
-
-            dc->SetTextForeground(BlackColor);
+            dc->DrawLabel("...", wxRect(x_start + case_w * 1, y, case_w, case_h), wxALIGN_CENTER); // 2e Colonne
+            dc->DrawLabel("...", wxRect(x_start + case_w * 10, y, case_w, case_h), wxALIGN_CENTER); // 13e Colonne
         }
+        else
+        {
+            dc->DrawLabel(wxString::Format("%d", UpperHeight), wxRect(x_start + case_w * 1, y, case_w, case_h), wxALIGN_CENTER); // 2e Colonne
+            dc->DrawLabel(std::to_wstring(LowerHeight), wxRect(x_start + case_w * 10, y, case_w, case_h), wxALIGN_CENTER); // 13e Colonne
+        }
+
+        for (int j = 0; j < 8; j++)
+        {
+            const eSideType side = CalculationData::GetRafaleSide(j);
+            const PointMeasure& point = hInst->Calculation.PointData[i][side];
+
+            if (std::abs(point.Undulation - UnassignedDoubleValue) > Epsilon && !(side == RBE_H && UpperHeight > 1800)) // Ignore les points sur le cache syst. SPECTRA
+            {
+                SetToleranceColor(dc, point.Undulation, point.UndulationTolerance);
+                dc->DrawLabel(wxString::Format("%.2f", point.Undulation) + "%", wxRect(x_start + case_w * (side + 2), y, case_w, case_h), wxALIGN_CENTER);
+            }
+            else
+            {
+                dc->GradientFillLinear(wxRect(x_start + case_w * (side + 2), y, case_w, case_h + 1), GrayColor, GrayColor);
+            }
+        }
+
+        dc->SetTextForeground(BlackColor);
+
+        y += case_h;
     }
 }
 
@@ -252,47 +218,29 @@ void PrintRafale::RafalePage_03()
 
     dc->SetFont(wxFont(10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
 
-    // Cadre Gauche
+    int x_right = 320;
+
     if ( hInst->ActiveProductData.RadomeType == Rafale_C )
     {
-        dc->DrawLine(80, 380, 520, 380);  // Haut
-        dc->DrawLine(80, 520, 520, 520);  // Bas
-        dc->DrawLine(80, 380, 80, 520);   // Gauche
-        dc->DrawLine(520, 380, 520, 520); // Droit
-
-        dc->DrawLine(80, 410, 520, 410); // Séparateur Titre
-
-        // Séparateur Conforme/Non Conforme
-        dc->DrawLine(80, 490, 520, 490); // Vertical
-        dc->DrawLine(300, 490, 300, 520); // Horizontal
-
-        dc->DrawLabel("Interface au niveau cadre avion", wxRect(80, 380, 440, 30), wxALIGN_CENTER);
-        dc->DrawLabel(StringUtility::ReplaceWxString(StringUtility::StringToWString(hInst->C_JsonConfig.RafaleFrameLeftContent), JsonLineSeparator, SpaceReplacer), wxRect(80, 410, 440, 80), wxALIGN_CENTER);
-        dc->DrawLabel("Conforme", wxRect(80, 490, 220, 30), wxALIGN_CENTER);
-        dc->DrawLabel("Non conforme", wxRect(300, 490, 220, 30), wxALIGN_CENTER);
+        // Cadre Gauche
+        DrawRectangle(dc, 80, 380, 440, 30, "Interface au niveau cadre avion");
+        DrawRectangle(dc, 80, 410, 440, 80, StringUtility::ReplaceWxString(StringUtility::StringToWString(hInst->C_JsonConfig.RafaleFrameLeftContent), JsonLineSeparator, SpaceReplacer));
+        DrawRectangle(dc, 80, 490, 220, 30, "Conforme");
+        DrawRectangle(dc, 300, 490, 220, 30, "Non conforme");
 
         // Askip c'est toujours conforme
         dc->DrawLine(300, 490, 520, 520);
         dc->DrawLine(300, 520, 520, 490);
+
+        x_right = 600;
     }
 
     // Cadre Droit
-    dc->DrawLine(600, 380, 1040, 380);  // Haut
-    dc->DrawLine(600, 520, 1040, 520);  // Bas
-    dc->DrawLine(600, 380, 600, 520);   // Gauche
-    dc->DrawLine(1040, 380, 1040, 520); // Droit
-    
-    dc->DrawLine(600, 410, 1040, 410); // Séparateur Titre
-
-    // Séparateur
-    dc->DrawLine(600, 490, 1040, 490); // Vertical
-    dc->DrawLine(820, 490, 820, 520); // Horizontal
-    
-    dc->DrawLabel("Longueur", wxRect(600, 380, 440, 30), wxALIGN_CENTER);
-    dc->DrawLabel(StringUtility::ReplaceWxString(StringUtility::StringToWString(hInst->C_JsonConfig.RafaleFrameRightContent), JsonLineSeparator, EndLineReplacer), wxRect(600, 410, 440, 80), wxALIGN_CENTER);
-    dc->DrawLabel(wxString::Format( "L. théorique: %.2f ± %.1f", hInst->ActiveProductData.TheoreticalHeight, hInst->ActiveProductData.HeightTolerance), wxRect(600, 490, 220, 30), wxALIGN_CENTER);
+    DrawRectangle(dc, x_right, 380, 440, 30, "Longueur");
+    DrawRectangle(dc, x_right, 410, 440, 80, StringUtility::ReplaceWxString(StringUtility::StringToWString(hInst->C_JsonConfig.RafaleFrameRightContent), JsonLineSeparator, EndLineReplacer));
+    DrawRectangle(dc, x_right, 490, 220, 30, wxString::Format("L. théorique: %.2f ± %.1f", hInst->ActiveProductData.TheoreticalHeight, hInst->ActiveProductData.HeightTolerance));
     SetToleranceColor(dc, hInst->Calculation.RadomeHeight - hInst->ActiveProductData.TheoreticalHeight, hInst->ActiveProductData.HeightTolerance);
-    dc->DrawLabel(wxString::Format("L. mesurée: %.2f mm", hInst->Calculation.RadomeHeight), wxRect(820, 490, 220, 30), wxALIGN_CENTER);
+    DrawRectangle(dc, x_right + 220, 490, 220, 30, wxString::Format("L. mesurée: %.2f mm", hInst->Calculation.RadomeHeight));
 }
 
 bool PrintRafale::OnPrintPage(const int page)
