@@ -195,32 +195,44 @@ void CalculationData::MirageCalculateData(Program* hInst, const std::string& fil
         }
 
         // Calcul de l'ondulation
-        for (int k = 1; k < 13; k++)
+        for (int k = 12; k > 0; k--)
         {
+            double height = UnassignedDoubleValue;
+            double forwardHeight = UnassignedDoubleValue;
+
+            for (int idx = 0; idx < 8; idx++)
+            {
+                const eSideType side = GetMirageSide(idx);
+                const PointMeasure& point = this->PointData[k][side];
+
+                if (std::abs(point.Height - UnassignedDoubleValue) > Epsilon)
+                {
+                    height = static_cast<double>(point.Height) - 32.3f;
+                    break;
+                }
+            }
+
+            for (int idx = 0; idx < 8; idx++)
+            {
+                const eSideType side = GetMirageSide(idx);
+                const PointMeasure& point = this->PointData[k + 1][side];
+
+                if (std::abs(point.Height - UnassignedDoubleValue) > Epsilon)
+                {
+                    forwardHeight = static_cast<double>(point.Height) - 32.3f;
+                    break;
+                }
+            }
+
             for (int l = 0; l < 8; l++)
             {
                 const eSideType side = GetMirageSide(l);
-                const PointMeasure& backPoint = this->PointData[k - 1][side];
                 PointMeasure& point = this->PointData[k][side];
                 const PointMeasure& forwardPoint = this->PointData[k + 1][side];
 
-                if (std::abs(backPoint.RayDifference - UnassignedDoubleValue) > Epsilon &&
-                    std::abs(point.RayDifference - UnassignedDoubleValue) > Epsilon &&
-                    std::abs(forwardPoint.RayDifference - UnassignedDoubleValue) > Epsilon &&
-                    std::abs(backPoint.Height - UnassignedIntValue) > Epsilon &&
-                    std::abs(point.Height - UnassignedIntValue) > Epsilon &&
-                    std::abs(forwardPoint.Height - UnassignedIntValue) > Epsilon)
-                {
-                    const double deltaHeightForward = forwardPoint.Height - point.Height;
-                    const double deltaHeightBackward = point.Height - backPoint.Height;
-                    const double deltaRayonForward = forwardPoint.RayDifference - point.RayDifference;
-                    const double deltaRayonBackward = point.RayDifference - backPoint.RayDifference;
-                    const double heightSpan = forwardPoint.Height - backPoint.Height;
+                point.Undulation = MathUtility::RoundValue( -(forwardPoint.RayDifference - point.RayDifference) / (height - forwardHeight) / 2 * 100, 2 );
 
-                    point.Undulation = MathUtility::RoundValue(-((deltaHeightForward * deltaRayonBackward - deltaHeightBackward * deltaRayonForward) / (heightSpan * heightSpan)) * 100, 2);
-                    point.UndulationTolerance = hInst->ActiveProductData.UndulationTolerance[side];
-                    //std::cout << std::fixed << std::setprecision(2) << point.Undulation << " " << point.Height << " " << side << " " << point.UndulationTolerance << "\n";
-                }
+                //std::cout << point.Undulation << " = ( " << forwardPoint.RayDifference << " - " << point.RayDifference << " ) / ( " << height << " - " << forwardHeight << " ) / 2" << "\n";
             }
         }
     }

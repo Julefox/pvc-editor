@@ -34,149 +34,74 @@ void PrintMirage::MiragePage_01()
     SetDcScale(this, dc);
     Mirage_DrawMainHeader(hInst, dc, 1);
 
-    // Cadre Principal
-    dc->DrawLine(119, 220, 1001, 220);  // Haut
-    dc->DrawLine(119, 659, 1001, 659);  // Bas
-    dc->DrawLine(119, 220, 119, 659);   // Gauche
-    dc->DrawLine(1001, 220, 1001, 659); // Droit
-
-    dc->DrawLine(119, 260, 1001, 260);  // Séparateur Titre
-
-    dc->SetFont(wxFont(12, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
-    dc->DrawLabel("TABLEAU DES ECARTS GENERATRICES", wxRect(119, 220, 882, 40), wxALIGN_CENTER);
+    dc->SetFont(wxFont(11, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, wxFONTFLAG_UNDERLINED));
+    dc->DrawLabel("Vérification géométrique", wxRect(20, 130, 1080, 30), wxALIGN_CENTER);
+    dc->SetFont(wxFont(9, wxFONTFAMILY_SWISS, wxFONTSTYLE_ITALIC, wxFONTWEIGHT_BOLD));
+    dc->DrawLabel("NE PAS JOINDRE AU RIC", wxRect(20, 160, 1080, 30), wxALIGN_CENTER);
 
     dc->SetFont(wxFont(8, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
+    DrawRectangle(dc, 900, 130, 180, 30, hInst->C_WorkCard->GetString(hInst->C_WorkCard->GetCurrentSelection()));
+
+    constexpr int case_h_small = 30, case_h_large = 60, case_w = 80, x_start = 40, y_start = 210;
     
-    constexpr int case_h_small = 29, case_h_large = 51, case_w = 68, x_start = 119, y_start = 260;
+    dc->SetFont(wxFont(12, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
+    DrawRectangle(dc, x_start, y_start, 1040, 40, "TABLEAU DES ECARTS GENERATRICES");
     
     const std::vector<wxString> headers = { "Section", "Haut.", "Rayon T.", "Tol.", "H", "HD", "D", "BD", "B", "BG", "G", "HG", "Section" };
     
-    for (int i = 0; i < static_cast <int>(headers.size()); i++)
-    {
-        const int headerPos = x_start + case_w * i;
-        dc->DrawLabel(headers[i], wxRect(headerPos, y_start, case_w, case_h_small), wxALIGN_CENTER);
-        dc->DrawLine(headerPos, y_start, headerPos, 659);
-    }
+    int x = x_start, y = y_start + 40;
+    
+    dc->SetFont(wxFont(8, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
+    DrawArray(dc, x, y, case_w, 13, case_h_small, 12, headers);
+    DrawArray(dc, x, y + case_h_small * 12, case_w, 13, case_h_large, 1);
 
-    for (int i = 0; i < 13; i++)
-    {
-        dc->DrawLine(x_start, y_start + case_h_small * i, x_start + 880, y_start + case_h_small * i);
-    }
-
-    int y = y_start + case_h_small;
+    y += case_h_small;
 
     for (int i = 12; i > 0; i--)
     {
+        CalculateHeight(hInst, i);
+        CalculateTheoreticalRadius(hInst, i);
+
         const int section = 12 - i;
+        const int size = section == 11 ? case_h_large : case_h_small;
+        const wxString sectionName = section == 0 ? "F" : std::to_string(section);
+        const wxString radius = section == 11 ? headers[2] : wxString::Format("%.2f", TheoreticalRadius);
 
-        int height = 0;
+        dc->DrawLabel(sectionName, wxRect(x_start, y, case_w, size), wxALIGN_CENTER); // 1ere Colonne
+        dc->DrawLabel(wxString::Format("%.2f", Height), wxRect(x_start + case_w, y, case_w, size), wxALIGN_CENTER); // 2e Colonne
+        dc->DrawLabel(radius, wxRect(x_start + case_w * 2, y, case_w, size), wxALIGN_CENTER); // 3e Colonne
+        dc->DrawLabel(wxString::Format("± %.1f", hInst->ActiveProductData.RadiusTolerance), wxRect(x_start + case_w * 3, y, case_w, size), wxALIGN_CENTER);  // 4e Colonne
+        dc->DrawLabel(sectionName, wxRect(x_start + case_w * 12, y, case_w, size), wxALIGN_CENTER); // 13e Colonne
+
+        for (int j = 0; j < 8; j++)
         {
-            for (int j = 0; j < 8; j++)
-            {
-                const PointMeasure point = hInst->Calculation.PointData[i][CalculationData::GetRafaleSide(j)];
+            const eSideType side = CalculationData::GetMirageSide(j);
+            const PointMeasure& point = hInst->Calculation.PointData[i][side];
 
-                if (std::abs(point.Height - UnassignedDoubleValue) > Epsilon)
+            if (std::abs(point.RayDifference - UnassignedDoubleValue) > Epsilon && !((side == AND_BD && section > 9) || (side == AND_B && section > 8) || (side == AND_BG && section > 9)))
+            {
+                if (section != 11)
                 {
-                    height = point.Height;
-                    break;
+                    SetToleranceColor(dc, point.RayDifference, hInst->ActiveProductData.RadiusTolerance);
+                    dc->DrawLabel(wxString::Format("%.2f", point.RayDifference), wxRect(x_start + case_w * (side + 4), y, case_w, size), wxALIGN_CENTER);
                 }
-            }
-        }
-
-        double theoretical_radius = 0.0f;
-        {
-            double sum = 0.0f;
-
-            for (int side = 0; side < 8; side++)
-            {
-                PointMeasure point = hInst->Calculation.PointData[i][CalculationData::GetRafaleSide(side)];
-
-                if (std::abs(point.Height - UnassignedDoubleValue) > Epsilon)
-                {
-                    for (int rad = 0; rad < 8; rad++)
-                    {
-                        sum += hInst->ActiveProductData.TheoreticalRadius[point.Height][CalculationData::GetRafaleSide(rad)];
-                    }
-
-                    theoretical_radius = sum / 8;
-                    break;
-                }
-            }
-        }
-
-        if(section == 0)
-        {
-            dc->DrawLabel("F", wxRect(x_start, y, case_w, case_h_small), wxALIGN_CENTER);
-            dc->DrawLabel("F", wxRect(x_start + case_w * 12, y, case_w, case_h_small), wxALIGN_CENTER);
-            dc->DrawLabel(wxString::Format("%.2f", height - 32.3f), wxRect(x_start + case_w, y, case_w, case_h_small), wxALIGN_CENTER);
-            dc->DrawLabel(wxString::Format("%.2f", theoretical_radius), wxRect(x_start + case_w * 2, y, case_w, case_h_small), wxALIGN_CENTER);
-            dc->DrawLabel(wxString::Format("± %.2f", hInst->ActiveProductData.RadiusTolerance), wxRect(x_start + case_w * 3, y, case_w, case_h_small), wxALIGN_CENTER);
-        }
-        else if (section == 11)
-        {
-            dc->DrawLabel(std::to_string(section), wxRect(x_start, y, case_w, case_h_large), wxALIGN_CENTER);
-            dc->DrawLabel(std::to_string(section), wxRect(x_start + case_w * 12, y, case_w, case_h_large), wxALIGN_CENTER);
-            dc->DrawLabel(wxString::Format("%.2f", height - 32.3f), wxRect(x_start + case_w, y, case_w, case_h_large), wxALIGN_CENTER);
-            dc->DrawLabel(headers[2], wxRect(x_start + case_w * 2, y, case_w, case_h_large), wxALIGN_CENTER);
-            dc->DrawLabel(wxString::Format("± %.2f", hInst->ActiveProductData.RadiusTolerance), wxRect(x_start + case_w * 3, y, case_w, case_h_large), wxALIGN_CENTER);
-        }
-        else
-        {
-            dc->DrawLabel(std::to_string(section), wxRect(x_start, y, case_w, case_h_small), wxALIGN_CENTER);
-            dc->DrawLabel(std::to_string(section), wxRect(x_start + case_w * 12, y, case_w, case_h_small), wxALIGN_CENTER);
-            dc->DrawLabel(wxString::Format("%.2f", height - 32.3f), wxRect(x_start + case_w, y, case_w, case_h_small), wxALIGN_CENTER);
-            dc->DrawLabel(wxString::Format("%.2f", theoretical_radius), wxRect(x_start + case_w * 2, y, case_w, case_h_small), wxALIGN_CENTER);
-            dc->DrawLabel(wxString::Format("± %.2f", hInst->ActiveProductData.RadiusTolerance), wxRect(x_start + case_w * 3, y, case_w, case_h_small), wxALIGN_CENTER);
-        }
-
-        if (i == 1)
-        {
-            for (int j = 0; j < 8; j++)
-            {
-                const eSideType side = CalculationData::GetMirageSide(j);
-                const PointMeasure& point = hInst->Calculation.PointData[i][side];
-                
-                if (std::abs(point.RayDifference - UnassignedDoubleValue) > Epsilon && !((side == AND_BD && i == 1) || (side == AND_B && i > 4) || (side == AND_BG && i == 1)))
+                else
                 {
                     dc->SetTextForeground(BlackColor);
                     dc->DrawLabel(wxString::Format("%.2f", hInst->ActiveProductData.TheoreticalRadius[point.Height][side]), wxRect(x_start + case_w * (side + 4), y, case_w, case_h_small), wxALIGN_CENTER);
                     SetToleranceColor(dc, point.RayDifference, hInst->ActiveProductData.RadiusTolerance);
-                    dc->DrawLabel(wxString::Format("%.2f", point.RayDifference), wxRect(x_start + case_w * (side + 4), y + 26 , case_w, case_h_small), wxALIGN_CENTER);
-                }
-                else if (i == 1)
-                {
-                    dc->GradientFillLinear(wxRect(x_start + case_w * (side + 4), y, case_w, case_h_large), GrayColor, GrayColor);
-                }
-                else
-                {
-                    dc->GradientFillLinear(wxRect(x_start + case_w * (side + 4), y, case_w, case_h_small), GrayColor, GrayColor);
+                    dc->DrawLabel(wxString::Format("%.2f", point.RayDifference), wxRect(x_start + case_w * (side + 4), y + case_h_small, case_w, case_h_small), wxALIGN_CENTER);
                 }
             }
-
-            dc->SetTextForeground(BlackColor);
-        }
-        else
-        {
-            for (int j = 0; j < 8; j++)
+            else
             {
-                const eSideType side = CalculationData::GetMirageSide(j);
-                const PointMeasure& point = hInst->Calculation.PointData[i][side];
-
-                if (std::abs(point.RayDifference - UnassignedDoubleValue) > Epsilon)
-                {
-                    SetToleranceColor(dc, point.RayDifference, hInst->ActiveProductData.RadiusTolerance);
-                    dc->DrawLabel(wxString::Format("%.2f", point.RayDifference), wxRect(x_start + case_w * (side + 4), y, case_w, case_h_small), wxALIGN_CENTER);
-                }
-                else
-                {
-                    dc->GradientFillLinear(wxRect(x_start + case_w * (side + 4), y, case_w, case_h_small), GrayColor, GrayColor);
-                }
+                dc->GradientFillLinear(wxRect(x_start + case_w * (side + 4), y, case_w, size), GrayColor, GrayColor);
             }
-
-            dc->SetTextForeground(BlackColor);
-            
-            y += case_h_small;
         }
+        
+        dc->SetTextForeground(BlackColor);
+
+        y += case_h_small;
     }
 }
 
@@ -186,6 +111,68 @@ void PrintMirage::MiragePage_02()
     wxDC* dc = GetDC();
     SetDcScale(this, dc);
     Mirage_DrawMainHeader(hInst, dc, 2);
+
+    constexpr int case_h = 32, case_w = 94, x_start = 43, y_start = 210;
+
+    dc->SetFont(wxFont(12, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
+    DrawRectangle(dc, x_start, y_start, 1034, 40, "TABLEAU DES ECARTS GENERATRICES");
+
+    const std::vector<wxString> headers = { "Section", "Tol.", "H", "HD", "D", "BD", "B", "BG", "G", "HG", "Haut." };
+
+    int x = x_start, y = y_start + 40;
+
+    dc->SetFont(wxFont(8, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
+    DrawArray(dc, x, y, case_w, 11, case_h, 12, headers);
+    DrawRectangle(dc, x + case_w * 10, y + case_h * 12, case_w, case_h);
+
+    y += case_h;
+
+    for (int i = 12; i > 0; i--)
+    {
+        CalculateHeight(hInst, i);
+        CalculateTheoreticalRadius(hInst, i);
+
+        const int section = 12 - i;
+
+        dc->DrawLabel(wxString::Format("%.2f", Height), wxRect(x_start + case_w * 10, y, case_w, case_h), wxALIGN_CENTER); // 11e Colonne
+
+        if (i > 1)
+        {
+            if(section == 0)
+            {
+                dc->DrawLabel(wxString::Format("F à %i", section + 1), wxRect(x_start, y, case_w, case_h), wxALIGN_CENTER);
+            }
+            else
+            {
+                dc->DrawLabel(wxString::Format("%i à %i", section, section + 1), wxRect(x_start, y, case_w, case_h), wxALIGN_CENTER);
+            }
+
+            const auto sectionType = static_cast<eSectionType>(section);
+            const double undulationTolerance = hInst->ActiveProductData.UndulationToleranceSection[sectionType];
+
+            dc->DrawLabel(wxString::Format("%.2f ", undulationTolerance) + "%", wxRect(x_start + case_w, y, case_w, case_h), wxALIGN_CENTER);
+
+            for (int j = 0; j < 8; j++)
+            {
+                const eSideType side = CalculationData::GetMirageSide(j);
+                const PointMeasure& point = hInst->Calculation.PointData[i - 1][side];
+            
+                if (std::abs(point.Undulation - UnassignedDoubleValue) > Epsilon && !((side == AND_BD && section > 9) || (side == AND_B && section > 8) || (side == AND_BG && section > 9)))
+                {
+                    SetToleranceColor(dc, point.Undulation, undulationTolerance);
+                    dc->DrawLabel(wxString::Format("%.2f ", point.Undulation) + "%", wxRect(x_start + case_w * (side + 2), y, case_w, case_h), wxALIGN_CENTER);
+                }
+                else
+                {
+                    dc->GradientFillLinear(wxRect(x_start + case_w * (side + 2), y, case_w, case_h), GrayColor, GrayColor);
+                }
+            }
+        }
+
+        dc->SetTextForeground(BlackColor);
+
+        y += case_h;
+    }
 }
 
 void PrintMirage::MiragePage_03()
@@ -195,6 +182,7 @@ void PrintMirage::MiragePage_03()
     SetDcScale(this, dc);
     Mirage_DrawMainHeader(hInst, dc, 3);
     Mirage_DrawGraphic(hInst, dc, "H");
+    Mirage_DrawGraphicStat(hInst, dc, AND_H);
 }
 
 void PrintMirage::MiragePage_04()
@@ -204,6 +192,7 @@ void PrintMirage::MiragePage_04()
     SetDcScale(this, dc);
     Mirage_DrawMainHeader(hInst, dc, 4);
     Mirage_DrawGraphic(hInst, dc, "HD");
+    Mirage_DrawGraphicStat(hInst, dc, AND_HD);
 }
 
 void PrintMirage::MiragePage_05()
@@ -213,6 +202,7 @@ void PrintMirage::MiragePage_05()
     SetDcScale(this, dc);
     Mirage_DrawMainHeader(hInst, dc, 5);
     Mirage_DrawGraphic(hInst, dc, "D");
+    Mirage_DrawGraphicStat(hInst, dc, AND_D);
 }
 
 void PrintMirage::MiragePage_06()
@@ -222,6 +212,7 @@ void PrintMirage::MiragePage_06()
     SetDcScale(this, dc);
     Mirage_DrawMainHeader(hInst, dc, 6);
     Mirage_DrawGraphic(hInst, dc, "BD");
+    Mirage_DrawGraphicStat(hInst, dc, AND_BD);
 }
 
 void PrintMirage::MiragePage_07()
@@ -231,6 +222,7 @@ void PrintMirage::MiragePage_07()
     SetDcScale(this, dc);
     Mirage_DrawMainHeader(hInst, dc, 7);
     Mirage_DrawGraphic(hInst, dc, "B");
+    Mirage_DrawGraphicStat(hInst, dc, AND_B);
 }
 
 void PrintMirage::MiragePage_08()
@@ -240,6 +232,7 @@ void PrintMirage::MiragePage_08()
     SetDcScale(this, dc);
     Mirage_DrawMainHeader(hInst, dc, 8);
     Mirage_DrawGraphic(hInst, dc, "BG");
+    Mirage_DrawGraphicStat(hInst, dc, AND_BG);
 }
 
 void PrintMirage::MiragePage_09()
@@ -249,6 +242,7 @@ void PrintMirage::MiragePage_09()
     SetDcScale(this, dc);
     Mirage_DrawMainHeader(hInst, dc, 9);
     Mirage_DrawGraphic(hInst, dc, "G");
+    Mirage_DrawGraphicStat(hInst, dc, AND_G);
 }
 
 void PrintMirage::MiragePage_10()
@@ -258,6 +252,7 @@ void PrintMirage::MiragePage_10()
     SetDcScale(this, dc);
     Mirage_DrawMainHeader(hInst, dc, 10);
     Mirage_DrawGraphic(hInst, dc, "HG");
+    Mirage_DrawGraphicStat(hInst, dc, AND_HG);
 }
 
 void PrintMirage::Mirage_DrawGraphic(Program* hInst, wxDC* dc, const wxString& gen)
@@ -394,6 +389,56 @@ void PrintMirage::Mirage_DrawGraphic(Program* hInst, wxDC* dc, const wxString& g
     dc->DrawLabel(L"Représentation graphique du profil: Génératrice " + gen, wxRect(120, 120, 880, 100), wxALIGN_CENTRE);
 }
 
+constexpr int    CircleRadius = 2;
+constexpr double ValueStart    = 1.50f;
+constexpr int    PixelStart    = 260;
+constexpr double PixelRange    = 360.0f;
+constexpr double ValueRange    = 3.00f;
+
+// Un peu bizarre comment c'est coder mais ca fonctionne
+void PrintMirage::Mirage_DrawGraphicStat(Program* hInst, wxDC* dc, eSideType side)
+{
+    wxBrush greenBrush(*wxGREEN, wxBRUSHSTYLE_SOLID);
+    dc->SetBrush(greenBrush);
+
+    int x = 200;
+    int forwardX = x;
+    int point = 0;
+    int forwardPoint = 0;
+
+    for (int i = 12; i > 0; i--)
+    {
+        point = PixelStart - (hInst->Calculation.PointData[i][side].RayDifference - ValueStart) * PixelRange / ValueRange;
+        forwardPoint = PixelStart - (hInst->Calculation.PointData[i - 1][side].RayDifference - ValueStart) * PixelRange / ValueRange;
+        x = forwardX;
+
+        if (i == 12)
+        {
+            forwardX += 30;
+        }
+        else if (i == 2)
+        {
+            forwardX += 51;
+        }
+        else
+        {
+            forwardX += 73;
+        }
+
+        if (i != 1)
+        {
+            dc->DrawLine(x, point, forwardX, forwardPoint);
+        }
+
+        dc->DrawCircle(x - CircleRadius / 2, point - CircleRadius / 2, CircleRadius);
+
+        if (i == 1)
+        {
+            dc->DrawCircle(forwardX - CircleRadius / 2, forwardPoint - CircleRadius / 2, CircleRadius);
+        }
+    }
+}
+
 bool PrintMirage::OnPrintPage(const int page)
 {
     if (GetDC())
@@ -441,3 +486,37 @@ bool PrintMirage::OnPrintPage(const int page)
     return false;
 }
 
+void PrintMirage::CalculateHeight(Program* hInst, const int i)
+{
+    // Hauteur Radome // Petit hack pour trouver les valeurs qui ne sont pas trouver (en particulier la 20e ligne)
+    for (int idx = 0; idx < 8; idx++)
+    {
+        const PointMeasure& point = hInst->Calculation.PointData[i][CalculationData::GetMirageSide(idx)];
+
+        if (std::abs(point.Height - UnassignedDoubleValue) > Epsilon)
+        {
+            Height = static_cast<double>( point.Height ) - 32.3f;
+            break;
+        }
+    }
+}
+
+void PrintMirage::CalculateTheoreticalRadius(Program* hInst, const int i)
+{
+    double sum = 0.0f;
+    for (int side = 0; side < 8; side++)
+    {
+        PointMeasure point = hInst->Calculation.PointData[i][CalculationData::GetMirageSide(side)];
+
+        if (std::abs(point.Height - UnassignedDoubleValue) > Epsilon)
+        {
+            for (int rad = 0; rad < 8; rad++)
+            {
+                sum += hInst->ActiveProductData.TheoreticalRadius[point.Height][CalculationData::GetRafaleSide(rad)];
+            }
+
+            TheoreticalRadius = sum / 8;
+            break;
+        }
+    }
+}

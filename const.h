@@ -38,6 +38,7 @@ inline wxColour BlueColor = wxColour(0, 64, 127, 255);
 inline wxColour GrayColor = wxColour(89, 89, 89, 255);
 inline wxColour BlackColor = wxColour(0, 0, 0, 255);
 inline wxFont   GlobalFont = wxFont(18, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Arial Narrow"));
+inline wxBrush  GreenBrush = wxBrush(wxColour(106, 168, 79, 255), wxBRUSHSTYLE_SOLID);
 
 enum eRadomeType
 {
@@ -76,17 +77,17 @@ enum eSideType
 enum eSectionType
 {
 	// Mirage 2000
-	AND_0F = 0,
-	AND_01 = 1,
-	AND_02 = 2,
-	AND_03 = 3,
-	AND_04 = 4,
-	AND_05 = 5,
-	AND_06 = 6,
-	AND_07 = 7,
-	AND_08 = 8,
-	AND_09 = 9,
-	AND_10 = 10,
+	AND_F_1   = 0,
+	AND_1_2   = 1,
+	AND_2_3   = 2,
+	AND_3_4   = 3,
+	AND_4_5   = 4,
+	AND_5_6   = 5,
+	AND_6_7   = 6,
+	AND_7_8   = 7,
+	AND_8_9   = 8,
+	AND_9_10  = 9,
+	AND_10_11 = 10,
 
 	NO_SECTION = 0
 };

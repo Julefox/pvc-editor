@@ -191,7 +191,7 @@ void PrintRafale::RafalePage_02()
             if (std::abs(point.Undulation - UnassignedDoubleValue) > Epsilon && !(side == RBE_H && UpperHeight > 1800)) // Ignore les points sur le cache syst. SPECTRA
             {
                 SetToleranceColor(dc, point.Undulation, point.UndulationTolerance);
-                dc->DrawLabel(wxString::Format("%.2f", point.Undulation) + "%", wxRect(x_start + case_w * (side + 2), y, case_w, case_h), wxALIGN_CENTER);
+                dc->DrawLabel(wxString::Format("%.2f ", point.Undulation) + "%", wxRect(x_start + case_w * (side + 2), y, case_w, case_h), wxALIGN_CENTER);
             }
             else
             {
@@ -269,7 +269,7 @@ bool PrintRafale::OnPrintPage(const int page)
     return false;
 }
 
-void PrintRafale::CalculateHeight(Program* hInst, int i)
+void PrintRafale::CalculateHeight(Program* hInst, const int i)
 {
     // Hauteur Radome // Petit hack pour trouver les valeurs qui ne sont pas trouver (en particulier la 20e ligne)
     for (int idx = 0; idx < 8; idx++)

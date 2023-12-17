@@ -23,7 +23,6 @@ bool PrintGlobal::HasPage( const int page )
 
 void PrintGlobal::SetToleranceColor(wxDC* dc, const double value, const double tolerance)
 {
-    std::cout << MathUtility::RoundValue(fabs(value), 2) << " > " << tolerance << " " << (MathUtility::RoundValue(fabs(value), 2) > tolerance) <<"\n";
     if (MathUtility::RoundValue(fabs(value), 2) > tolerance)
     {
         dc->SetTextForeground(RedColor);

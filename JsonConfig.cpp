@@ -172,59 +172,59 @@ eSideType JsonConfig::ConvertEnumSideType(const std::string& str)
 
 eSectionType JsonConfig::ConvertEnumSectionType(const std::string& str)
 {
-	if (str.find("AND_0F") != std::string::npos)
+	if (str.find("AND_F_1") != std::string::npos)
 	{
-		return AND_0F;
+		return AND_F_1;
 	}
 
-	if (str.find("AND_01") != std::string::npos)
+	if (str.find("AND_1_2") != std::string::npos)
 	{
-		return AND_01;
+		return AND_1_2;
 	}
 
-	if (str.find("AND_02") != std::string::npos)
+	if (str.find("AND_2_3") != std::string::npos)
 	{
-		return AND_02;
+		return AND_2_3;
 	}
 
-	if (str.find("AND_03") != std::string::npos)
+	if (str.find("AND_3_4") != std::string::npos)
 	{
-		return AND_03;
+		return AND_3_4;
 	}
 
-	if (str.find("AND_04") != std::string::npos)
+	if (str.find("AND_4_5") != std::string::npos)
 	{
-		return AND_04;
+		return AND_4_5;
 	}
 
-	if (str.find("AND_05") != std::string::npos)
+	if (str.find("AND_5_6") != std::string::npos)
 	{
-		return AND_05;
+		return AND_5_6;
 	}
 
-	if (str.find("AND_06") != std::string::npos)
+	if (str.find("AND_6_7") != std::string::npos)
 	{
-		return AND_06;
+		return AND_6_7;
 	}
 
-	if (str.find("AND_07") != std::string::npos)
+	if (str.find("AND_7_8") != std::string::npos)
 	{
-		return AND_07;
+		return AND_7_8;
 	}
 
-	if (str.find("AND_08") != std::string::npos)
+	if (str.find("AND_8_9") != std::string::npos)
 	{
-		return AND_08;
+		return AND_8_9;
 	}
 
-	if (str.find("AND_09") != std::string::npos)
+	if (str.find("AND_9_10") != std::string::npos)
 	{
-		return AND_09;
+		return AND_9_10;
 	}
 
-	if (str.find("AND_10") != std::string::npos)
+	if (str.find("AND_10_11") != std::string::npos)
 	{
-		return AND_10;
+		return AND_10_11;
 	}
 
 	return NO_SECTION;

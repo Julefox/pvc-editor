@@ -19,7 +19,14 @@ private:
 	void MiragePage_09();
 	void MiragePage_10();
 
-	void Mirage_DrawGraphic(Program* hInst, wxDC* dc, const wxString& gen);
+	void CalculateHeight(Program* hInst, int i);
+	void CalculateTheoreticalRadius(Program* hInst, int i);
+
+	double Height = 0.0f;
+	double TheoreticalRadius = 0.0f;
+
+	static void Mirage_DrawGraphic(Program* hInst, wxDC* dc, const wxString& gen);
+	static void Mirage_DrawGraphicStat(Program* hInst, wxDC* dc, eSideType side);
 
 	explicit PrintMirage(const wxChar* title = _T("Impression PVC")) : PrintGlobal( title )
 	{

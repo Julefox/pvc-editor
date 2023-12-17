@@ -17,7 +17,7 @@ private:
 
 	int UpperHeight = 0;
 	int LowerHeight = 0;
-	double TheoreticalRadius = 0.0;
+	double TheoreticalRadius = 0.0f;
 
 	explicit PrintRafale( const wxChar* title = _T( "Impression PVC" ) ) : PrintGlobal( title )
 	{
