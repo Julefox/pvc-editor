@@ -372,7 +372,7 @@ void PrintMirage::Mirage_DrawGraphic(Program* hInst, wxDC* dc, const wxString& g
     for (int i = 0; i < 11; i++)
     {
         dc->DrawLine(180, y, 980, y);
-        if (i == 1 || i == 10)
+        if (i == 1 || i == 9)
         {
             dc->SetPen(pRed);
             dc->DrawLine(200, y, 938, y);
@@ -395,48 +395,50 @@ constexpr int    PixelStart    = 260;
 constexpr double PixelRange    = 360.0f;
 constexpr double ValueRange    = 3.00f;
 
-// Un peu bizarre comment c'est coder mais ca fonctionne
 void PrintMirage::Mirage_DrawGraphicStat(Program* hInst, wxDC* dc, eSideType side)
 {
     wxBrush greenBrush(*wxGREEN, wxBRUSHSTYLE_SOLID);
     dc->SetBrush(greenBrush);
 
-    int x = 200;
-    int forwardX = x;
-    int point = 0;
-    int forwardPoint = 0;
+    int x_start = 200;
+    int y_start = 0;
+    int x_end = x_start;
+    int y_end = 0;
 
     for (int i = 12; i > 0; i--)
     {
-        point = PixelStart - (hInst->Calculation.PointData[i][side].RayDifference - ValueStart) * PixelRange / ValueRange;
-        forwardPoint = PixelStart - (hInst->Calculation.PointData[i - 1][side].RayDifference - ValueStart) * PixelRange / ValueRange;
-        x = forwardX;
+        y_start = PixelStart - (hInst->Calculation.PointData[i][side].RayDifference - ValueStart) * PixelRange / ValueRange;
+        y_end = PixelStart - (hInst->Calculation.PointData[i - 1][side].RayDifference - ValueStart) * PixelRange / ValueRange;
 
         if (i == 12)
         {
-            forwardX += 30;
+            x_end += 30;
         }
         else if (i == 2)
         {
-            forwardX += 51;
+            x_end += 51;
         }
         else
         {
-            forwardX += 73;
+            x_end += 73;
         }
 
         if (i != 1)
         {
-            dc->DrawLine(x, point, forwardX, forwardPoint);
+            dc->DrawLine(x_start, y_start, x_end, y_end);
         }
 
-        dc->DrawCircle(x - CircleRadius / 2, point - CircleRadius / 2, CircleRadius);
+        dc->DrawCircle(x_start - CircleRadius / 2, y_start - CircleRadius / 2, CircleRadius);
 
-        if (i == 1)
+        x_start = x_end;
+
+        if(((side == AND_BD || side == AND_BG) && i == 4) || (side == AND_B && i == 5))
         {
-            dc->DrawCircle(forwardX - CircleRadius / 2, forwardPoint - CircleRadius / 2, CircleRadius);
+            break;
         }
     }
+
+    dc->DrawCircle(x_end - CircleRadius / 2, y_end - CircleRadius / 2, CircleRadius);
 }
 
 bool PrintMirage::OnPrintPage(const int page)
