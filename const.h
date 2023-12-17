@@ -31,12 +31,12 @@ inline wxString SpaceReplacer = " ";
 inline wxSize   LabelSize = wxSize( 160, 40 );
 inline wxSize   ChoiceSizeLarge = wxSize( 550, 40 );
 inline wxSize   ChoiceSizeSmall = wxSize(320, 40);
-inline wxColour LabelColor = wxColour( 16, 125, 172 );
-inline wxColour MainColor = wxColour( 62, 67, 73 );
-inline wxColour RedColor = wxColour(224, 102, 102);
-inline wxColour BlueColor = wxColour(0, 64, 127);
-inline wxColour GrayColor = wxColour(89, 89, 89);
-inline wxColour BlackColor = wxColour(0, 0, 0);
+inline wxColour LabelColor = wxColour( 16, 125, 172, 255);
+inline wxColour MainColor = wxColour( 62, 67, 73, 255);
+inline wxColour RedColor = wxColour(224, 102, 102, 255);
+inline wxColour BlueColor = wxColour(0, 64, 127, 255);
+inline wxColour GrayColor = wxColour(89, 89, 89, 255);
+inline wxColour BlackColor = wxColour(0, 0, 0, 255);
 inline wxFont   GlobalFont = wxFont(18, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Arial Narrow"));
 
 enum eRadomeType

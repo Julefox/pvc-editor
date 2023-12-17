@@ -232,13 +232,20 @@ void PrintGlobal::DrawArray(wxDC* dc, const int x, const int y, const int w, con
     }
 }
 
-void PrintGlobal::DrawRectangle(wxDC* dc, const int x, const int y, const int w, const int h, const bool absoluteCoords)
+void PrintGlobal::DrawRectangle(wxDC* dc, const int x, const int y, const int w, const int h, const wxString& title, const bool absoluteCoords )
 {
-    const int x_end = absoluteCoords ? w : x + w;
-    const int y_end = absoluteCoords ? h : x + h;
+    const int x_end   = absoluteCoords ? w : x + w;
+    const int y_end   = absoluteCoords ? h : y + h;
+    const int x_t_end = absoluteCoords ? w - x : w;
+    const int y_t_end = absoluteCoords ? h - y : h;
 
     dc->DrawLine(x, y, x_end, y);         // Haut
     dc->DrawLine(x, y_end, x_end, y_end); // Bas
     dc->DrawLine(x, y, x, y_end);         // Gauche
     dc->DrawLine(x_end, y, x_end, y_end); // Droit
+
+    if (!title.empty())
+    {
+        dc->DrawLabel(title, wxRect(x, y, x_t_end, y_t_end), wxALIGN_CENTRE);
+    }
 }
