@@ -6,7 +6,8 @@
 class PrintMirage final : PrintGlobal
 {
 public:
-	static void DrawMiragePage(wxWindow* hInst);
+	static void DrawMiragePage( wxWindow*hInst );
+
 private:
 	void MiragePage_01();
 	void MiragePage_02();
@@ -19,19 +20,19 @@ private:
 	void MiragePage_09();
 	void MiragePage_10();
 
-	void CalculateHeight(Program* hInst, int i);
-	void CalculateTheoreticalRadius(Program* hInst, int i);
+	void CalculateHeight( Program*hInst, int i );
+	void CalculateTheoreticalRadius( Program*hInst, int i );
 
-	double Height = 0.0f;
+	double Height            = 0.0f;
 	double TheoreticalRadius = 0.0f;
 
-	static void Mirage_DrawGraphic(Program* hInst, wxDC* dc, const wxString& gen);
-	static void Mirage_DrawGraphicStat(Program* hInst, wxDC* dc, eSideType side);
+	static void Mirage_DrawGraphic( Program*hInst, wxDC*dc, const wxString& gen );
+	static void Mirage_DrawGraphicStat( Program*hInst, wxDC*dc, eSideType side );
 
-	explicit PrintMirage(const wxChar* title = _T("Impression PVC")) : PrintGlobal( title )
+	explicit PrintMirage( const wxChar*title = _T( "Impression PVC" ) ) : PrintGlobal( title )
 	{
 		ImpressNum = 10;
 	}
 
-	bool OnPrintPage(int page) override;
+	bool OnPrintPage( int page ) override;
 };
