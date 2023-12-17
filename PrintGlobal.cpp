@@ -76,7 +76,7 @@ void PrintGlobal::SetDcScale( wxPrintout* print, wxDC* dc )
     float logUnits = (float)(50*logUnitsFactor);*/
 }
 
-void PrintGlobal::Rafale_DrawMainPv( Program* hInst, wxDC*dc, const int pageIdx )
+void PrintGlobal::Rafale_DrawMainHeader( Program* hInst, wxDC*dc, const int pageIdx )
 {
     dc->SetPen(*wxBLACK_PEN);
 
@@ -144,7 +144,7 @@ void PrintGlobal::Rafale_DrawMainPv( Program* hInst, wxDC*dc, const int pageIdx 
     dc->DrawLabel(StringUtility::StringToWString(hInst->C_JsonConfig.RafaleAnnexHeader), wxRect(20, 10, 1080, 20), wxALIGN_CENTRE);
 }
 
-void PrintGlobal::Mirage_DrawMainPv( Program* hInst, wxDC* dc, const int pageIdx )
+void PrintGlobal::Mirage_DrawMainHeader( Program* hInst, wxDC* dc, const int pageIdx )
 {
     dc->SetPen(*wxBLACK_PEN);
 
@@ -212,20 +212,33 @@ void PrintGlobal::Mirage_DrawMainPv( Program* hInst, wxDC* dc, const int pageIdx
     dc->DrawLabel(StringUtility::StringToWString(hInst->C_JsonConfig.MirageAnnexHeader), wxRect(20, 10, 1080, 20), wxALIGN_CENTRE);
 }
 
-void PrintGlobal::DrawArray(wxDC* dc, const int x, const int y, const int w, const int wIdx, const int h, const int hIdx)
+void PrintGlobal::DrawArray(wxDC* dc, const int x, const int y, const int w, const int wIdx, const int h, const int hIdx, const std::vector<wxString>& headers)
 {
-    dc->DrawLine(x, y, x + w * wIdx, y);                       // Haut
-    dc->DrawLine(x, y + h * hIdx, x + w * wIdx, y + h * hIdx); // Bas
-    dc->DrawLine(x, y, x, y + h * hIdx);                       // Gauche
-    dc->DrawLine(x + w * wIdx, y, x + w * wIdx, y + h * hIdx); // Droit
+    const int headerLength = static_cast<int>( headers.size() );
 
-	for( int i = 0; i < wIdx; i++ )
+	for( int i = 0; i <= wIdx; i++ )
 	{
         dc->DrawLine(x + w * i, y, x + w * i, y + h * hIdx);
+    
+        if (i < headerLength && i < wIdx)
+        {
+            dc->DrawLabel(headers[i], wxRect(x + w * i, y, w, h), wxALIGN_CENTRE);
+        }
 	}
 
-    for (int i = 0; i < wIdx; i++)
+    for (int i = 0; i <= hIdx; i++)
     {
         dc->DrawLine(x, y + h * i, x + w * wIdx, y + h * i);
     }
+}
+
+void PrintGlobal::DrawRectangle(wxDC* dc, const int x, const int y, const int w, const int h, const bool absoluteCoords)
+{
+    const int x_end = absoluteCoords ? w : x + w;
+    const int y_end = absoluteCoords ? h : x + h;
+
+    dc->DrawLine(x, y, x_end, y);         // Haut
+    dc->DrawLine(x, y_end, x_end, y_end); // Bas
+    dc->DrawLine(x, y, x, y_end);         // Gauche
+    dc->DrawLine(x_end, y, x_end, y_end); // Droit
 }

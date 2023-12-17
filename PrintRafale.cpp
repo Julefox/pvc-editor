@@ -32,7 +32,7 @@ void PrintRafale::RafalePage_01()
     auto* hInst = dynamic_cast<Program*>(wxTheApp);
     wxDC* dc = GetDC();
     SetDcScale( this, dc );
-    Rafale_DrawMainPv(hInst, dc, 1);
+    Rafale_DrawMainHeader(hInst, dc, 1);
 
     // Cadre Principal
     dc->DrawLine(40, 158, 1080, 158);   // Haut
@@ -242,7 +242,7 @@ void PrintRafale::RafalePage_02()
     auto* hInst = dynamic_cast<Program*>(wxTheApp);
     wxDC* dc = GetDC();
     SetDcScale(this, dc);
-    Rafale_DrawMainPv(hInst, dc, 2);
+    Rafale_DrawMainHeader(hInst, dc, 2);
 
     // Cadre Principal
     dc->DrawLine(40, 158, 1080, 158);   // Haut
@@ -343,7 +343,7 @@ void PrintRafale::RafalePage_03()
     auto* hInst = dynamic_cast<Program*>(wxTheApp);
     wxDC* dc = GetDC();
     SetDcScale(this, dc);
-    Rafale_DrawMainPv(hInst, dc, 3);
+    Rafale_DrawMainHeader(hInst, dc, 3);
 
     dc->SetFont(wxFont(16, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
 

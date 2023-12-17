@@ -32,7 +32,7 @@ void PrintMirage::MiragePage_01()
     auto* hInst = dynamic_cast<Program*>(wxTheApp);
     wxDC* dc    = GetDC();
     SetDcScale(this, dc);
-    Mirage_DrawMainPv(hInst, dc, 1);
+    Mirage_DrawMainHeader(hInst, dc, 1);
 
     // Cadre Principal
     dc->DrawLine(119, 220, 1001, 220);  // Haut
@@ -185,9 +185,7 @@ void PrintMirage::MiragePage_02()
     auto* hInst = dynamic_cast<Program*>(wxTheApp);
     wxDC* dc = GetDC();
     SetDcScale(this, dc);
-    Mirage_DrawMainPv(hInst, dc, 2);
-
-    DrawArray(dc, 300, 300, 200, 4, 100, 3);
+    Mirage_DrawMainHeader(hInst, dc, 2);
 }
 
 void PrintMirage::MiragePage_03()
@@ -195,7 +193,7 @@ void PrintMirage::MiragePage_03()
     auto* hInst = dynamic_cast<Program*>(wxTheApp);
     wxDC* dc = GetDC();
     SetDcScale(this, dc);
-    Mirage_DrawMainPv(hInst, dc, 3);
+    Mirage_DrawMainHeader(hInst, dc, 3);
     Mirage_DrawGraphic(hInst, dc, "H");
 }
 
@@ -204,7 +202,7 @@ void PrintMirage::MiragePage_04()
     auto* hInst = dynamic_cast<Program*>(wxTheApp);
     wxDC* dc = GetDC();
     SetDcScale(this, dc);
-    Mirage_DrawMainPv(hInst, dc, 4);
+    Mirage_DrawMainHeader(hInst, dc, 4);
     Mirage_DrawGraphic(hInst, dc, "HD");
 }
 
@@ -213,7 +211,7 @@ void PrintMirage::MiragePage_05()
     auto* hInst = dynamic_cast<Program*>(wxTheApp);
     wxDC* dc = GetDC();
     SetDcScale(this, dc);
-    Mirage_DrawMainPv(hInst, dc, 5);
+    Mirage_DrawMainHeader(hInst, dc, 5);
     Mirage_DrawGraphic(hInst, dc, "D");
 }
 
@@ -222,7 +220,7 @@ void PrintMirage::MiragePage_06()
     auto* hInst = dynamic_cast<Program*>(wxTheApp);
     wxDC* dc = GetDC();
     SetDcScale(this, dc);
-    Mirage_DrawMainPv(hInst, dc, 6);
+    Mirage_DrawMainHeader(hInst, dc, 6);
     Mirage_DrawGraphic(hInst, dc, "BD");
 }
 
@@ -231,7 +229,7 @@ void PrintMirage::MiragePage_07()
     auto* hInst = dynamic_cast<Program*>(wxTheApp);
     wxDC* dc = GetDC();
     SetDcScale(this, dc);
-    Mirage_DrawMainPv(hInst, dc, 7);
+    Mirage_DrawMainHeader(hInst, dc, 7);
     Mirage_DrawGraphic(hInst, dc, "B");
 }
 
@@ -240,7 +238,7 @@ void PrintMirage::MiragePage_08()
     auto* hInst = dynamic_cast<Program*>(wxTheApp);
     wxDC* dc = GetDC();
     SetDcScale(this, dc);
-    Mirage_DrawMainPv(hInst, dc, 8);
+    Mirage_DrawMainHeader(hInst, dc, 8);
     Mirage_DrawGraphic(hInst, dc, "BG");
 }
 
@@ -249,7 +247,7 @@ void PrintMirage::MiragePage_09()
     auto* hInst = dynamic_cast<Program*>(wxTheApp);
     wxDC* dc = GetDC();
     SetDcScale(this, dc);
-    Mirage_DrawMainPv(hInst, dc, 9);
+    Mirage_DrawMainHeader(hInst, dc, 9);
     Mirage_DrawGraphic(hInst, dc, "G");
 }
 
@@ -258,7 +256,7 @@ void PrintMirage::MiragePage_10()
     auto* hInst = dynamic_cast<Program*>(wxTheApp);
     wxDC* dc = GetDC();
     SetDcScale(this, dc);
-    Mirage_DrawMainPv(hInst, dc, 10);
+    Mirage_DrawMainHeader(hInst, dc, 10);
     Mirage_DrawGraphic(hInst, dc, "HG");
 }
 
