@@ -1,7 +1,7 @@
 ﻿#include "main.h"
 #include "CalculationData.h"
 
-CalculationData::CalculationData( Program*hInst, const std::string& filePath )
+CalculationData::CalculationData( Program* hInst, const std::string& filePath )
 {
 	if ( hInst->ActiveProductData.RadomeType == Rafale_C || hInst->ActiveProductData.RadomeType == Rafale_R )
 	{
@@ -13,7 +13,7 @@ CalculationData::CalculationData( Program*hInst, const std::string& filePath )
 	}
 }
 
-void CalculationData::RafaleCalculateData( Program*hInst, const std::string& filePath )
+void CalculationData::RafaleCalculateData( Program* hInst, const std::string& filePath )
 {
 	wxTextFile textFile;
 
@@ -116,7 +116,7 @@ void CalculationData::RafaleCalculateData( Program*hInst, const std::string& fil
 	}
 }
 
-void CalculationData::MirageCalculateData( Program*hInst, const std::string& filePath )
+void CalculationData::MirageCalculateData( Program* hInst, const std::string& filePath )
 {
 	wxTextFile textFile;
 

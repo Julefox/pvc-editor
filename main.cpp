@@ -12,7 +12,7 @@ void Program::BuildWindowContent()
 	this->T_ApplicationName->SetFont( GlobalFont );
 	this->T_ApplicationName->SetForegroundColour( LabelColor );
 
-	this->T_AffiliationPath = new wxStaticText( MWindow, wxID_ANY, wxT( "AEE / SIAE / AIACP - 2024" ), wxPoint( 936, 10 ), wxSize( 300, 40 ), wxTEXT_ALIGNMENT_RIGHT );
+	this->T_AffiliationPath = new wxStaticText( MWindow, wxID_ANY, wxT( "AEE / SIAE / AIACP - 2024" ), wxPoint( 990, 10 ), wxSize( 300, 40 ), wxTEXT_ALIGNMENT_RIGHT );
 	this->T_AffiliationPath->SetFont( GlobalFont );
 	this->T_AffiliationPath->SetForegroundColour( LabelColor );
 
@@ -72,6 +72,13 @@ void Program::BuildWindowContent()
 	this->C_Post = new wxChoice( this->MWindow, wxID_ANY, wxPoint( 910, 206 ), ChoiceSizeSmall, emptyArray, 0 );
 	this->C_Post->SetFont( GlobalFont );
 
+	this->T_Mounting = new wxStaticText(this->MWindow, wxID_ANY, wxT("B. MONTAGE"), wxPoint(10, 260), LabelSize, wxTEXT_ALIGNMENT_LEFT);
+	this->T_Mounting->SetFont(GlobalFont);
+	this->T_Mounting->SetForegroundColour(LabelColor);
+
+	this->C_Mounting = new wxChoice(this->MWindow, wxID_ANY, wxPoint(180, 256), ChoiceSizeLarge, emptyArray, 0);
+	this->C_Mounting->SetFont(GlobalFont);
+
 	this->T_Date = new wxStaticText( this->MWindow, wxID_ANY, wxT( "DATE" ), wxPoint( 740, 260 ), wxSize( 80, 40 ), wxTEXT_ALIGNMENT_LEFT );
 	this->T_Date->SetFont( GlobalFont );
 	this->T_Date->SetForegroundColour( LabelColor );
@@ -79,7 +86,7 @@ void Program::BuildWindowContent()
 	this->DP_Date = new wxDatePickerCtrl( this->MWindow, wxID_ANY, wxDefaultDateTime, wxPoint( 910, 256 ), ChoiceSizeSmall, wxDP_DEFAULT );
 	this->DP_Date->SetFont( GlobalFont );
 
-	this->B_Print = new wxButton( this->MWindow, wxID_ANY, "IMPRIMER", wxPoint( 10, 256 ), wxSize( 720, 40 ) );
+	this->B_Print = new wxButton( this->MWindow, wxID_ANY, "IMPRIMER", wxPoint( 10, 306 ), wxSize(MwWindowSizeWidth - 40, 40 ) ); // X: 720
 	this->B_Print->SetFont( GlobalFont );
 }
 
@@ -210,6 +217,25 @@ void Program::Callback_OnRadomeChange( wxCommandEvent& event )
 	{
 		this->C_Post->SetSelection( 0 );
 	}
+
+	// Coil Mounting
+	this->C_Mounting->Clear();
+	if ( !this->ActiveProductData.CoilMounting.empty() )
+	{
+		for ( const std::string& workCard : this->ActiveProductData.CoilMounting )
+		{
+			this->C_Mounting->Append(StringUtility::ReplaceWxString( workCard, JsonLineSeparator, SpaceReplacer ) );
+		}
+	}
+	else
+	{
+		this->C_Mounting->Append( "N/A" );
+	}
+
+	if ( this->C_Mounting->GetCount() != 0 )
+	{
+		this->C_Mounting->SetSelection( 0 );
+	}
 }
 
 void Program::Callback_OnPrintButtonPressed( wxCommandEvent& event )
@@ -276,7 +302,7 @@ void Program::DebugConsole()
 	AllocConsole();
 
 	// Rediriger les flux standard vers la console
-	FILE*fDummy;
+	FILE* fDummy;
 	freopen_s( &fDummy, "CONOUT$", "w", stdout );
 	freopen_s( &fDummy, "CONOUT$", "w", stderr );
 	freopen_s( &fDummy, "CONIN$", "r", stdin );

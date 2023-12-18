@@ -3,7 +3,7 @@
 #include "pch.h"
 
 inline int MwWindowSizeWidth  = 1260;
-inline int MwWindowSizeHeight = 342;
+inline int MwWindowSizeHeight = 392;
 inline wxSize MwWindowSize    = wxSize( MwWindowSizeWidth, MwWindowSizeHeight );
 
 inline int ProgIdxMirage_C = 3980;

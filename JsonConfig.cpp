@@ -10,6 +10,8 @@ void from_json( const nlohmann::json& j, ProductData& p )
 		j.at( "WorkCards" ).get_to( p.WorkCards );
 	if ( j.contains( "OperationCodes" ) )
 		j.at( "OperationCodes" ).get_to( p.OperationCodes );
+	if ( j.contains( "CoilMounting" ) )
+		j.at( "CoilMounting" ).get_to( p.CoilMounting );
 	if ( j.contains( "TheoreticalHeight" ) )
 		j.at( "TheoreticalHeight" ).get_to( p.TheoreticalHeight );
 	if ( j.contains( "HeightTolerance" ) )

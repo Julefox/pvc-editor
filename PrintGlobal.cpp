@@ -10,7 +10,7 @@ bool PrintGlobal::OnBeginDocument( const int startPage, const int endPage )
 	return true;
 }
 
-void PrintGlobal::GetPageInfo( int*minPage, int*maxPage, int*pageFrom, int*pageTo )
+void PrintGlobal::GetPageInfo( int* minPage, int* maxPage, int* pageFrom, int* pageTo )
 {
 	*minPage  = 1;
 	*maxPage  = ImpressNum;
@@ -23,7 +23,7 @@ bool PrintGlobal::HasPage( const int page )
 	return ( page >= 1 && page <= ImpressNum );
 }
 
-void PrintGlobal::SetToleranceColor( wxDC*dc, const double value, const double tolerance )
+void PrintGlobal::SetToleranceColor( wxDC* dc, const double value, const double tolerance )
 {
 	if ( MathUtility::RoundValue( fabs( value ), 2 ) > tolerance )
 	{
@@ -35,7 +35,7 @@ void PrintGlobal::SetToleranceColor( wxDC*dc, const double value, const double t
 	}
 }
 
-void PrintGlobal::SetDcScale( wxPrintout*print, wxDC*dc )
+void PrintGlobal::SetDcScale( wxPrintout* print, wxDC* dc )
 {
 	// You might use THIS code to set the printer DC to roughly
 	// reflect the screen text size. This page also draws lines of
@@ -77,7 +77,7 @@ void PrintGlobal::SetDcScale( wxPrintout*print, wxDC*dc )
 	float logUnits = (float)(50*logUnitsFactor);*/
 }
 
-void PrintGlobal::Rafale_DrawMainHeader( Program*hInst, wxDC*dc, const int pageIdx )
+void PrintGlobal::Rafale_DrawMainHeader( Program* hInst, wxDC* dc, const int pageIdx )
 {
 	dc->SetPen( *wxBLACK_PEN );
 
@@ -147,7 +147,7 @@ void PrintGlobal::Rafale_DrawMainHeader( Program*hInst, wxDC*dc, const int pageI
 	dc->DrawLabel( StringUtility::StringToWString( hInst->C_JsonConfig.RafaleAnnexHeader ), wxRect( 20, 10, 1080, 20 ), wxALIGN_CENTRE );
 }
 
-void PrintGlobal::Mirage_DrawMainHeader( Program*hInst, wxDC*dc, const int pageIdx )
+void PrintGlobal::Mirage_DrawMainHeader( Program* hInst, wxDC* dc, const int pageIdx )
 {
 	dc->SetPen( *wxBLACK_PEN );
 
@@ -217,7 +217,7 @@ void PrintGlobal::Mirage_DrawMainHeader( Program*hInst, wxDC*dc, const int pageI
 	dc->DrawLabel( StringUtility::StringToWString( hInst->C_JsonConfig.MirageAnnexHeader ), wxRect( 20, 10, 1080, 20 ), wxALIGN_CENTRE );
 }
 
-void PrintGlobal::DrawArray( wxDC*dc, const int x, const int y, const int w, const int wIdx, const int h, const int hIdx, const std::vector < wxString >& headers )
+void PrintGlobal::DrawArray( wxDC* dc, const int x, const int y, const int w, const int wIdx, const int h, const int hIdx, const std::vector < wxString >& headers )
 {
 	const int headerLength = static_cast < int >( headers.size() );
 
@@ -237,7 +237,7 @@ void PrintGlobal::DrawArray( wxDC*dc, const int x, const int y, const int w, con
 	}
 }
 
-void PrintGlobal::DrawRectangle( wxDC*dc, const int x, const int y, const int w, const int h, const wxString& title, const bool absoluteCoords )
+void PrintGlobal::DrawRectangle( wxDC* dc, const int x, const int y, const int w, const int h, const wxString& title, const bool absoluteCoords )
 {
 	const int x_end = absoluteCoords
 		                  ? w

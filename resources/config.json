@@ -2,9 +2,12 @@
     "Products":
     [
         {
-            "ProgramIdx":   "3980",
-            "RadomeType":   "Mirage_C",
-            "ProductNames": [ "Coque Mirage 2000D" ],
+            "ProgramIdx": "3980",
+            "RadomeType": "Mirage_C",
+            "ProductNames":
+            [
+                "Coque Mirage 2000D"
+            ],
             "WorkCards":
             [
                 "Gamme M2D0866765001",
@@ -13,6 +16,10 @@
             "OperationCodes":
             [
                 "ANZ_EDGEP_SI"
+            ],
+            "CoilMounting":
+            [
+                "81705 01 M20 86 0690098"
             ],
             "TheoreticalHeight": 2134.70,
             "HeightTolerance":   3.50,
@@ -48,9 +55,12 @@
             }
         },
         {
-            "ProgramIdx":   "3981",
-            "RadomeType":   "Mirage_R",
-            "ProductNames": [ "Radôme Mirage 2000D" ],
+            "ProgramIdx": "3981",
+            "RadomeType": "Mirage_R",
+            "ProductNames":
+            [
+                "Radôme Mirage 2000D"
+            ],
             "WorkCards":
             [
                 "Gamme M2D0866765001",
@@ -97,9 +107,12 @@
             }
         },
         {
-            "ProgramIdx":   "3985",
-            "RadomeType":   "Rafale_R",
-            "ProductNames": [ "Radôme Rafale" ],
+            "ProgramIdx": "3985",
+            "RadomeType": "Rafale_R",
+            "ProductNames":
+            [
+                "Radôme Rafale"
+            ],
             "WorkCards":
             [
                 "Gamme RBE 2 010 6 85 0001"
@@ -142,9 +155,12 @@
             }
         },
         {
-            "ProgramIdx":   "3986",
-            "RadomeType":   "Rafale_C",
-            "ProductNames": [ "Coque Rafale" ],
+            "ProgramIdx": "3986",
+            "RadomeType": "Rafale_C",
+            "ProductNames":
+            [
+                "Coque Rafale"
+            ],
             "WorkCards":
             [
                 "Gamme RBE 2 010 6 85 0001"
@@ -152,6 +168,10 @@
             "OperationCodes":
             [
                 "QTZ_CQPRO_C"
+            ],
+            "CoilMounting":
+            [
+                "61056798AA"
             ],
             "TheoreticalHeight": 2080.9,
             "HeightTolerance":   3.70,
@@ -204,7 +224,7 @@
     ],
     "MirageAnnexHeader":       "Annexe 1 à P/CP/E/028 Ind B",
     "RafaleAnnexHeader":       "Annexe X à P/CP/E/0XX Ind X",
-    "RafaleFrameLeftContent":  "Montage sur bobine TAS Réf. 61056798AA",
+    "RafaleFrameLeftContent":  "Montage sur bobine TAS Réf. ~",
     "RafaleFrameRightContent": "Comprise danse le plan de pose~(matérialisé par les quatres plots du faux cadre 1)~et le sommet réél du radôme"
   }
   

@@ -18,7 +18,7 @@ class CalculationData
 {
 public:
 	CalculationData() = default;
-	explicit CalculationData( Program*hInst, const std::string& filePath );
+	explicit CalculationData( Program* hInst, const std::string& filePath );
 
 	float RadomeHeight;
 
@@ -29,6 +29,6 @@ public:
 	inline static eSideType GetMirageSide( int i );
 
 private:
-	void RafaleCalculateData( Program*hInst, const std::string& filePath );
-	void MirageCalculateData( Program*hInst, const std::string& filePath );
+	void RafaleCalculateData( Program* hInst, const std::string& filePath );
+	void MirageCalculateData( Program* hInst, const std::string& filePath );
 };

@@ -10,6 +10,7 @@ public:
 	std::vector < std::string > ProductNames;
 	std::vector < std::string > WorkCards;
 	std::vector < std::string > OperationCodes;
+	std::vector < std::string > CoilMounting;
 
 	float TheoreticalHeight = 0.0f;
 	float HeightTolerance   = 0.0f;

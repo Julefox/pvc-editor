@@ -2,14 +2,14 @@
 
 #include "main.h"
 
-void PrintRafale::DrawRafalePage( wxWindow*hInst )
+void PrintRafale::DrawRafalePage( wxWindow* hInst )
 {
 	wxPrintDialogData g_printDialogData;
 	wxPrintData g_printData;
 	g_printData.SetOrientation( wxLANDSCAPE );
 	g_printDialogData.SetPrintData( g_printData );
 
-	auto*preview = new wxPrintPreview( new PrintRafale, new PrintRafale, &g_printDialogData );
+	auto* preview = new wxPrintPreview( new PrintRafale, new PrintRafale, &g_printDialogData );
 
 	preview->SetZoom( 100 );
 
@@ -20,7 +20,7 @@ void PrintRafale::DrawRafalePage( wxWindow*hInst )
 		return;
 	}
 
-	auto*frame = new wxPreviewFrame( preview, hInst, wxT( "Impression" ), wxPoint( -1, -1 ), wxSize( 1280, 880 ), wxDEFAULT_FRAME_STYLE | wxFRAME_SHAPED );
+	auto* frame = new wxPreviewFrame( preview, hInst, wxT( "Impression" ), wxPoint( -1, -1 ), wxSize( 1280, 880 ), wxDEFAULT_FRAME_STYLE | wxFRAME_SHAPED );
 	frame->Centre( wxBOTH );
 	frame->Initialize();
 	frame->Show( true );
@@ -28,8 +28,8 @@ void PrintRafale::DrawRafalePage( wxWindow*hInst )
 
 void PrintRafale::RafalePage_01()
 {
-	auto*hInst = dynamic_cast < Program* >( wxTheApp );
-	wxDC*dc    = GetDC();
+	auto* hInst = dynamic_cast < Program* >( wxTheApp );
+	wxDC* dc    = GetDC();
 	SetDcScale( this, dc );
 	Rafale_DrawMainHeader( hInst, dc, 1 );
 
@@ -139,8 +139,8 @@ void PrintRafale::RafalePage_01()
 
 void PrintRafale::RafalePage_02()
 {
-	auto*hInst = dynamic_cast < Program* >( wxTheApp );
-	wxDC*dc    = GetDC();
+	auto* hInst = dynamic_cast < Program* >( wxTheApp );
+	wxDC* dc    = GetDC();
 	SetDcScale( this, dc );
 	Rafale_DrawMainHeader( hInst, dc, 2 );
 
@@ -206,8 +206,8 @@ void PrintRafale::RafalePage_02()
 
 void PrintRafale::RafalePage_03()
 {
-	auto*hInst = dynamic_cast < Program* >( wxTheApp );
-	wxDC*dc    = GetDC();
+	auto* hInst = dynamic_cast < Program* >( wxTheApp );
+	wxDC* dc    = GetDC();
 	SetDcScale( this, dc );
 	Rafale_DrawMainHeader( hInst, dc, 3 );
 
@@ -223,7 +223,7 @@ void PrintRafale::RafalePage_03()
 	{
 		// Cadre Gauche
 		DrawRectangle( dc, 80, 380, 440, 30, "Interface au niveau cadre avion" );
-		DrawRectangle( dc, 80, 410, 440, 80, StringUtility::ReplaceWxString( StringUtility::StringToWString( hInst->C_JsonConfig.RafaleFrameLeftContent ), JsonLineSeparator, SpaceReplacer ) );
+		DrawRectangle( dc, 80, 410, 440, 80, StringUtility::ReplaceWxString(StringUtility::StringToWString( hInst->C_JsonConfig.RafaleFrameLeftContent ), JsonLineSeparator, hInst->C_Mounting->GetString( hInst->C_Mounting->GetCurrentSelection() ) ) );
 		DrawRectangle( dc, 80, 490, 220, 30, "Conforme" );
 		DrawRectangle( dc, 300, 490, 220, 30, "Non conforme" );
 
@@ -268,7 +268,7 @@ bool PrintRafale::OnPrintPage( const int page )
 	return false;
 }
 
-void PrintRafale::CalculateHeight( Program*hInst, const int i )
+void PrintRafale::CalculateHeight( Program* hInst, const int i )
 {
 	// Hauteur Radome // Petit hack pour trouver les valeurs qui ne sont pas trouver (en particulier la 20e ligne)
 	for ( int idx = 0; idx < 8; idx++ )
@@ -284,7 +284,7 @@ void PrintRafale::CalculateHeight( Program*hInst, const int i )
 	}
 }
 
-void PrintRafale::CalculateTheoreticalRadius( Program*hInst, const int i )
+void PrintRafale::CalculateTheoreticalRadius( Program* hInst, const int i )
 {
 	double sum = 0.0f;
 	for ( int side = 0; side < 8; side++ )

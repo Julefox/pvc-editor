@@ -2,14 +2,14 @@
 
 #include "main.h"
 
-void PrintMirage::DrawMiragePage( wxWindow*hInst )
+void PrintMirage::DrawMiragePage( wxWindow* hInst )
 {
 	wxPrintDialogData g_printDialogData;
 	wxPrintData g_printData;
 	g_printData.SetOrientation( wxLANDSCAPE );
 	g_printDialogData.SetPrintData( g_printData );
 
-	auto*preview = new wxPrintPreview( new PrintMirage, new PrintMirage, &g_printDialogData );
+	auto* preview = new wxPrintPreview( new PrintMirage, new PrintMirage, &g_printDialogData );
 
 	preview->SetZoom( 100 );
 
@@ -20,7 +20,7 @@ void PrintMirage::DrawMiragePage( wxWindow*hInst )
 		return;
 	}
 
-	auto*frame = new wxPreviewFrame( preview, hInst, wxT( "Impression" ), wxPoint( -1, -1 ), wxSize( 1280, 880 ), wxDEFAULT_FRAME_STYLE | wxFRAME_SHAPED );
+	auto* frame = new wxPreviewFrame( preview, hInst, wxT( "Impression" ), wxPoint( -1, -1 ), wxSize( 1280, 880 ), wxDEFAULT_FRAME_STYLE | wxFRAME_SHAPED );
 	frame->Centre( wxBOTH );
 	frame->Initialize();
 	frame->Show( true );
@@ -28,8 +28,8 @@ void PrintMirage::DrawMiragePage( wxWindow*hInst )
 
 void PrintMirage::MiragePage_01()
 {
-	auto*hInst = dynamic_cast < Program* >( wxTheApp );
-	wxDC*dc    = GetDC();
+	auto* hInst = dynamic_cast < Program* >( wxTheApp );
+	wxDC* dc    = GetDC();
 	SetDcScale( this, dc );
 	Mirage_DrawMainHeader( hInst, dc, 1 );
 
@@ -112,8 +112,8 @@ void PrintMirage::MiragePage_01()
 
 void PrintMirage::MiragePage_02()
 {
-	auto*hInst = dynamic_cast < Program* >( wxTheApp );
-	wxDC*dc    = GetDC();
+	auto* hInst = dynamic_cast < Program* >( wxTheApp );
+	wxDC* dc    = GetDC();
 	SetDcScale( this, dc );
 	Mirage_DrawMainHeader( hInst, dc, 2 );
 
@@ -162,7 +162,7 @@ void PrintMirage::MiragePage_02()
 				const eSideType side      = CalculationData::GetMirageSide( j );
 				const PointMeasure& point = hInst->Calculation.PointData[ i - 1 ][ side ];
 
-				if ( std::abs( point.Undulation - UnassignedDoubleValue ) > Epsilon && !( ( side == AND_BD && section > 9 ) || ( side == AND_B && section > 8 ) || ( side == AND_BG && section > 9 ) ) )
+				if ( std::abs( point.Undulation - UnassignedDoubleValue ) > Epsilon && !( ( side == AND_BD && section > 8 ) || ( side == AND_B && section > 7 ) || ( side == AND_BG && section > 8 ) ) )
 				{
 					SetToleranceColor( dc, point.Undulation, undulationTolerance );
 					dc->DrawLabel( wxString::Format( "%.2f ", point.Undulation ) + "%", wxRect( x_start + case_w * ( side + 2 ), y, case_w, case_h ), wxALIGN_CENTER );
@@ -182,8 +182,8 @@ void PrintMirage::MiragePage_02()
 
 void PrintMirage::MiragePage_03()
 {
-	auto*hInst = dynamic_cast < Program* >( wxTheApp );
-	wxDC*dc    = GetDC();
+	auto* hInst = dynamic_cast < Program* >( wxTheApp );
+	wxDC* dc    = GetDC();
 	SetDcScale( this, dc );
 	Mirage_DrawMainHeader( hInst, dc, 3 );
 	Mirage_DrawGraphic( hInst, dc, "H" );
@@ -192,8 +192,8 @@ void PrintMirage::MiragePage_03()
 
 void PrintMirage::MiragePage_04()
 {
-	auto*hInst = dynamic_cast < Program* >( wxTheApp );
-	wxDC*dc    = GetDC();
+	auto* hInst = dynamic_cast < Program* >( wxTheApp );
+	wxDC* dc    = GetDC();
 	SetDcScale( this, dc );
 	Mirage_DrawMainHeader( hInst, dc, 4 );
 	Mirage_DrawGraphic( hInst, dc, "HD" );
@@ -202,8 +202,8 @@ void PrintMirage::MiragePage_04()
 
 void PrintMirage::MiragePage_05()
 {
-	auto*hInst = dynamic_cast < Program* >( wxTheApp );
-	wxDC*dc    = GetDC();
+	auto* hInst = dynamic_cast < Program* >( wxTheApp );
+	wxDC* dc    = GetDC();
 	SetDcScale( this, dc );
 	Mirage_DrawMainHeader( hInst, dc, 5 );
 	Mirage_DrawGraphic( hInst, dc, "D" );
@@ -212,8 +212,8 @@ void PrintMirage::MiragePage_05()
 
 void PrintMirage::MiragePage_06()
 {
-	auto*hInst = dynamic_cast < Program* >( wxTheApp );
-	wxDC*dc    = GetDC();
+	auto* hInst = dynamic_cast < Program* >( wxTheApp );
+	wxDC* dc    = GetDC();
 	SetDcScale( this, dc );
 	Mirage_DrawMainHeader( hInst, dc, 6 );
 	Mirage_DrawGraphic( hInst, dc, "BD" );
@@ -222,8 +222,8 @@ void PrintMirage::MiragePage_06()
 
 void PrintMirage::MiragePage_07()
 {
-	auto*hInst = dynamic_cast < Program* >( wxTheApp );
-	wxDC*dc    = GetDC();
+	auto* hInst = dynamic_cast < Program* >( wxTheApp );
+	wxDC* dc    = GetDC();
 	SetDcScale( this, dc );
 	Mirage_DrawMainHeader( hInst, dc, 7 );
 	Mirage_DrawGraphic( hInst, dc, "B" );
@@ -232,8 +232,8 @@ void PrintMirage::MiragePage_07()
 
 void PrintMirage::MiragePage_08()
 {
-	auto*hInst = dynamic_cast < Program* >( wxTheApp );
-	wxDC*dc    = GetDC();
+	auto* hInst = dynamic_cast < Program* >( wxTheApp );
+	wxDC* dc    = GetDC();
 	SetDcScale( this, dc );
 	Mirage_DrawMainHeader( hInst, dc, 8 );
 	Mirage_DrawGraphic( hInst, dc, "BG" );
@@ -242,8 +242,8 @@ void PrintMirage::MiragePage_08()
 
 void PrintMirage::MiragePage_09()
 {
-	auto*hInst = dynamic_cast < Program* >( wxTheApp );
-	wxDC*dc    = GetDC();
+	auto* hInst = dynamic_cast < Program* >( wxTheApp );
+	wxDC* dc    = GetDC();
 	SetDcScale( this, dc );
 	Mirage_DrawMainHeader( hInst, dc, 9 );
 	Mirage_DrawGraphic( hInst, dc, "G" );
@@ -252,15 +252,15 @@ void PrintMirage::MiragePage_09()
 
 void PrintMirage::MiragePage_10()
 {
-	auto*hInst = dynamic_cast < Program* >( wxTheApp );
-	wxDC*dc    = GetDC();
+	auto* hInst = dynamic_cast < Program* >( wxTheApp );
+	wxDC* dc    = GetDC();
 	SetDcScale( this, dc );
 	Mirage_DrawMainHeader( hInst, dc, 10 );
 	Mirage_DrawGraphic( hInst, dc, "HG" );
 	Mirage_DrawGraphicStat( hInst, dc, AND_HG );
 }
 
-void PrintMirage::Mirage_DrawGraphic( Program*hInst, wxDC*dc, const wxString& gen )
+void PrintMirage::Mirage_DrawGraphic( Program* hInst, wxDC* dc, const wxString& gen )
 {
 	const wxPen pBigBlack( wxColour( 0, 0, 0 ), 3 );
 	const wxPen pRed( wxColour( 224, 102, 102 ) );
@@ -400,11 +400,12 @@ constexpr int CircleRadius  = 2;
 constexpr double ValueStart = 1.50f;
 constexpr int PixelStart    = 260;
 constexpr double PixelRange = 360.0f;
+constexpr int PixelEnd      = PixelStart + static_cast < int >( PixelRange );
 constexpr double ValueRange = 3.00f;
 
-void PrintMirage::Mirage_DrawGraphicStat( Program*hInst, wxDC*dc, eSideType side )
+void PrintMirage::Mirage_DrawGraphicStat( Program* hInst, wxDC* dc, eSideType side )
 {
-	wxBrush greenBrush( *wxGREEN, wxBRUSHSTYLE_SOLID );
+	const wxBrush greenBrush( *wxGREEN, wxBRUSHSTYLE_SOLID );
 	dc->SetBrush( greenBrush );
 
 	int x_start = 200;
@@ -414,8 +415,8 @@ void PrintMirage::Mirage_DrawGraphicStat( Program*hInst, wxDC*dc, eSideType side
 
 	for ( int i = 12; i > 0; i-- )
 	{
-		y_start = PixelStart - ( hInst->Calculation.PointData[ i ][ side ].RayDifference - ValueStart ) * PixelRange / ValueRange;
-		y_end   = PixelStart - ( hInst->Calculation.PointData[ i - 1 ][ side ].RayDifference - ValueStart ) * PixelRange / ValueRange;
+		y_start = PixelStart - static_cast < int >( ( hInst->Calculation.PointData[ i ][ side ].RayDifference - ValueStart ) * PixelRange / ValueRange );
+		y_end   = PixelStart - static_cast < int >( ( hInst->Calculation.PointData[ i - 1 ][ side ].RayDifference - ValueStart ) * PixelRange / ValueRange );
 
 		if ( i == 12 )
 		{
@@ -432,10 +433,34 @@ void PrintMirage::Mirage_DrawGraphicStat( Program*hInst, wxDC*dc, eSideType side
 
 		if ( i != 1 )
 		{
+			if ( y_start < PixelStart ) // Limite Supérieure Début
+			{
+				x_start = FindXForY(PixelStart, x_start, y_start, x_end, y_end);
+				y_start = PixelStart;
+			}
+			else if ( y_start > PixelEnd ) // Limite Inférieure Début
+			{
+				x_start = FindXForY(PixelEnd, x_start, y_start, x_end, y_end);
+				y_start = PixelEnd;
+			}
+			else if ( y_end < PixelStart ) // Limite Supérieure Fin
+			{
+				x_end = FindXForY(PixelStart, x_start, y_start, x_end, y_end);
+				y_end = PixelStart;
+			}
+			else if ( y_end > PixelEnd ) // Limite Inférieure Fin
+			{
+				x_end = FindXForY(PixelEnd, x_start, y_start, x_end, y_end);
+				y_end = PixelEnd;
+			}
+			
 			dc->DrawLine( x_start, y_start, x_end, y_end );
 		}
 
-		dc->DrawCircle( x_start - CircleRadius / 2, y_start - CircleRadius / 2, CircleRadius );
+		if ( y_start > PixelStart && y_start < PixelEnd )
+		{
+			dc->DrawCircle( x_start - CircleRadius / 2, y_start - CircleRadius / 2, CircleRadius );
+		}
 
 		x_start = x_end;
 
@@ -495,7 +520,7 @@ bool PrintMirage::OnPrintPage( const int page )
 	return false;
 }
 
-void PrintMirage::CalculateHeight( Program*hInst, const int i )
+void PrintMirage::CalculateHeight( Program* hInst, const int i )
 {
 	// Hauteur Radome // Petit hack pour trouver les valeurs qui ne sont pas trouver (en particulier la 20e ligne)
 	for ( int idx = 0; idx < 8; idx++ )
@@ -510,7 +535,7 @@ void PrintMirage::CalculateHeight( Program*hInst, const int i )
 	}
 }
 
-void PrintMirage::CalculateTheoreticalRadius( Program*hInst, const int i )
+void PrintMirage::CalculateTheoreticalRadius( Program* hInst, const int i )
 {
 	double sum = 0.0f;
 	for ( int side = 0; side < 8; side++ )
@@ -528,4 +553,13 @@ void PrintMirage::CalculateTheoreticalRadius( Program*hInst, const int i )
 			break;
 		}
 	}
+}
+
+int PrintMirage::FindXForY( const int yTarget, const int xStart, const int yStart, const int xEnd, const int yEnd )
+{
+	// Calculer la pente
+	float m = static_cast< float >( xEnd - xStart ) / static_cast< float >( yEnd - yStart );
+
+	// Calculer et retourner x pour y_target
+	return xStart + static_cast< int >( m ) * ( yTarget - yStart );
 }
