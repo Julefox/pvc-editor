@@ -2,6 +2,13 @@
 
 #include "pch.h"
 
+struct GraphicData
+{
+	double Min    = 0.0f;
+	double Max    = 0.0f;
+	double Height = 0.0f;
+};
+
 struct ProductData
 {
 public:
@@ -19,6 +26,8 @@ public:
 	std::map < int, std::map < eSideType, double > > TheoreticalRadius;
 	std::map < eSideType, double > UndulationTolerance;
 	std::map < eSectionType, double > UndulationToleranceSection;
+
+	std::map < eSideType, std::map < eSectionType, GraphicData > > GraphicData;
 };
 
 void from_json( const nlohmann::json& j, ProductData& p );

@@ -76,17 +76,18 @@ enum eSideType
 enum eSectionType
 {
 	// Mirage 2000
-	AND_F_1    = 0,
-	AND_1_2    = 1,
-	AND_2_3    = 2,
-	AND_3_4    = 3,
-	AND_4_5    = 4,
-	AND_5_6    = 5,
-	AND_6_7    = 6,
-	AND_7_8    = 7,
-	AND_8_9    = 8,
-	AND_9_10   = 9,
-	AND_10_11  = 10,
+	AND_F  = 0,
+	AND_1  = 1,
+	AND_2  = 2,
+	AND_3  = 3,
+	AND_4  = 4,
+	AND_5  = 5,
+	AND_6  = 6,
+	AND_7  = 7,
+	AND_8  = 8,
+	AND_9  = 9,
+	AND_10 = 10,
+	AND_11 = 11,
 	NO_SECTION = 0
 };
 
