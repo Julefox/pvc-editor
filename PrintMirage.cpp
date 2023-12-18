@@ -412,6 +412,7 @@ void PrintMirage::Mirage_DrawGraphicStat( Program* hInst, wxDC* dc, eSideType si
 	int y_start = 0;
 	int x_end   = x_start;
 	int y_end   = 0;
+	int diff    = 0;
 
 	for ( int i = 12; i > 0; i-- )
 	{
@@ -558,8 +559,8 @@ void PrintMirage::CalculateTheoreticalRadius( Program* hInst, const int i )
 int PrintMirage::FindXForY( const int yTarget, const int xStart, const int yStart, const int xEnd, const int yEnd )
 {
 	// Calculer la pente
-	float m = static_cast< float >( xEnd - xStart ) / static_cast< float >( yEnd - yStart );
+	const float m = static_cast< float >( xEnd - xStart ) / static_cast< float >( yEnd - yStart );
 
-	// Calculer et retourner x pour y_target
-	return xStart + static_cast< int >( m ) * ( yTarget - yStart );
+	// Calculer et retourner x pour yTarget
+	return xStart + static_cast< int >( m * ( yTarget - yStart ) );
 }
