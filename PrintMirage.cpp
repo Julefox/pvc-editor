@@ -283,7 +283,7 @@ void PrintMirage::Mirage_DrawGraphic( Program* hInst, wxDC* dc, const wxString& 
 
 	dc->SetPen(pBigBlack);
 
-	constexpr int frame_x_start = 180, frame_x_length = 800, frame_y_start = 260, frame_y_length = 360;
+	constexpr int frame_x_start = 180, frame_x_length = 800, frame_y_start = 260, frame_y_length = 360, frame_y_tolerance_start = frame_y_start - 60, frame_y_tolerance_length = frame_y_length + 120;
 
 	DrawRectangle( dc, frame_x_start, frame_y_start, frame_x_length, frame_y_length);
 
@@ -304,13 +304,11 @@ void PrintMirage::Mirage_DrawGraphic( Program* hInst, wxDC* dc, const wxString& 
 		{
 			dc->SetPen(pDotBlue);
 			const int deltaX = frame_x_start + static_cast <int>((graphicData.DeltaHeight - X_START_VALUE) * frame_x_length / (X_END_VALUE - X_START_VALUE));
-			std::cout << deltaX << " " << graphicData.DeltaHeight << "\n";
-			//dc->DrawLine(x, frame_y_start + frame_y_length / 2, deltaX, frame_y_start + 20);
-			//dc->DrawLine(x, frame_y_start + frame_y_length / 2, deltaX, frame_y_start + frame_y_length - 20);
 
-			const int y = frame_y_start - 60 + static_cast <int>((graphicData.DeltaMin - Y_START_VALUE) * ( frame_y_length + 120 ) / (Y_END_VALUE - Y_START_VALUE));
+			const int y = frame_y_tolerance_start + static_cast <int>((graphicData.DeltaMin - graphicData.DeltaMin) * frame_y_tolerance_length / (graphicData.DeltaMax - graphicData.DeltaMin));
 
 			dc->DrawLine(x, frame_y_start + frame_y_length / 2, deltaX, y);
+			dc->DrawLine(x, frame_y_start + frame_y_length / 2, deltaX, y + frame_y_tolerance_length);
 		}
 	}
 
