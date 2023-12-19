@@ -307,8 +307,8 @@ void PrintMirage::Mirage_DrawGraphic( Program* hInst, wxDC* dc, const wxString& 
 
 			const int y = frame_y_tolerance_start + static_cast <int>((graphicData.DeltaMin - graphicData.DeltaMin) * frame_y_tolerance_length / (graphicData.DeltaMax - graphicData.DeltaMin));
 
-			dc->DrawLine(x, frame_y_start + frame_y_length / 2, deltaX, y);
-			dc->DrawLine(x, frame_y_start + frame_y_length / 2, deltaX, y + frame_y_tolerance_length);
+			dc->DrawLine(x, frame_y_start + frame_y_length / 2, FindXForY(frame_y_start, x, frame_y_start + frame_y_length / 2, deltaX, y), frame_y_start);
+			dc->DrawLine(x, frame_y_start + frame_y_length / 2, FindXForY(frame_y_start, x, frame_y_start + frame_y_length / 2, deltaX, y), frame_y_start + frame_y_length);
 		}
 	}
 
