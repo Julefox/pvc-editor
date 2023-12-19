@@ -4,9 +4,10 @@
 
 struct GraphicData
 {
-	double Min    = 0.0f;
-	double Max    = 0.0f;
-	double Height = 0.0f;
+	double Height      = 0.0f;
+	double DeltaMin    = 0.0f;
+	double DeltaMax    = 0.0f;
+	double DeltaHeight = 0.0f;
 };
 
 struct ProductData

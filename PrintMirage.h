@@ -26,7 +26,7 @@ private:
 	double Height            = 0.0f;
 	double TheoreticalRadius = 0.0f;
 
-	static void Mirage_DrawGraphic( Program* hInst, wxDC* dc, const wxString& gen );
+	static void Mirage_DrawGraphic( Program* hInst, wxDC* dc, const wxString& gen, eSideType side );
 	static void Mirage_DrawGraphicStat( Program* hInst, wxDC* dc, eSideType side );
 
 	static int FindXForY( int yTarget, int xStart, int yStart, int xEnd, int yEnd );

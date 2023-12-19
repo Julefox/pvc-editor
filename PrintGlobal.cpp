@@ -262,3 +262,20 @@ void PrintGlobal::DrawRectangle( wxDC* dc, const int x, const int y, const int w
 		dc->DrawLabel( title, wxRect( x, y, x_t_end, y_t_end ), wxALIGN_CENTRE );
 	}
 }
+
+void PrintGlobal::DrawWhiteLabel(wxDC* dc, const int x, const int y, const int w, const int h, const wxString& title, const bool absoluteCoords)
+{
+	const int x_t_end = absoluteCoords
+		? w - x
+		: w;
+	const int y_t_end = absoluteCoords
+		? h - y
+		: h;
+
+	const wxRect rect(x, y, x_t_end, y_t_end);
+
+	dc->SetBrush(*wxWHITE_BRUSH);
+	dc->SetPen(*wxWHITE_PEN);
+	dc->DrawRectangle(rect);
+	dc->DrawLabel(title, rect, wxALIGN_CENTER);
+}

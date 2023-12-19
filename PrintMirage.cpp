@@ -33,6 +33,11 @@ void PrintMirage::MiragePage_01()
 	SetDcScale( this, dc );
 	Mirage_DrawMainHeader( hInst, dc, 1 );
 
+// DEBUG
+	Mirage_DrawGraphic(hInst, dc, "HG", AND_HG);
+	return;
+//
+
 	dc->SetFont( wxFont( 11, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, wxFONTFLAG_UNDERLINED ) );
 	dc->DrawLabel( "Vérification géométrique", wxRect( 20, 130, 1080, 30 ), wxALIGN_CENTER );
 	dc->SetFont( wxFont( 9, wxFONTFAMILY_SWISS, wxFONTSTYLE_ITALIC, wxFONTWEIGHT_BOLD ) );
@@ -186,7 +191,7 @@ void PrintMirage::MiragePage_03()
 	wxDC* dc    = GetDC();
 	SetDcScale( this, dc );
 	Mirage_DrawMainHeader( hInst, dc, 3 );
-	Mirage_DrawGraphic( hInst, dc, "H" );
+	Mirage_DrawGraphic( hInst, dc, "H", AND_H );
 	Mirage_DrawGraphicStat( hInst, dc, AND_H );
 }
 
@@ -196,7 +201,7 @@ void PrintMirage::MiragePage_04()
 	wxDC* dc    = GetDC();
 	SetDcScale( this, dc );
 	Mirage_DrawMainHeader( hInst, dc, 4 );
-	Mirage_DrawGraphic( hInst, dc, "HD" );
+	Mirage_DrawGraphic( hInst, dc, "HD", AND_HD );
 	Mirage_DrawGraphicStat( hInst, dc, AND_HD );
 }
 
@@ -206,7 +211,7 @@ void PrintMirage::MiragePage_05()
 	wxDC* dc    = GetDC();
 	SetDcScale( this, dc );
 	Mirage_DrawMainHeader( hInst, dc, 5 );
-	Mirage_DrawGraphic( hInst, dc, "D" );
+	Mirage_DrawGraphic( hInst, dc, "D", AND_D );
 	Mirage_DrawGraphicStat( hInst, dc, AND_D );
 }
 
@@ -216,7 +221,7 @@ void PrintMirage::MiragePage_06()
 	wxDC* dc    = GetDC();
 	SetDcScale( this, dc );
 	Mirage_DrawMainHeader( hInst, dc, 6 );
-	Mirage_DrawGraphic( hInst, dc, "BD" );
+	Mirage_DrawGraphic( hInst, dc, "BD", AND_BD );
 	Mirage_DrawGraphicStat( hInst, dc, AND_BD );
 }
 
@@ -226,7 +231,7 @@ void PrintMirage::MiragePage_07()
 	wxDC* dc    = GetDC();
 	SetDcScale( this, dc );
 	Mirage_DrawMainHeader( hInst, dc, 7 );
-	Mirage_DrawGraphic( hInst, dc, "B" );
+	Mirage_DrawGraphic( hInst, dc, "B", AND_B );
 	Mirage_DrawGraphicStat( hInst, dc, AND_B );
 }
 
@@ -236,7 +241,7 @@ void PrintMirage::MiragePage_08()
 	wxDC* dc    = GetDC();
 	SetDcScale( this, dc );
 	Mirage_DrawMainHeader( hInst, dc, 8 );
-	Mirage_DrawGraphic( hInst, dc, "BG" );
+	Mirage_DrawGraphic( hInst, dc, "BG", AND_BG );
 	Mirage_DrawGraphicStat( hInst, dc, AND_BG );
 }
 
@@ -246,7 +251,7 @@ void PrintMirage::MiragePage_09()
 	wxDC* dc    = GetDC();
 	SetDcScale( this, dc );
 	Mirage_DrawMainHeader( hInst, dc, 9 );
-	Mirage_DrawGraphic( hInst, dc, "G" );
+	Mirage_DrawGraphic( hInst, dc, "G", AND_G );
 	Mirage_DrawGraphicStat( hInst, dc, AND_G );
 }
 
@@ -256,144 +261,208 @@ void PrintMirage::MiragePage_10()
 	wxDC* dc    = GetDC();
 	SetDcScale( this, dc );
 	Mirage_DrawMainHeader( hInst, dc, 10 );
-	Mirage_DrawGraphic( hInst, dc, "HG" );
+	Mirage_DrawGraphic( hInst, dc, "HG", AND_HG );
 	Mirage_DrawGraphicStat( hInst, dc, AND_HG );
 }
 
-void PrintMirage::Mirage_DrawGraphic( Program* hInst, wxDC* dc, const wxString& gen )
+constexpr int X_START_VALUE = 0, X_END_VALUE = 2120, Y_START_VALUE = -2, Y_END_VALUE = 2;
+
+void PrintMirage::Mirage_DrawGraphic( Program* hInst, wxDC* dc, const wxString& gen, const eSideType side )
 {
 	const wxPen pBigBlack( wxColour( 0, 0, 0 ), 3 );
 	const wxPen pRed( wxColour( 224, 102, 102 ) );
 	const wxPen pDotBlue( *wxBLUE, 1, wxPENSTYLE_DOT );
 
-	dc->SetPen( *wxBLACK_PEN );
-	dc->SetTextForeground( wxColour( 0, 0, 0 ) ); // Black
-
-	// Cadre Principal
-	dc->DrawLine( 120, 220, 140, 220 );   // Haut 1
-	dc->DrawLine( 208, 220, 1000, 220 );  // Haut 2
-	dc->DrawLine( 120, 660, 1000, 660 );  // Bas
-	dc->DrawLine( 120, 220, 120, 660 );   // Gauche
-	dc->DrawLine( 1000, 220, 1000, 660 ); // Droit
-
-	dc->SetFont( wxFont( 8, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL ) );
-	dc->DrawLabel( L"Ecart en mm", wxRect( 142, 205, 64, 30 ), wxALIGN_CENTRE );
-
-	// PM: 260 == Haut Y | 620 == Bas Y | 440 == Centre Y | 180 == Cote Gauche X | 1000 == Cote Droit X
-	// Ligne de tolerance, de gauche a droite
-	dc->SetPen( pDotBlue );
-	dc->DrawLine( 200, 440, 385, 260 ); // F
-	dc->DrawLine( 200, 440, 376, 610 ); // F // Leger offset pour ne pas cacher le chiffre 3
-
-	dc->DrawLine( 230, 440, 416, 260 ); // 1
-	dc->DrawLine( 230, 440, 416, 620 ); // 1
-
-	dc->DrawLine( 303, 440, 489, 260 ); // 2
-	dc->DrawLine( 303, 440, 489, 620 ); // 2
-
-	dc->DrawLine( 376, 440, 562, 260 ); // 3
-	dc->DrawLine( 376, 440, 562, 620 ); // 3
-
-	dc->DrawLine( 449, 440, 635, 260 ); // 4
-	dc->DrawLine( 449, 440, 635, 620 ); // 4
-
-	dc->DrawLine( 522, 440, 708, 260 ); // 5
-	dc->DrawLine( 522, 440, 708, 620 ); // 5
-
-	dc->DrawLine( 595, 440, 781, 260 ); // 6
-	dc->DrawLine( 595, 440, 781, 620 ); // 6
-
-	dc->DrawLine( 668, 440, 854, 260 ); // 7
-	dc->DrawLine( 668, 440, 854, 620 ); // 7
-
-	if ( gen != "B" )
-	{
-		dc->DrawLine( 741, 440, 834, 260 ); // 8
-		dc->DrawLine( 741, 440, 834, 620 ); // 8
-
-		dc->DrawLine( 814, 440, 907, 260 ); // 9
-		dc->DrawLine( 814, 440, 907, 620 ); // 9
-
-		dc->DrawLine( 887, 440, 980, 260 ); // 10
-		dc->DrawLine( 887, 440, 980, 620 ); // 10
-	}
-
-	// Cadre Tableau
-	dc->SetPen( pBigBlack );
-	dc->DrawLine( 180, 260, 980, 260 ); // Haut
-	dc->DrawLine( 180, 260, 180, 620 ); // Gauche
-	dc->DrawLine( 980, 260, 980, 620 ); // Droit
-
-	// Bas
-	dc->DrawLine( 180, 620, 190, 620 );
-	dc->DrawLabel( L"F", wxRect( 190, 610, 20, 20 ), wxALIGN_CENTRE );
-	dc->SetPen( *wxBLACK_PEN );
-	dc->DrawLine( 200, 260, 200, 610 );
-	dc->SetPen( pBigBlack );
-	dc->DrawLine( 210, 620, 220, 620 );
-
-	int x = 220;
-	for ( int i = 1; i < 11; i++ )
-	{
-		dc->DrawLabel( wxString::Format( wxT( "%d" ), i ), wxRect( x, 610, 20, 20 ), wxALIGN_CENTRE ); // Affiche les chiffres en bas
-		x += 10;
-		dc->SetPen( *wxBLACK_PEN );
-		dc->DrawLine( x, 260, x, 610 ); // Ligne verticale au dessus des chiffres
-		dc->SetPen( pBigBlack );
-		x += 10;
-		const int forward = i == 10
-			                    ? x + 31
-			                    : x + 53;
-		dc->DrawLine( x, 620, forward, 620 ); // Ligne du bas entre chaque chiffres
-		x = forward;
-
-		if ( i == 8 && gen == "B" )
-			break;
-	}
-
-	if ( gen != "B" )
-	{
-		dc->DrawLabel( L"11", wxRect( 928, 610, 20, 20 ), wxALIGN_CENTRE );
-		dc->SetPen( *wxBLACK_PEN );
-		dc->DrawLine( 938, 260, 938, 610 );
-		dc->SetPen( pBigBlack );
-		dc->DrawLine( 950, 620, 980, 620 );
-	}
-	else
-	{
-		dc->DrawLine( 800, 620, 980, 620 );
-	}
+	std::map<eSectionType, int> xSectionPos;
 
 	dc->SetPen( *wxBLACK_PEN );
+	dc->SetFont(wxFont(8, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL));
 
-	// Valeur cote gauche
-	int y = 245;
-	for ( float i = 1.50f; i > -2.00f; i -= 0.50f )
+	DrawRectangle( dc, 120, 220, 880, 440 );
+	DrawWhiteLabel( dc, 142, 205, 64, 30, L"Ecart en mm" );
+
+	dc->SetPen(pBigBlack);
+
+	constexpr int frame_x_start = 180, frame_x_length = 800, frame_y_start = 260, frame_y_length = 360;
+
+	DrawRectangle( dc, frame_x_start, frame_y_start, frame_x_length, frame_y_length);
+
+	dc->SetPen(BlackColor);
+
+	for ( const auto& keyVal : hInst->ActiveProductData.GraphicData[ side ] )
+	{
+		eSectionType section = keyVal.first;
+		const GraphicData graphicData = keyVal.second;
+
+		dc->SetPen(BlackColor);
+		const int x = frame_x_start + static_cast < int >( ( graphicData.Height - X_START_VALUE ) * frame_x_length / ( X_END_VALUE - X_START_VALUE ) );
+		dc->DrawLine(x, frame_y_start, x, frame_y_start + frame_y_length);
+		xSectionPos[ section ] = x;
+		DrawWhiteLabel(dc, x - 6, frame_y_start + frame_y_length - 6, 12, 12, section == AND_F ? "F" : std::to_string( section ) );
+
+		if ( graphicData.DeltaHeight != 0.0f )
+		{
+			dc->SetPen(pDotBlue);
+			const int deltaX = frame_x_start + static_cast <int>((graphicData.DeltaHeight - X_START_VALUE) * frame_x_length / (X_END_VALUE - X_START_VALUE));
+			std::cout << deltaX << " " << graphicData.DeltaHeight << "\n";
+			//dc->DrawLine(x, frame_y_start + frame_y_length / 2, deltaX, frame_y_start + 20);
+			//dc->DrawLine(x, frame_y_start + frame_y_length / 2, deltaX, frame_y_start + frame_y_length - 20);
+
+			const int y = frame_y_start - 60 + static_cast <int>((graphicData.DeltaMin - Y_START_VALUE) * ( frame_y_length + 120 ) / (Y_END_VALUE - Y_START_VALUE));
+
+			dc->DrawLine(x, frame_y_start + frame_y_length / 2, deltaX, y);
+		}
+	}
+
+	dc->SetPen(BlackColor);
+
+	int y = 290;
+	for (int i = 0; i < 11; i++)
+	{
+		dc->DrawLine(180, y, 980, y);
+		if (i == 1 || i == 9)
+		{
+			dc->SetPen(pRed);
+			dc->DrawLine(xSectionPos[AND_F], y, xSectionPos[AND_11], y);
+			dc->SetPen(*wxBLACK_PEN);
+		}
+		y += 30;
+	}
+
+	y = 245;
+	for ( double i = 1.50f; i > -2.00f; i -= 0.50f )
 	{
 		dc->DrawLabel( wxString::Format( wxT( "%.2f" ), i ), wxRect( 120, y, 60, 30 ), wxALIGN_CENTRE );
 		y += 60;
 	}
 
-	// Ligne Horizontale
-	y = 290;
-	for ( int i = 0; i < 11; i++ )
-	{
-		dc->DrawLine( 180, y, 980, y );
-		if ( i == 1 || i == 9 )
-		{
-			dc->SetPen( pRed );
-			dc->DrawLine( 200, y, 938, y );
-			dc->SetPen( *wxBLACK_PEN );
-		}
-		y += 30;
-	}
+	///////////////////////////
 
-	dc->SetFont( wxFont( 8, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD ) );
-	dc->DrawLabel( "N° de Section", wxRect( 180, 620, 800, 40 ), wxALIGN_CENTRE );
-
-
-	dc->SetFont( wxFont( 16, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, true ) );
-	dc->DrawLabel( L"Représentation graphique du profil: Génératrice " + gen, wxRect( 120, 120, 880, 100 ), wxALIGN_CENTRE );
+	//// Cadre Principal
+	//dc->DrawLine( 120, 220, 140, 220 );   // Haut 1
+	//dc->DrawLine( 208, 220, 1000, 220 );  // Haut 2
+	//dc->DrawLine( 120, 660, 1000, 660 );  // Bas
+	//dc->DrawLine( 120, 220, 120, 660 );   // Gauche
+	//dc->DrawLine( 1000, 220, 1000, 660 ); // Droit
+	//
+	//dc->SetFont( wxFont( 8, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL ) );
+	//dc->DrawLabel( L"Ecart en mm", wxRect( 142, 205, 64, 30 ), wxALIGN_CENTRE );
+	//
+	//// PM: 260 == Haut Y | 620 == Bas Y | 440 == Centre Y | 180 == Cote Gauche X | 1000 == Cote Droit X
+	//// Ligne de tolerance, de gauche a droite
+	//dc->SetPen( pDotBlue );
+	//dc->DrawLine( 200, 440, 385, 260 ); // F
+	//dc->DrawLine( 200, 440, 376, 610 ); // F // Leger offset pour ne pas cacher le chiffre 3
+	//
+	//dc->DrawLine( 230, 440, 416, 260 ); // 1
+	//dc->DrawLine( 230, 440, 416, 620 ); // 1
+	//
+	//dc->DrawLine( 303, 440, 489, 260 ); // 2
+	//dc->DrawLine( 303, 440, 489, 620 ); // 2
+	//
+	//dc->DrawLine( 376, 440, 562, 260 ); // 3
+	//dc->DrawLine( 376, 440, 562, 620 ); // 3
+	//
+	//dc->DrawLine( 449, 440, 635, 260 ); // 4
+	//dc->DrawLine( 449, 440, 635, 620 ); // 4
+	//
+	//dc->DrawLine( 522, 440, 708, 260 ); // 5
+	//dc->DrawLine( 522, 440, 708, 620 ); // 5
+	//
+	//dc->DrawLine( 595, 440, 781, 260 ); // 6
+	//dc->DrawLine( 595, 440, 781, 620 ); // 6
+	//
+	//dc->DrawLine( 668, 440, 854, 260 ); // 7
+	//dc->DrawLine( 668, 440, 854, 620 ); // 7
+	//
+	//if ( gen != "B" )
+	//{
+	//	dc->DrawLine( 741, 440, 834, 260 ); // 8
+	//	dc->DrawLine( 741, 440, 834, 620 ); // 8
+	//
+	//	dc->DrawLine( 814, 440, 907, 260 ); // 9
+	//	dc->DrawLine( 814, 440, 907, 620 ); // 9
+	//
+	//	dc->DrawLine( 887, 440, 980, 260 ); // 10
+	//	dc->DrawLine( 887, 440, 980, 620 ); // 10
+	//}
+	//
+	//// Cadre Tableau
+	//dc->SetPen( pBigBlack );
+	//dc->DrawLine( 180, 260, 980, 260 ); // Haut
+	//dc->DrawLine( 180, 260, 180, 620 ); // Gauche
+	//dc->DrawLine( 980, 260, 980, 620 ); // Droit
+	//
+	//// Bas
+	//dc->DrawLine( 180, 620, 190, 620 );
+	//dc->DrawLabel( L"F", wxRect( 190, 610, 20, 20 ), wxALIGN_CENTRE );
+	//dc->SetPen( *wxBLACK_PEN );
+	//dc->DrawLine( 200, 260, 200, 610 );
+	//dc->SetPen( pBigBlack );
+	//dc->DrawLine( 210, 620, 220, 620 );
+	//
+	//int x = 220;
+	//for ( int i = 1; i < 11; i++ )
+	//{
+	//	dc->DrawLabel( wxString::Format( wxT( "%d" ), i ), wxRect( x, 610, 20, 20 ), wxALIGN_CENTRE ); // Affiche les chiffres en bas
+	//	x += 10;
+	//	dc->SetPen( *wxBLACK_PEN );
+	//	dc->DrawLine( x, 260, x, 610 ); // Ligne verticale au dessus des chiffres
+	//	dc->SetPen( pBigBlack );
+	//	x += 10;
+	//	const int forward = i == 10
+	//		                    ? x + 31
+	//		                    : x + 53;
+	//	dc->DrawLine( x, 620, forward, 620 ); // Ligne du bas entre chaque chiffres
+	//	x = forward;
+	//
+	//	if ( i == 8 && gen == "B" )
+	//		break;
+	//}
+	//
+	//if ( gen != "B" )
+	//{
+	//	dc->DrawLabel( L"11", wxRect( 928, 610, 20, 20 ), wxALIGN_CENTRE );
+	//	dc->SetPen( *wxBLACK_PEN );
+	//	dc->DrawLine( 938, 260, 938, 610 );
+	//	dc->SetPen( pBigBlack );
+	//	dc->DrawLine( 950, 620, 980, 620 );
+	//}
+	//else
+	//{
+	//	dc->DrawLine( 800, 620, 980, 620 );
+	//}
+	//
+	//dc->SetPen( *wxBLACK_PEN );
+	//
+	//// Valeur cote gauche
+	//int y = 245;
+	//for ( float i = 1.50f; i > -2.00f; i -= 0.50f )
+	//{
+	//	dc->DrawLabel( wxString::Format( wxT( "%.2f" ), i ), wxRect( 120, y, 60, 30 ), wxALIGN_CENTRE );
+	//	y += 60;
+	//}
+	//
+	//// Ligne Horizontale
+	//y = 290;
+	//for ( int i = 0; i < 11; i++ )
+	//{
+	//	dc->DrawLine( 180, y, 980, y );
+	//	if ( i == 1 || i == 9 )
+	//	{
+	//		dc->SetPen( pRed );
+	//		dc->DrawLine( 200, y, 938, y );
+	//		dc->SetPen( *wxBLACK_PEN );
+	//	}
+	//	y += 30;
+	//}
+	//
+	//dc->SetFont( wxFont( 8, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD ) );
+	//dc->DrawLabel( "N° de Section", wxRect( 180, 620, 800, 40 ), wxALIGN_CENTRE );
+	//
+	//
+	//dc->SetFont( wxFont( 16, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, true ) );
+	//dc->DrawLabel( L"Représentation graphique du profil: Génératrice " + gen, wxRect( 120, 120, 880, 100 ), wxALIGN_CENTRE );
 }
 
 constexpr int CircleRadius  = 2;

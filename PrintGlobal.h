@@ -20,6 +20,7 @@ public:
 	static void SetDcScale( wxPrintout* print, wxDC* dc );
 	static void DrawArray( wxDC* dc, int x, int y, int w, int wIdx, int h, int hIdx, const std::vector < wxString >& headers = {} );
 	static void DrawRectangle( wxDC* dc, int x, int y, int w, int h, const wxString& title = "", bool absoluteCoords = false );
+	static void DrawWhiteLabel( wxDC* dc, int x, int y, int w, int h, const wxString& title, bool absoluteCoords = false);
 	static void SetToleranceColor( wxDC* dc, double value, double tolerance );
 	void Rafale_DrawMainHeader( Program* hInst, wxDC* dc, int pageIdx );
 	void Mirage_DrawMainHeader( Program* hInst, wxDC* dc, int pageIdx );

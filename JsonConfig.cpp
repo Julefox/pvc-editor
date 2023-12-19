@@ -70,14 +70,19 @@ void from_json( const nlohmann::json& j, ProductData& p )
 				GraphicData graphicData;
 				const nlohmann::json& graphicDataJson = section.value();
 
-				if ( graphicDataJson.contains( "Min" ) )
+				if ( graphicDataJson.contains( "DeltaMin" ) )
 				{
-					graphicData.Min = graphicDataJson.at( "Min" ).get< double >();
+					graphicData.DeltaMin = graphicDataJson.at( "DeltaMin" ).get< double >();
 				}
 
-				if ( graphicDataJson.contains( "Max" ) )
+				if ( graphicDataJson.contains( "DeltaMax" ) )
 				{
-					graphicData.Max = graphicDataJson.at( "Max" ).get< double >();
+					graphicData.DeltaMax = graphicDataJson.at( "DeltaMax" ).get< double >();
+				}
+
+				if ( graphicDataJson.contains( "DeltaHeight" ) )
+				{
+					graphicData.DeltaHeight = graphicDataJson.at( "DeltaHeight" ).get< double >();
 				}
 
 				if ( graphicDataJson.contains( "Height" ) )
@@ -94,7 +99,7 @@ void from_json( const nlohmann::json& j, ProductData& p )
 	{
 		const std::string radomeTypeStr = j.at("RadomeType").get < std::string >();
 
-		p.RadomeType = JsonConfig::ConvertEnumRadomeType(radomeTypeStr);
+		p.RadomeType = JsonConfig::ConvertEnumRadomeType( radomeTypeStr );
 	}
 }
 
@@ -210,64 +215,64 @@ eSideType JsonConfig::ConvertEnumSideType( const std::string& str )
 
 eSectionType JsonConfig::ConvertEnumSectionType( const std::string& str )
 {
-	if ( str.find( "AND_F" ) != std::string::npos )
+	if (str.find("AND_11") != std::string::npos)
 	{
-		return AND_F;
+		return AND_11;
 	}
 
-	if ( str.find( "AND_1" ) != std::string::npos )
-	{
-		return AND_1;
-	}
-
-	if ( str.find( "AND_2" ) != std::string::npos )
-	{
-		return AND_2;
-	}
-
-	if ( str.find( "AND_3" ) != std::string::npos )
-	{
-		return AND_3;
-	}
-
-	if ( str.find( "AND_4" ) != std::string::npos )
-	{
-		return AND_4;
-	}
-
-	if ( str.find( "AND_5" ) != std::string::npos )
-	{
-		return AND_5;
-	}
-
-	if ( str.find( "AND_6" ) != std::string::npos )
-	{
-		return AND_6;
-	}
-
-	if ( str.find( "AND_7" ) != std::string::npos )
-	{
-		return AND_7;
-	}
-
-	if ( str.find( "AND_8" ) != std::string::npos )
-	{
-		return AND_8;
-	}
-
-	if ( str.find( "AND_9" ) != std::string::npos )
-	{
-		return AND_9;
-	}
-
-	if ( str.find( "AND_10" ) != std::string::npos )
+	if (str.find("AND_10") != std::string::npos)
 	{
 		return AND_10;
 	}
 
-	if ( str.find( "AND_11" ) != std::string::npos )
+	if (str.find("AND_9") != std::string::npos)
 	{
-		return AND_11;
+		return AND_9;
+	}
+
+	if (str.find("AND_8") != std::string::npos)
+	{
+		return AND_8;
+	}
+
+	if (str.find("AND_7") != std::string::npos)
+	{
+		return AND_7;
+	}
+
+	if (str.find("AND_6") != std::string::npos)
+	{
+		return AND_6;
+	}
+
+	if (str.find("AND_5") != std::string::npos)
+	{
+		return AND_5;
+	}
+
+	if (str.find("AND_4") != std::string::npos)
+	{
+		return AND_4;
+	}
+
+	if (str.find("AND_3") != std::string::npos)
+	{
+		return AND_3;
+	}
+
+	if (str.find("AND_2") != std::string::npos)
+	{
+		return AND_2;
+	}
+
+	if (str.find("AND_1") != std::string::npos)
+	{
+		return AND_1;
+	}
+
+	if ( str.find( "AND_F" ) != std::string::npos )
+	{
+		return AND_F;
 	}
 
 	return NO_SECTION;
