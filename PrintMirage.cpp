@@ -34,7 +34,7 @@ void PrintMirage::MiragePage_01()
 	Mirage_DrawMainHeader( hInst, dc, 1 );
 
 // DEBUG
-	Mirage_DrawGraphic(hInst, dc, "HG", AND_HG);
+	Mirage_DrawGraphic(hInst, dc, "HD", AND_HD);
 	return;
 //
 
@@ -303,16 +303,34 @@ void PrintMirage::Mirage_DrawGraphic( Program* hInst, wxDC* dc, const wxString& 
 		if ( graphicData.DeltaHeight != 0.0f )
 		{
 			dc->SetPen(pDotBlue);
-			const int deltaX = frame_x_start + static_cast <int>((graphicData.DeltaHeight - X_START_VALUE) * frame_x_length / (X_END_VALUE - X_START_VALUE));
 
-			const int y = frame_y_tolerance_start + static_cast <int>((graphicData.DeltaMin - graphicData.DeltaMin) * frame_y_tolerance_length / (graphicData.DeltaMax - graphicData.DeltaMin));
+			int xStart = xSectionPos[ section ];
+			int yStart = frame_y_start + frame_y_length / 2;
+			int xEnd = frame_x_start + static_cast <int>((graphicData.DeltaHeight - X_START_VALUE) * frame_x_length / (X_END_VALUE - X_START_VALUE));
+			int yEnd = frame_y_tolerance_start + static_cast <int>((graphicData.DeltaMin - Y_START_VALUE) * frame_y_tolerance_length / (graphicData.DeltaMax - graphicData.DeltaMin));
 
-			dc->DrawLine(x, frame_y_start + frame_y_length / 2, FindXForY(frame_y_start, x, frame_y_start + frame_y_length / 2, deltaX, y), frame_y_start);
-			dc->DrawLine(x, frame_y_start + frame_y_length / 2, FindXForY(frame_y_start, x, frame_y_start + frame_y_length / 2, deltaX, y), frame_y_start + frame_y_length);
+			AdjustLinePoints(xStart, yStart, xEnd, yEnd, frame_x_start, frame_y_start, frame_x_start + frame_x_length, frame_y_start + frame_y_length);
+			dc->DrawLine(xStart, yStart, xEnd, yEnd);
+			dc->DrawLine(xStart, yStart, xEnd, yEnd + (frame_y_start + frame_y_length / 2 - yEnd) * 2);
 		}
 	}
 
 	dc->SetPen(BlackColor);
+
+	for (int i = 0; i < 12; i++)
+	{
+		const auto section = static_cast< eSectionType >( i );
+		const auto nextSection = static_cast< eSectionType >( i + 1 );
+
+		int xStart = xSectionPos[section];
+		int yStart = frame_y_tolerance_start + static_cast <int>((hInst->Calculation.PointData[i][side].RayDifference - Y_START_VALUE) * frame_y_tolerance_length / (Y_END_VALUE - Y_START_VALUE));
+		int xEnd = xSectionPos[nextSection];
+		int yEnd = frame_y_tolerance_start + static_cast <int>((hInst->Calculation.PointData[i + 1][side].RayDifference - Y_START_VALUE) * frame_y_tolerance_length / (Y_END_VALUE - Y_START_VALUE));
+		std::cout << i << " " << xSectionPos[section] << " " << nextSection << " " << xSectionPos[nextSection] << " " << hInst->Calculation.PointData[i][side].RayDifference << " " << xStart << " " << yStart << " " << xEnd << " " << yEnd << "\n";
+		AdjustLinePoints(xStart, yStart, xEnd, yEnd, frame_x_start, frame_y_start, frame_x_start + frame_x_length, frame_y_start + frame_y_length);
+		std::cout << i << " " << xSectionPos[section] << " " << nextSection << " " << xSectionPos[nextSection] << " " << xStart << " " << yStart << " " << xEnd << " " << yEnd << "\n";
+		dc->DrawLine(xStart, yStart, xEnd, yEnd);
+	}
 
 	int y = 290;
 	for (int i = 0; i < 11; i++)
@@ -631,3 +649,47 @@ int PrintMirage::FindXForY( const int yTarget, const int xStart, const int yStar
 	// Calculer et retourner x pour yTarget
 	return xStart + static_cast< int >( m * ( yTarget - yStart ) );
 }
+
+void PrintMirage::AdjustLinePoints(int& xStart, int& yStart, int& xEnd, int& yEnd,
+	int xMin, int yMin, int xMax, int yMax) {
+	// Vérifier et ajuster xStart si nécessaire
+	if (xStart < xMin) {
+		yStart += static_cast<int>((xMin - xStart) * (yEnd - yStart) / (float)(xEnd - xStart));
+		xStart = xMin;
+	}
+	else if (xStart > xMax) {
+		yStart += static_cast<int>((xMax - xStart) * (yEnd - yStart) / (float)(xEnd - xStart));
+		xStart = xMax;
+	}
+
+	// Vérifier et ajuster yStart si nécessaire
+	if (yStart < yMin) {
+		xStart += static_cast<int>((yMin - yStart) * (xEnd - xStart) / (float)(yEnd - yStart));
+		yStart = yMin;
+	}
+	else if (yStart > yMax) {
+		xStart += static_cast<int>((yMax - yStart) * (xEnd - xStart) / (float)(yEnd - yStart));
+		yStart = yMax;
+	}
+
+	// Vérifier et ajuster xEnd si nécessaire
+	if (xEnd < xMin) {
+		yEnd += static_cast<int>((xMin - xEnd) * (yStart - yEnd) / (float)(xStart - xEnd));
+		xEnd = xMin;
+	}
+	else if (xEnd > xMax) {
+		yEnd += static_cast<int>((xMax - xEnd) * (yStart - yEnd) / (float)(xStart - xEnd));
+		xEnd = xMax;
+	}
+
+	// Vérifier et ajuster yEnd si nécessaire
+	if (yEnd < yMin) {
+		xEnd += static_cast<int>((yMin - yEnd) * (xStart - xEnd) / (float)(yStart - yEnd));
+		yEnd = yMin;
+	}
+	else if (yEnd > yMax) {
+		xEnd += static_cast<int>((yMax - yEnd) * (xStart - xEnd) / (float)(yStart - yEnd));
+		yEnd = yMax;
+	}
+}
+

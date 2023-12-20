@@ -31,6 +31,9 @@ private:
 
 	static int FindXForY( int yTarget, int xStart, int yStart, int xEnd, int yEnd );
 
+	static void AdjustLinePoints(int& xStart, int& yStart, int& xEnd, int& yEnd,
+		int xMin, int yMin, int xMax, int yMax);
+
 	explicit PrintMirage( const wxChar* title = _T( "Impression PVC" ) ) : PrintGlobal( title )
 	{
 		ImpressNum = 10;

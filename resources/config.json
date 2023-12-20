@@ -66,12 +66,12 @@
                 },
                 "AND_HD":
                 {
-                    "AND_F":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 57.70   }, "AND_1":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 137.70  },
-                    "AND_2":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 337.70  }, "AND_3":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 537.70  },
-                    "AND_4":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 737.70  }, "AND_5":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 937.70  },
-                    "AND_6":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1137.70 }, "AND_7":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1337.70 },
-                    "AND_8":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1537.70 }, "AND_9":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1737.70 },
-                    "AND_10": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1937.70 }, "AND_11": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 2077.70 }
+                    "AND_F":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 57.70,   "DeltaHeight": 723.70  }, "AND_1":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 137.70,  "DeltaHeight": 803.70  },
+                    "AND_2":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 337.70,  "DeltaHeight": 1003.70 }, "AND_3":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 537.70,  "DeltaHeight": 1203.70 },
+                    "AND_4":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 737.70,  "DeltaHeight": 1403.70 }, "AND_5":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 937.70,  "DeltaHeight": 1603.70 },
+                    "AND_6":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1137.70, "DeltaHeight": 1803.70 }, "AND_7":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1337.70, "DeltaHeight": 2003.70 },
+                    "AND_8":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1537.70, "DeltaHeight": 1870.70 }, "AND_9":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1737.70, "DeltaHeight": 2070.70 },
+                    "AND_10": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1937.70, "DeltaHeight": 2270.70 }, "AND_11": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 2077.70, "DeltaHeight": 0.00    }
                 },
                 "AND_D":
                 {
