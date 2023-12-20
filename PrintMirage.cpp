@@ -265,7 +265,26 @@ void PrintMirage::MiragePage_10()
 	//Mirage_DrawGraphicStat( hInst, dc, AND_HG );
 }
 
-constexpr int X_START_VALUE = 0, X_END_VALUE = 2120, Y_START_VALUE = -2, Y_END_VALUE = 2, CIRCLE_RADIUS = 2;
+constexpr int X_START_VALUE = 0, X_END_VALUE = 2120, Y_START_VALUE = -2, Y_END_VALUE = 2, CIRCLE_RADIUS = 2,
+FRAME_X_START = 180, FRAME_X_LENGTH = 800, FRAME_Y_START = 260, FRAME_Y_LENGTH = 360,
+FRAME_Y_TOLERANCE_START = FRAME_Y_START - 60, FRAME_Y_TOLERANCE_LENGTH = FRAME_Y_LENGTH + 120;
+
+struct GraphPoint
+{
+	int X_LINE = 0;
+	int Y_LINE_CENTER = FRAME_Y_START + FRAME_Y_LENGTH / 2;
+
+	int X_TOLERANCE = 0;
+	int Y_TOLERANCE_UPPER = 0;
+	int Y_TOLERANCE_LOWER = 0;
+
+	GraphicData GRAPHIC_DATA;
+
+	int X_RAY_DIFF = 0;
+	int Y_RAY_DIFF = 0;
+
+	bool IS_OUT_OF_FRAME = false;
+};
 
 void PrintMirage::Mirage_DrawGraphic( Program* hInst, wxDC* dc, const wxString& gen, const eSideType side )
 {
@@ -274,119 +293,245 @@ void PrintMirage::Mirage_DrawGraphic( Program* hInst, wxDC* dc, const wxString& 
 	const wxPen pDotBlue( *wxBLUE, 1, wxPENSTYLE_DOT );
 	const wxBrush greenBrush(*wxGREEN, wxBRUSHSTYLE_SOLID);
 
-	std::map<eSectionType, int> xSectionPos;
+	std::map<eSectionType, GraphPoint> sectionPos;
 
-	dc->SetPen( *wxBLACK_PEN );
-	dc->SetFont(wxFont(8, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL));
-
-	DrawRectangle( dc, 120, 220, 880, 440 );
-	DrawWhiteLabel( dc, 142, 205, 64, 30, L"Ecart en mm" );
-
-	dc->SetPen(pBigBlack);
-
-	constexpr int frame_x_start = 180, frame_x_length = 800, frame_y_start = 260, frame_y_length = 360, frame_y_tolerance_start = frame_y_start - 60, frame_y_tolerance_length = frame_y_length + 120;
-
-	DrawRectangle( dc, frame_x_start, frame_y_start, frame_x_length, frame_y_length);
-
-	dc->SetPen(BlackColor);
-
-	for ( const auto& keyVal : hInst->ActiveProductData.GraphicData[ side ] )
+	for (const auto& keyVal : hInst->ActiveProductData.GraphicData[side])
 	{
 		eSectionType section = keyVal.first;
 		const GraphicData graphicData = keyVal.second;
+		const PointMeasure& point = hInst->Calculation.PointData[12 - section][side];
 
-		dc->SetPen(BlackColor);
-		const int x = frame_x_start + static_cast < int >( ( graphicData.Height - X_START_VALUE ) * frame_x_length / ( X_END_VALUE - X_START_VALUE ) );
-		dc->DrawLine(x, frame_y_start, x, frame_y_start + frame_y_length);
-		xSectionPos[ section ] = x;
-		DrawWhiteLabel(dc, x - 6, frame_y_start + frame_y_length - 6, 12, 12, section == AND_F ? "F" : std::to_string( section ) );
+		const int x = FRAME_X_START + static_cast <int>((graphicData.Height - X_START_VALUE) * FRAME_X_LENGTH / (X_END_VALUE - X_START_VALUE));
 
-		if ( graphicData.DeltaMin != 0.0f && graphicData.DeltaMax != 0.0f && graphicData.DeltaHeight != 0.0f )
+		if (std::abs(point.RayDifference - UnassignedDoubleValue) > Epsilon)
 		{
-			dc->SetPen(pDotBlue);
+			GraphPoint graphPoint;
 
-			int xStart = xSectionPos[ section ];
-			int yStart = frame_y_start + frame_y_length / 2;
-			int xEnd = frame_x_start + static_cast <int>((graphicData.DeltaHeight - X_START_VALUE) * frame_x_length / (X_END_VALUE - X_START_VALUE));
-			int yEnd = frame_y_tolerance_start + static_cast <int>((graphicData.DeltaMin - Y_START_VALUE) * frame_y_tolerance_length / (graphicData.DeltaMax - graphicData.DeltaMin));
+			graphPoint.X_LINE = x;
 
-			AdjustLinePoints(xStart, yStart, xEnd, yEnd, frame_x_start, frame_y_start, frame_x_start + frame_x_length, frame_y_start + frame_y_length);
-			dc->DrawLine(xStart, yStart, xEnd, yEnd);
-			dc->DrawLine(xStart, yStart, xEnd, yEnd + (frame_y_start + frame_y_length / 2 - yEnd) * 2);
+			int xStart = graphPoint.X_LINE;
+			int yStart = FRAME_Y_TOLERANCE_START + static_cast <int>((point.RayDifference - Y_START_VALUE) * FRAME_Y_TOLERANCE_LENGTH / (Y_END_VALUE - Y_START_VALUE));
+			int xEnd = FRAME_X_START + static_cast <int>((graphicData.DeltaHeight - X_START_VALUE) * FRAME_X_LENGTH / (X_END_VALUE - X_START_VALUE));
+			int yEnd = FRAME_Y_TOLERANCE_START + static_cast <int>((graphicData.DeltaMin - Y_START_VALUE) * FRAME_Y_TOLERANCE_LENGTH / (graphicData.DeltaMax - graphicData.DeltaMin));
+
+			AdjustLinePoints(xStart, yStart, xEnd, yEnd, FRAME_X_START, FRAME_Y_START, FRAME_X_START + FRAME_X_LENGTH, FRAME_Y_START + FRAME_Y_LENGTH);
+
+			graphPoint.X_RAY_DIFF = xStart;
+			graphPoint.Y_RAY_DIFF = yStart;
+
+			graphPoint.X_TOLERANCE = xEnd;
+			graphPoint.Y_TOLERANCE_UPPER = yEnd;
+			graphPoint.Y_TOLERANCE_LOWER = yEnd + (FRAME_Y_START + FRAME_Y_LENGTH / 2 - yEnd) * 2;
+			graphPoint.GRAPHIC_DATA = graphicData;
+
+			sectionPos[section] = graphPoint;
 		}
 	}
 
-	dc->SetPen(BlackColor);
-
-	int xStart = 0;
-	int yStart = 0;
-	int xEnd = 0;
-	int yEnd = 0;
+	dc->SetPen(*wxBLACK_PEN);
 
 	for (int i = 0; i < 12; i++)
 	{
-		const auto section = static_cast< eSectionType >( i );
-		const auto nextSection = static_cast< eSectionType >( i + 1 );
+		const auto section = static_cast<eSectionType>(i);
 
-		const PointMeasure& point = hInst->Calculation.PointData[12 - section][side];
-		const PointMeasure& nextPoint = hInst->Calculation.PointData[12 - nextSection][side];
-
-		if (std::abs(point.RayDifference - UnassignedDoubleValue) > Epsilon && std::abs(nextPoint.RayDifference - UnassignedDoubleValue) > Epsilon)
+		if (sectionPos.find(section) != sectionPos.end())
 		{
-			xStart = xSectionPos[section];
-			yStart = frame_y_tolerance_start + static_cast <int>((point.RayDifference - Y_START_VALUE) * frame_y_tolerance_length / (Y_END_VALUE - Y_START_VALUE));
-			xEnd = xSectionPos[nextSection];
-			yEnd = frame_y_tolerance_start + static_cast <int>((nextPoint.RayDifference - Y_START_VALUE) * frame_y_tolerance_length / (Y_END_VALUE - Y_START_VALUE));
-
-			AdjustLinePoints(xStart, yStart, xEnd, yEnd, frame_x_start, frame_y_start, frame_x_start + frame_x_length, frame_y_start + frame_y_length);
-
-			if (xEnd - xStart < 5 || ((side == AND_BD && section > 8) || (side == AND_B && section > 7) || (side == AND_BG && section > 8)))
-			{
-				break;
-			}
-
-			dc->DrawLine(xStart, yStart, xEnd, yEnd);
-
-			//if (yStart > frame_x_start && yStart < frame_x_start + frame_x_length)
-			//{
-			//	dc->SetBrush(greenBrush);
-			//	dc->DrawCircle(xStart - CIRCLE_RADIUS / 2, yStart - CIRCLE_RADIUS / 2, CIRCLE_RADIUS);
-			//}
+			const GraphPoint& graphPoint = sectionPos[section];
+			dc->DrawLine(graphPoint.X_LINE, FRAME_Y_START, graphPoint.X_LINE, FRAME_Y_START + FRAME_Y_LENGTH);
 		}
 	}
 
-	//if (yStart > frame_x_start && yStart < frame_x_start + frame_x_length)
-	//{
-	//	dc->SetBrush(greenBrush);
-	//	dc->DrawCircle(xStart - CIRCLE_RADIUS / 2, yStart - CIRCLE_RADIUS / 2, CIRCLE_RADIUS);
-	//}
+	dc->SetPen(pDotBlue);
+
+	for (int i = 0; i < 12; i++)
+	{
+		const auto section = static_cast<eSectionType>(i);
+
+		if (sectionPos.find(section) != sectionPos.end())
+		{
+			const GraphPoint& graphPoint = sectionPos[section];
+			if(graphPoint.GRAPHIC_DATA.DeltaHeight != 0.0f)
+			{
+				dc->DrawLine(graphPoint.X_LINE, graphPoint.Y_LINE_CENTER, graphPoint.X_TOLERANCE, graphPoint.Y_TOLERANCE_UPPER);
+				dc->DrawLine(graphPoint.X_LINE, graphPoint.Y_LINE_CENTER, graphPoint.X_TOLERANCE, graphPoint.Y_TOLERANCE_LOWER);
+			}
+		}
+	}
+
+	dc->SetPen( *wxBLACK_PEN );
+	dc->SetFont(wxFont(8, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL));
+	
+	DrawRectangle( dc, 120, 220, 880, 440 );
+	DrawWhiteLabel( dc, 142, 205, 64, 30, L"Ecart en mm" );
+
+	dc->SetPen(*wxBLACK_PEN);
+	DrawRectangle(dc, FRAME_X_START, FRAME_Y_START, FRAME_X_LENGTH, FRAME_Y_LENGTH);
+
+	dc->SetFont(wxFont(8, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
+	dc->DrawLabel("N° de Section", wxRect(180, 620, 800, 40), wxALIGN_CENTRE);
+
+	dc->SetFont(wxFont(16, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, true));
+	dc->DrawLabel(L"Représentation graphique du profil: Génératrice " + gen, wxRect(120, 120, 880, 100), wxALIGN_CENTRE);
+
+	dc->SetFont(wxFont(8, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL));
 
 	int y = 290;
-	for (int i = 0; i < 11; i++)
+	for (int i = 0; i < 12; i++)
 	{
-		dc->DrawLine(180, y, 980, y);
+		dc->DrawLine(FRAME_X_START, y, FRAME_X_START + FRAME_X_LENGTH, y);
 		if (i == 1 || i == 9)
 		{
 			dc->SetPen(pRed);
-			dc->DrawLine(xSectionPos[AND_F], y, xSectionPos[AND_11], y);
+			dc->DrawLine(sectionPos[AND_F].X_LINE, y, sectionPos[AND_11].X_LINE, y);
 			dc->SetPen(*wxBLACK_PEN);
 		}
 		y += 30;
 	}
-
-	y = 245;
+	
+	y = 245; 
 	for ( double i = 1.50f; i > -2.00f; i -= 0.50f )
 	{
 		dc->DrawLabel( wxString::Format( wxT( "%.2f" ), i ), wxRect( 120, y, 60, 30 ), wxALIGN_CENTRE );
 		y += 60;
 	}
 
-	dc->SetFont( wxFont( 8, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD ) );
-	dc->DrawLabel( "N° de Section", wxRect( 180, 620, 800, 40 ), wxALIGN_CENTRE );
-	
-	
-	dc->SetFont( wxFont( 16, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, true ) );
-	dc->DrawLabel( L"Représentation graphique du profil: Génératrice " + gen, wxRect( 120, 120, 880, 100 ), wxALIGN_CENTRE );
+	for (int i = 0; i < 12; i++)
+	{
+		const auto section = static_cast<eSectionType>(i);
+
+		if (sectionPos.find(section) != sectionPos.end())
+		{
+			const GraphPoint& graphPoint = sectionPos[section];
+			DrawWhiteLabel(dc, graphPoint.X_LINE - 6, FRAME_Y_START + FRAME_Y_LENGTH - 6, 12, 12, section == AND_F ? "F" : std::to_string(section));
+		}
+	}
+
+	dc->SetPen(*wxBLACK_PEN);
+
+	for (int i = 1; i < 12; i++)
+	{
+		const auto section = static_cast<eSectionType>(i);
+		const auto backSection = static_cast<eSectionType>(i - 1);
+
+		if (sectionPos.find(section) != sectionPos.end() && sectionPos.find(backSection) != sectionPos.end())
+		{
+			const GraphPoint& graphPoint = sectionPos[section];
+			const GraphPoint& backGraphPoint = sectionPos[backSection];
+
+			dc->DrawLine(backGraphPoint.X_RAY_DIFF, backGraphPoint.Y_RAY_DIFF, graphPoint.X_RAY_DIFF, graphPoint.Y_RAY_DIFF);
+
+			std::cout << backGraphPoint.X_RAY_DIFF << " " << backGraphPoint.Y_RAY_DIFF << " " << graphPoint.X_RAY_DIFF << " " << graphPoint.Y_RAY_DIFF << "\n";
+		}
+	}
+
+	//std::map<eSectionType, int> xSectionPos;
+	//
+	//dc->SetPen( *wxBLACK_PEN );
+	//dc->SetFont(wxFont(8, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL));
+	//
+	//DrawRectangle( dc, 120, 220, 880, 440 );
+	//DrawWhiteLabel( dc, 142, 205, 64, 30, L"Ecart en mm" );
+	//
+	//dc->SetPen(pBigBlack);
+	//
+	//constexpr int FRAME_X_START = 180, FRAME_X_LENGTH = 800, FRAME_Y_START = 260, FRAME_Y_LENGTH = 360, FRAME_Y_TOLERANCE_START = FRAME_Y_START - 60, FRAME_Y_TOLERANCE_LENGTH = FRAME_Y_LENGTH + 120;
+	//
+	//DrawRectangle( dc, FRAME_X_START, FRAME_Y_START, FRAME_X_LENGTH, FRAME_Y_LENGTH);
+	//
+	//dc->SetPen(BlackColor);
+	//
+	//for ( const auto& keyVal : hInst->ActiveProductData.GraphicData[ side ] )
+	//{
+	//	eSectionType section = keyVal.first;
+	//	const GraphicData graphicData = keyVal.second;
+	//
+	//	dc->SetPen(BlackColor);
+	//	const int x = FRAME_X_START + static_cast < int >( ( graphicData.Height - X_START_VALUE ) * FRAME_X_LENGTH / ( X_END_VALUE - X_START_VALUE ) );
+	//	dc->DrawLine(x, FRAME_Y_START, x, FRAME_Y_START + FRAME_Y_LENGTH);
+	//	xSectionPos[ section ] = x;
+	//	DrawWhiteLabel(dc, x - 6, FRAME_Y_START + FRAME_Y_LENGTH - 6, 12, 12, section == AND_F ? "F" : std::to_string( section ) );
+	//
+	//	if ( graphicData.DeltaMin != 0.0f && graphicData.DeltaMax != 0.0f && graphicData.DeltaHeight != 0.0f )
+	//	{
+	//		dc->SetPen(pDotBlue);
+	//
+	//		int xStart = xSectionPos[ section ];
+	//		int yStart = FRAME_Y_START + FRAME_Y_LENGTH / 2;
+	//		int xEnd = FRAME_X_START + static_cast <int>((graphicData.DeltaHeight - X_START_VALUE) * FRAME_X_LENGTH / (X_END_VALUE - X_START_VALUE));
+	//		int yEnd = FRAME_Y_TOLERANCE_START + static_cast <int>((graphicData.DeltaMin - Y_START_VALUE) * FRAME_Y_TOLERANCE_LENGTH / (graphicData.DeltaMax - graphicData.DeltaMin));
+	//
+	//		AdjustLinePoints(xStart, yStart, xEnd, yEnd, FRAME_X_START, FRAME_Y_START, FRAME_X_START + FRAME_X_LENGTH, FRAME_Y_START + FRAME_Y_LENGTH);
+	//		dc->DrawLine(xStart, yStart, xEnd, yEnd);
+	//		dc->DrawLine(xStart, yStart, xEnd, yEnd + (FRAME_Y_START + FRAME_Y_LENGTH / 2 - yEnd) * 2);
+	//	}
+	//}
+	//
+	//dc->SetPen(BlackColor);
+	//
+	//int xStart = 0;
+	//int yStart = 0;
+	//int xEnd = 0;
+	//int yEnd = 0;
+	//
+	//for (int i = 0; i < 12; i++)
+	//{
+	//	const auto section = static_cast< eSectionType >( i );
+	//	const auto nextSection = static_cast< eSectionType >( i + 1 );
+	//
+	//	const PointMeasure& point = hInst->Calculation.PointData[12 - section][side];
+	//	const PointMeasure& nextPoint = hInst->Calculation.PointData[12 - nextSection][side];
+	//
+	//	if (std::abs(point.RayDifference - UnassignedDoubleValue) > Epsilon && std::abs(nextPoint.RayDifference - UnassignedDoubleValue) > Epsilon)
+	//	{
+	//		xStart = xSectionPos[section];
+	//		yStart = FRAME_Y_TOLERANCE_START + static_cast <int>((point.RayDifference - Y_START_VALUE) * FRAME_Y_TOLERANCE_LENGTH / (Y_END_VALUE - Y_START_VALUE));
+	//		xEnd = xSectionPos[nextSection];
+	//		yEnd = FRAME_Y_TOLERANCE_START + static_cast <int>((nextPoint.RayDifference - Y_START_VALUE) * FRAME_Y_TOLERANCE_LENGTH / (Y_END_VALUE - Y_START_VALUE));
+	//
+	//		AdjustLinePoints(xStart, yStart, xEnd, yEnd, FRAME_X_START, FRAME_Y_START, FRAME_X_START + FRAME_X_LENGTH, FRAME_Y_START + FRAME_Y_LENGTH);
+	//
+	//		if (xEnd - xStart < 5 || ((side == AND_BD && section > 8) || (side == AND_B && section > 7) || (side == AND_BG && section > 8)))
+	//		{
+	//			break;
+	//		}
+	//
+	//		dc->DrawLine(xStart, yStart, xEnd, yEnd);
+	//	}
+	//}
+
+	// 
+	//if (yStart > FRAME_X_START && yStart < FRAME_X_START + FRAME_X_LENGTH)
+	//{
+	//	dc->SetBrush(greenBrush);
+	//	dc->DrawCircle(xStart - CIRCLE_RADIUS / 2, yStart - CIRCLE_RADIUS / 2, CIRCLE_RADIUS);
+	//}
+
+	//int y = 290;
+	//for (int i = 0; i < 11; i++)
+	//{
+	//	dc->DrawLine(180, y, 980, y);
+	//	if (i == 1 || i == 9)
+	//	{
+	//		dc->SetPen(pRed);
+	//		dc->DrawLine(xSectionPos[AND_F], y, xSectionPos[AND_11], y);
+	//		dc->SetPen(*wxBLACK_PEN);
+	//	}
+	//	y += 30;
+	//}
+	//
+	//y = 245; 
+	//for ( double i = 1.50f; i > -2.00f; i -= 0.50f )
+	//{
+	//	dc->DrawLabel( wxString::Format( wxT( "%.2f" ), i ), wxRect( 120, y, 60, 30 ), wxALIGN_CENTRE );
+	//	y += 60;
+	//}
+	//
+	//dc->SetFont( wxFont( 8, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD ) );
+	//dc->DrawLabel( "N° de Section", wxRect( 180, 620, 800, 40 ), wxALIGN_CENTRE );
+	//
+	//
+	//dc->SetFont( wxFont( 16, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, true ) );
+	//dc->DrawLabel( L"Représentation graphique du profil: Génératrice " + gen, wxRect( 120, 120, 880, 100 ), wxALIGN_CENTRE );
 
 	///////////////////////////
 
