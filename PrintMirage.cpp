@@ -34,8 +34,8 @@ void PrintMirage::MiragePage_01()
 	Mirage_DrawMainHeader( hInst, dc, 1 );
 
 // DEBUG
-	Mirage_DrawGraphic(hInst, dc, "HD", AND_HD);
-	return;
+	//Mirage_DrawGraphic(hInst, dc, "HD", AND_HD);
+	//return;
 //
 
 	dc->SetFont( wxFont( 11, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, wxFONTFLAG_UNDERLINED ) );
@@ -192,7 +192,7 @@ void PrintMirage::MiragePage_03()
 	SetDcScale( this, dc );
 	Mirage_DrawMainHeader( hInst, dc, 3 );
 	Mirage_DrawGraphic( hInst, dc, "H", AND_H );
-	Mirage_DrawGraphicStat( hInst, dc, AND_H );
+	//Mirage_DrawGraphicStat( hInst, dc, AND_H );
 }
 
 void PrintMirage::MiragePage_04()
@@ -202,7 +202,7 @@ void PrintMirage::MiragePage_04()
 	SetDcScale( this, dc );
 	Mirage_DrawMainHeader( hInst, dc, 4 );
 	Mirage_DrawGraphic( hInst, dc, "HD", AND_HD );
-	Mirage_DrawGraphicStat( hInst, dc, AND_HD );
+	//Mirage_DrawGraphicStat( hInst, dc, AND_HD );
 }
 
 void PrintMirage::MiragePage_05()
@@ -212,7 +212,7 @@ void PrintMirage::MiragePage_05()
 	SetDcScale( this, dc );
 	Mirage_DrawMainHeader( hInst, dc, 5 );
 	Mirage_DrawGraphic( hInst, dc, "D", AND_D );
-	Mirage_DrawGraphicStat( hInst, dc, AND_D );
+	//Mirage_DrawGraphicStat( hInst, dc, AND_D );
 }
 
 void PrintMirage::MiragePage_06()
@@ -222,7 +222,7 @@ void PrintMirage::MiragePage_06()
 	SetDcScale( this, dc );
 	Mirage_DrawMainHeader( hInst, dc, 6 );
 	Mirage_DrawGraphic( hInst, dc, "BD", AND_BD );
-	Mirage_DrawGraphicStat( hInst, dc, AND_BD );
+	//Mirage_DrawGraphicStat( hInst, dc, AND_BD );
 }
 
 void PrintMirage::MiragePage_07()
@@ -232,7 +232,7 @@ void PrintMirage::MiragePage_07()
 	SetDcScale( this, dc );
 	Mirage_DrawMainHeader( hInst, dc, 7 );
 	Mirage_DrawGraphic( hInst, dc, "B", AND_B );
-	Mirage_DrawGraphicStat( hInst, dc, AND_B );
+	//Mirage_DrawGraphicStat( hInst, dc, AND_B );
 }
 
 void PrintMirage::MiragePage_08()
@@ -242,7 +242,7 @@ void PrintMirage::MiragePage_08()
 	SetDcScale( this, dc );
 	Mirage_DrawMainHeader( hInst, dc, 8 );
 	Mirage_DrawGraphic( hInst, dc, "BG", AND_BG );
-	Mirage_DrawGraphicStat( hInst, dc, AND_BG );
+	//Mirage_DrawGraphicStat( hInst, dc, AND_BG );
 }
 
 void PrintMirage::MiragePage_09()
@@ -252,7 +252,7 @@ void PrintMirage::MiragePage_09()
 	SetDcScale( this, dc );
 	Mirage_DrawMainHeader( hInst, dc, 9 );
 	Mirage_DrawGraphic( hInst, dc, "G", AND_G );
-	Mirage_DrawGraphicStat( hInst, dc, AND_G );
+	//Mirage_DrawGraphicStat( hInst, dc, AND_G );
 }
 
 void PrintMirage::MiragePage_10()
@@ -262,16 +262,17 @@ void PrintMirage::MiragePage_10()
 	SetDcScale( this, dc );
 	Mirage_DrawMainHeader( hInst, dc, 10 );
 	Mirage_DrawGraphic( hInst, dc, "HG", AND_HG );
-	Mirage_DrawGraphicStat( hInst, dc, AND_HG );
+	//Mirage_DrawGraphicStat( hInst, dc, AND_HG );
 }
 
-constexpr int X_START_VALUE = 0, X_END_VALUE = 2120, Y_START_VALUE = -2, Y_END_VALUE = 2;
+constexpr int X_START_VALUE = 0, X_END_VALUE = 2120, Y_START_VALUE = -2, Y_END_VALUE = 2, CIRCLE_RADIUS = 2;
 
 void PrintMirage::Mirage_DrawGraphic( Program* hInst, wxDC* dc, const wxString& gen, const eSideType side )
 {
 	const wxPen pBigBlack( wxColour( 0, 0, 0 ), 3 );
 	const wxPen pRed( wxColour( 224, 102, 102 ) );
 	const wxPen pDotBlue( *wxBLUE, 1, wxPENSTYLE_DOT );
+	const wxBrush greenBrush(*wxGREEN, wxBRUSHSTYLE_SOLID);
 
 	std::map<eSectionType, int> xSectionPos;
 
@@ -300,7 +301,7 @@ void PrintMirage::Mirage_DrawGraphic( Program* hInst, wxDC* dc, const wxString& 
 		xSectionPos[ section ] = x;
 		DrawWhiteLabel(dc, x - 6, frame_y_start + frame_y_length - 6, 12, 12, section == AND_F ? "F" : std::to_string( section ) );
 
-		if ( graphicData.DeltaHeight != 0.0f )
+		if ( graphicData.DeltaMin != 0.0f && graphicData.DeltaMax != 0.0f && graphicData.DeltaHeight != 0.0f )
 		{
 			dc->SetPen(pDotBlue);
 
@@ -317,20 +318,48 @@ void PrintMirage::Mirage_DrawGraphic( Program* hInst, wxDC* dc, const wxString& 
 
 	dc->SetPen(BlackColor);
 
+	int xStart = 0;
+	int yStart = 0;
+	int xEnd = 0;
+	int yEnd = 0;
+
 	for (int i = 0; i < 12; i++)
 	{
 		const auto section = static_cast< eSectionType >( i );
 		const auto nextSection = static_cast< eSectionType >( i + 1 );
 
-		int xStart = xSectionPos[section];
-		int yStart = frame_y_tolerance_start + static_cast <int>((hInst->Calculation.PointData[i][side].RayDifference - Y_START_VALUE) * frame_y_tolerance_length / (Y_END_VALUE - Y_START_VALUE));
-		int xEnd = xSectionPos[nextSection];
-		int yEnd = frame_y_tolerance_start + static_cast <int>((hInst->Calculation.PointData[i + 1][side].RayDifference - Y_START_VALUE) * frame_y_tolerance_length / (Y_END_VALUE - Y_START_VALUE));
-		std::cout << i << " " << xSectionPos[section] << " " << nextSection << " " << xSectionPos[nextSection] << " " << hInst->Calculation.PointData[i][side].RayDifference << " " << xStart << " " << yStart << " " << xEnd << " " << yEnd << "\n";
-		AdjustLinePoints(xStart, yStart, xEnd, yEnd, frame_x_start, frame_y_start, frame_x_start + frame_x_length, frame_y_start + frame_y_length);
-		std::cout << i << " " << xSectionPos[section] << " " << nextSection << " " << xSectionPos[nextSection] << " " << xStart << " " << yStart << " " << xEnd << " " << yEnd << "\n";
-		dc->DrawLine(xStart, yStart, xEnd, yEnd);
+		const PointMeasure& point = hInst->Calculation.PointData[12 - section][side];
+		const PointMeasure& nextPoint = hInst->Calculation.PointData[12 - nextSection][side];
+
+		if (std::abs(point.RayDifference - UnassignedDoubleValue) > Epsilon && std::abs(nextPoint.RayDifference - UnassignedDoubleValue) > Epsilon)
+		{
+			xStart = xSectionPos[section];
+			yStart = frame_y_tolerance_start + static_cast <int>((point.RayDifference - Y_START_VALUE) * frame_y_tolerance_length / (Y_END_VALUE - Y_START_VALUE));
+			xEnd = xSectionPos[nextSection];
+			yEnd = frame_y_tolerance_start + static_cast <int>((nextPoint.RayDifference - Y_START_VALUE) * frame_y_tolerance_length / (Y_END_VALUE - Y_START_VALUE));
+
+			AdjustLinePoints(xStart, yStart, xEnd, yEnd, frame_x_start, frame_y_start, frame_x_start + frame_x_length, frame_y_start + frame_y_length);
+
+			if (xEnd - xStart < 5 || ((side == AND_BD && section > 8) || (side == AND_B && section > 7) || (side == AND_BG && section > 8)))
+			{
+				break;
+			}
+
+			dc->DrawLine(xStart, yStart, xEnd, yEnd);
+
+			//if (yStart > frame_x_start && yStart < frame_x_start + frame_x_length)
+			//{
+			//	dc->SetBrush(greenBrush);
+			//	dc->DrawCircle(xStart - CIRCLE_RADIUS / 2, yStart - CIRCLE_RADIUS / 2, CIRCLE_RADIUS);
+			//}
+		}
 	}
+
+	//if (yStart > frame_x_start && yStart < frame_x_start + frame_x_length)
+	//{
+	//	dc->SetBrush(greenBrush);
+	//	dc->DrawCircle(xStart - CIRCLE_RADIUS / 2, yStart - CIRCLE_RADIUS / 2, CIRCLE_RADIUS);
+	//}
 
 	int y = 290;
 	for (int i = 0; i < 11; i++)
@@ -351,6 +380,13 @@ void PrintMirage::Mirage_DrawGraphic( Program* hInst, wxDC* dc, const wxString& 
 		dc->DrawLabel( wxString::Format( wxT( "%.2f" ), i ), wxRect( 120, y, 60, 30 ), wxALIGN_CENTRE );
 		y += 60;
 	}
+
+	dc->SetFont( wxFont( 8, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD ) );
+	dc->DrawLabel( "N° de Section", wxRect( 180, 620, 800, 40 ), wxALIGN_CENTRE );
+	
+	
+	dc->SetFont( wxFont( 16, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, true ) );
+	dc->DrawLabel( L"Représentation graphique du profil: Génératrice " + gen, wxRect( 120, 120, 880, 100 ), wxALIGN_CENTRE );
 
 	///////////////////////////
 
@@ -647,49 +683,59 @@ int PrintMirage::FindXForY( const int yTarget, const int xStart, const int yStar
 	const float m = static_cast< float >( xEnd - xStart ) / static_cast< float >( yEnd - yStart );
 
 	// Calculer et retourner x pour yTarget
-	return xStart + static_cast< int >( m * ( yTarget - yStart ) );
+	return xStart + static_cast< int >( m ) * ( yTarget - yStart );
 }
 
-void PrintMirage::AdjustLinePoints(int& xStart, int& yStart, int& xEnd, int& yEnd,
-	int xMin, int yMin, int xMax, int yMax) {
+void PrintMirage::AdjustLinePoints(int& xStart, int& yStart, int& xEnd, int& yEnd, const int xMin, const int yMin, const int xMax, const int yMax)
+{
+	yStart = yMax - yStart + yMin;
+	yEnd = yMax - yEnd + yMin;
+
 	// Vérifier et ajuster xStart si nécessaire
-	if (xStart < xMin) {
-		yStart += static_cast<int>((xMin - xStart) * (yEnd - yStart) / (float)(xEnd - xStart));
+	if (xStart < xMin && xEnd != xStart)
+	{
+		yStart += (xMin - xStart) * (yEnd - yStart) / (xEnd - xStart);
 		xStart = xMin;
 	}
-	else if (xStart > xMax) {
-		yStart += static_cast<int>((xMax - xStart) * (yEnd - yStart) / (float)(xEnd - xStart));
+	else if (xStart > xMax && xEnd != xStart)
+	{
+		yStart += (xMax - xStart) * (yEnd - yStart) / (xEnd - xStart);
 		xStart = xMax;
 	}
 
 	// Vérifier et ajuster yStart si nécessaire
-	if (yStart < yMin) {
-		xStart += static_cast<int>((yMin - yStart) * (xEnd - xStart) / (float)(yEnd - yStart));
+	if (yStart < yMin && yEnd != yStart)
+	{
+		xStart += (yMin - yStart) * (xEnd - xStart) / (yEnd - yStart);
 		yStart = yMin;
 	}
-	else if (yStart > yMax) {
-		xStart += static_cast<int>((yMax - yStart) * (xEnd - xStart) / (float)(yEnd - yStart));
+	else if (yStart > yMax && yEnd != yStart)
+	{
+		xStart += (yMax - yStart) * (xEnd - xStart) / (yEnd - yStart);
 		yStart = yMax;
 	}
 
 	// Vérifier et ajuster xEnd si nécessaire
-	if (xEnd < xMin) {
-		yEnd += static_cast<int>((xMin - xEnd) * (yStart - yEnd) / (float)(xStart - xEnd));
+	if (xEnd < xMin && xStart != xEnd)
+	{
+		yEnd += (xMin - xEnd) * (yStart - yEnd) / (xStart - xEnd);
 		xEnd = xMin;
 	}
-	else if (xEnd > xMax) {
-		yEnd += static_cast<int>((xMax - xEnd) * (yStart - yEnd) / (float)(xStart - xEnd));
+	else if (xEnd > xMax && xStart != xEnd)
+	{
+		yEnd += (xMax - xEnd) * (yStart - yEnd) / (xStart - xEnd);
 		xEnd = xMax;
 	}
 
 	// Vérifier et ajuster yEnd si nécessaire
-	if (yEnd < yMin) {
-		xEnd += static_cast<int>((yMin - yEnd) * (xStart - xEnd) / (float)(yStart - yEnd));
+	if (yEnd < yMin && yStart != yEnd)
+	{
+		xEnd += (yMin - yEnd) * (xStart - xEnd) / (yStart - yEnd);
 		yEnd = yMin;
 	}
-	else if (yEnd > yMax) {
-		xEnd += static_cast<int>((yMax - yEnd) * (xStart - xEnd) / (float)(yStart - yEnd));
+	else if (yEnd > yMax && yStart != yEnd)
+	{
+		xEnd += (yMax - yEnd) * (xStart - xEnd) / (yStart - yEnd);
 		yEnd = yMax;
 	}
 }
-
