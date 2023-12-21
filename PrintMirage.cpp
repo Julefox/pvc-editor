@@ -167,7 +167,7 @@ void PrintMirage::MiragePage_02()
 				const eSideType side      = CalculationData::GetMirageSide( j );
 				const PointMeasure& point = hInst->Calculation.PointData[ i - 1 ][ side ];
 
-				if ( std::abs( point.Undulation - UnassignedDoubleValue ) > Epsilon && !( ( side == AND_BD && section > 8 ) || ( side == AND_B && section > 7 ) || ( side == AND_BG && section > 8 ) ) )
+				if ( std::abs( point.Undulation - UnassignedDoubleValue ) > Epsilon && !( ( side == AND_BD && section > 8 ) || ( side == AND_B && section > 7 ) || ( side == AND_BG && section > 8 ) || ( hInst->ActiveProductData.RadomeType == Mirage_R && section > 7 ) ) )
 				{
 					SetToleranceColor( dc, point.Undulation, undulationTolerance );
 					dc->DrawLabel( wxString::Format( "%.2f ", point.Undulation ) + "%", wxRect( x_start + case_w * ( side + 2 ), y, case_w, case_h ), wxALIGN_CENTER );
@@ -192,7 +192,6 @@ void PrintMirage::MiragePage_03()
 	SetDcScale( this, dc );
 	Mirage_DrawMainHeader( hInst, dc, 3 );
 	Mirage_DrawGraphic( hInst, dc, "H", AND_H );
-	//Mirage_DrawGraphicStat( hInst, dc, AND_H );
 }
 
 void PrintMirage::MiragePage_04()
@@ -202,7 +201,6 @@ void PrintMirage::MiragePage_04()
 	SetDcScale( this, dc );
 	Mirage_DrawMainHeader( hInst, dc, 4 );
 	Mirage_DrawGraphic( hInst, dc, "HD", AND_HD );
-	//Mirage_DrawGraphicStat( hInst, dc, AND_HD );
 }
 
 void PrintMirage::MiragePage_05()
@@ -212,7 +210,6 @@ void PrintMirage::MiragePage_05()
 	SetDcScale( this, dc );
 	Mirage_DrawMainHeader( hInst, dc, 5 );
 	Mirage_DrawGraphic( hInst, dc, "D", AND_D );
-	//Mirage_DrawGraphicStat( hInst, dc, AND_D );
 }
 
 void PrintMirage::MiragePage_06()
@@ -222,7 +219,6 @@ void PrintMirage::MiragePage_06()
 	SetDcScale( this, dc );
 	Mirage_DrawMainHeader( hInst, dc, 6 );
 	Mirage_DrawGraphic( hInst, dc, "BD", AND_BD );
-	//Mirage_DrawGraphicStat( hInst, dc, AND_BD );
 }
 
 void PrintMirage::MiragePage_07()
@@ -232,7 +228,6 @@ void PrintMirage::MiragePage_07()
 	SetDcScale( this, dc );
 	Mirage_DrawMainHeader( hInst, dc, 7 );
 	Mirage_DrawGraphic( hInst, dc, "B", AND_B );
-	//Mirage_DrawGraphicStat( hInst, dc, AND_B );
 }
 
 void PrintMirage::MiragePage_08()
@@ -242,7 +237,6 @@ void PrintMirage::MiragePage_08()
 	SetDcScale( this, dc );
 	Mirage_DrawMainHeader( hInst, dc, 8 );
 	Mirage_DrawGraphic( hInst, dc, "BG", AND_BG );
-	//Mirage_DrawGraphicStat( hInst, dc, AND_BG );
 }
 
 void PrintMirage::MiragePage_09()
@@ -252,7 +246,6 @@ void PrintMirage::MiragePage_09()
 	SetDcScale( this, dc );
 	Mirage_DrawMainHeader( hInst, dc, 9 );
 	Mirage_DrawGraphic( hInst, dc, "G", AND_G );
-	//Mirage_DrawGraphicStat( hInst, dc, AND_G );
 }
 
 void PrintMirage::MiragePage_10()
@@ -262,7 +255,6 @@ void PrintMirage::MiragePage_10()
 	SetDcScale( this, dc );
 	Mirage_DrawMainHeader( hInst, dc, 10 );
 	Mirage_DrawGraphic( hInst, dc, "HG", AND_HG );
-	//Mirage_DrawGraphicStat( hInst, dc, AND_HG );
 }
 
 constexpr int X_START_VALUE = 0, X_END_VALUE = 2120, Y_START_VALUE = -2, Y_END_VALUE = 2, CIRCLE_RADIUS = 2,
@@ -293,6 +285,7 @@ void PrintMirage::Mirage_DrawGraphic( Program* hInst, wxDC* dc, const wxString& 
 	const wxPen pDotBlue( *wxBLUE, 1, wxPENSTYLE_DOT );
 	const wxBrush greenBrush(*wxGREEN, wxBRUSHSTYLE_SOLID);
 
+	std::map<eSectionType, int> redLinePos;
 	std::map<eSectionType, GraphPoint> sectionPos;
 
 	for (const auto& keyVal : hInst->ActiveProductData.GraphicData[side])
@@ -303,18 +296,31 @@ void PrintMirage::Mirage_DrawGraphic( Program* hInst, wxDC* dc, const wxString& 
 
 		const int x = FRAME_X_START + static_cast <int>((graphicData.Height - X_START_VALUE) * FRAME_X_LENGTH / (X_END_VALUE - X_START_VALUE));
 
+		GraphPoint graphPoint;
+
+		graphPoint.X_LINE = x;
+
+		if (section == AND_F || section == AND_11)
+		{
+			redLinePos[section] = graphPoint.X_LINE;
+		}
+
 		if (std::abs(point.RayDifference - UnassignedDoubleValue) > Epsilon)
 		{
-			GraphPoint graphPoint;
-
-			graphPoint.X_LINE = x;
-
 			int xStart = graphPoint.X_LINE;
 			int yStart = FRAME_Y_TOLERANCE_START + static_cast <int>((point.RayDifference - Y_START_VALUE) * FRAME_Y_TOLERANCE_LENGTH / (Y_END_VALUE - Y_START_VALUE));
 			int xEnd = FRAME_X_START + static_cast <int>((graphicData.DeltaHeight - X_START_VALUE) * FRAME_X_LENGTH / (X_END_VALUE - X_START_VALUE));
 			int yEnd = FRAME_Y_TOLERANCE_START + static_cast <int>((graphicData.DeltaMin - Y_START_VALUE) * FRAME_Y_TOLERANCE_LENGTH / (graphicData.DeltaMax - graphicData.DeltaMin));
 
-			AdjustLinePoints(xStart, yStart, xEnd, yEnd, FRAME_X_START, FRAME_Y_START, FRAME_X_START + FRAME_X_LENGTH, FRAME_Y_START + FRAME_Y_LENGTH);
+			//double dx = xEnd - xStart;
+			//double dy = yEnd - yStart;
+			//std::cout << dy / dx << " " << xStart << " " << yStart << " " << xEnd << " " << yEnd << " // ";
+			//
+			//AdjustLinePoints(xStart, yStart, xEnd, yEnd, FRAME_X_START, FRAME_Y_START, FRAME_X_START + FRAME_X_LENGTH, FRAME_Y_START + FRAME_Y_LENGTH);
+			//
+			//dx = xEnd - xStart;
+			//dy = yEnd - yStart;
+			//std::cout << dy / dx << " " << xStart << " " << yStart << " " << xEnd << " " << yEnd << "\n";
 
 			graphPoint.X_RAY_DIFF = xStart;
 			graphPoint.Y_RAY_DIFF = yStart;
@@ -382,7 +388,7 @@ void PrintMirage::Mirage_DrawGraphic( Program* hInst, wxDC* dc, const wxString& 
 		if (i == 1 || i == 9)
 		{
 			dc->SetPen(pRed);
-			dc->DrawLine(sectionPos[AND_F].X_LINE, y, sectionPos[AND_11].X_LINE, y);
+			dc->DrawLine(redLinePos[AND_F], y, redLinePos[AND_11], y);
 			dc->SetPen(*wxBLACK_PEN);
 		}
 		y += 30;
@@ -398,346 +404,19 @@ void PrintMirage::Mirage_DrawGraphic( Program* hInst, wxDC* dc, const wxString& 
 	for (int i = 0; i < 12; i++)
 	{
 		const auto section = static_cast<eSectionType>(i);
-
+	
 		if (sectionPos.find(section) != sectionPos.end())
 		{
 			const GraphPoint& graphPoint = sectionPos[section];
+	
+			if (graphPoint.X_LINE == 0)
+				break;
+	
 			DrawWhiteLabel(dc, graphPoint.X_LINE - 6, FRAME_Y_START + FRAME_Y_LENGTH - 6, 12, 12, section == AND_F ? "F" : std::to_string(section));
 		}
 	}
 
-	dc->SetPen(*wxBLACK_PEN);
-
-	for (int i = 1; i < 12; i++)
-	{
-		const auto section = static_cast<eSectionType>(i);
-		const auto backSection = static_cast<eSectionType>(i - 1);
-
-		if (sectionPos.find(section) != sectionPos.end() && sectionPos.find(backSection) != sectionPos.end())
-		{
-			const GraphPoint& graphPoint = sectionPos[section];
-			const GraphPoint& backGraphPoint = sectionPos[backSection];
-
-			dc->DrawLine(backGraphPoint.X_RAY_DIFF, backGraphPoint.Y_RAY_DIFF, graphPoint.X_RAY_DIFF, graphPoint.Y_RAY_DIFF);
-
-			std::cout << backGraphPoint.X_RAY_DIFF << " " << backGraphPoint.Y_RAY_DIFF << " " << graphPoint.X_RAY_DIFF << " " << graphPoint.Y_RAY_DIFF << "\n";
-		}
-	}
-
-	//std::map<eSectionType, int> xSectionPos;
-	//
-	//dc->SetPen( *wxBLACK_PEN );
-	//dc->SetFont(wxFont(8, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL));
-	//
-	//DrawRectangle( dc, 120, 220, 880, 440 );
-	//DrawWhiteLabel( dc, 142, 205, 64, 30, L"Ecart en mm" );
-	//
-	//dc->SetPen(pBigBlack);
-	//
-	//constexpr int FRAME_X_START = 180, FRAME_X_LENGTH = 800, FRAME_Y_START = 260, FRAME_Y_LENGTH = 360, FRAME_Y_TOLERANCE_START = FRAME_Y_START - 60, FRAME_Y_TOLERANCE_LENGTH = FRAME_Y_LENGTH + 120;
-	//
-	//DrawRectangle( dc, FRAME_X_START, FRAME_Y_START, FRAME_X_LENGTH, FRAME_Y_LENGTH);
-	//
-	//dc->SetPen(BlackColor);
-	//
-	//for ( const auto& keyVal : hInst->ActiveProductData.GraphicData[ side ] )
-	//{
-	//	eSectionType section = keyVal.first;
-	//	const GraphicData graphicData = keyVal.second;
-	//
-	//	dc->SetPen(BlackColor);
-	//	const int x = FRAME_X_START + static_cast < int >( ( graphicData.Height - X_START_VALUE ) * FRAME_X_LENGTH / ( X_END_VALUE - X_START_VALUE ) );
-	//	dc->DrawLine(x, FRAME_Y_START, x, FRAME_Y_START + FRAME_Y_LENGTH);
-	//	xSectionPos[ section ] = x;
-	//	DrawWhiteLabel(dc, x - 6, FRAME_Y_START + FRAME_Y_LENGTH - 6, 12, 12, section == AND_F ? "F" : std::to_string( section ) );
-	//
-	//	if ( graphicData.DeltaMin != 0.0f && graphicData.DeltaMax != 0.0f && graphicData.DeltaHeight != 0.0f )
-	//	{
-	//		dc->SetPen(pDotBlue);
-	//
-	//		int xStart = xSectionPos[ section ];
-	//		int yStart = FRAME_Y_START + FRAME_Y_LENGTH / 2;
-	//		int xEnd = FRAME_X_START + static_cast <int>((graphicData.DeltaHeight - X_START_VALUE) * FRAME_X_LENGTH / (X_END_VALUE - X_START_VALUE));
-	//		int yEnd = FRAME_Y_TOLERANCE_START + static_cast <int>((graphicData.DeltaMin - Y_START_VALUE) * FRAME_Y_TOLERANCE_LENGTH / (graphicData.DeltaMax - graphicData.DeltaMin));
-	//
-	//		AdjustLinePoints(xStart, yStart, xEnd, yEnd, FRAME_X_START, FRAME_Y_START, FRAME_X_START + FRAME_X_LENGTH, FRAME_Y_START + FRAME_Y_LENGTH);
-	//		dc->DrawLine(xStart, yStart, xEnd, yEnd);
-	//		dc->DrawLine(xStart, yStart, xEnd, yEnd + (FRAME_Y_START + FRAME_Y_LENGTH / 2 - yEnd) * 2);
-	//	}
-	//}
-	//
-	//dc->SetPen(BlackColor);
-	//
-	//int xStart = 0;
-	//int yStart = 0;
-	//int xEnd = 0;
-	//int yEnd = 0;
-	//
-	//for (int i = 0; i < 12; i++)
-	//{
-	//	const auto section = static_cast< eSectionType >( i );
-	//	const auto nextSection = static_cast< eSectionType >( i + 1 );
-	//
-	//	const PointMeasure& point = hInst->Calculation.PointData[12 - section][side];
-	//	const PointMeasure& nextPoint = hInst->Calculation.PointData[12 - nextSection][side];
-	//
-	//	if (std::abs(point.RayDifference - UnassignedDoubleValue) > Epsilon && std::abs(nextPoint.RayDifference - UnassignedDoubleValue) > Epsilon)
-	//	{
-	//		xStart = xSectionPos[section];
-	//		yStart = FRAME_Y_TOLERANCE_START + static_cast <int>((point.RayDifference - Y_START_VALUE) * FRAME_Y_TOLERANCE_LENGTH / (Y_END_VALUE - Y_START_VALUE));
-	//		xEnd = xSectionPos[nextSection];
-	//		yEnd = FRAME_Y_TOLERANCE_START + static_cast <int>((nextPoint.RayDifference - Y_START_VALUE) * FRAME_Y_TOLERANCE_LENGTH / (Y_END_VALUE - Y_START_VALUE));
-	//
-	//		AdjustLinePoints(xStart, yStart, xEnd, yEnd, FRAME_X_START, FRAME_Y_START, FRAME_X_START + FRAME_X_LENGTH, FRAME_Y_START + FRAME_Y_LENGTH);
-	//
-	//		if (xEnd - xStart < 5 || ((side == AND_BD && section > 8) || (side == AND_B && section > 7) || (side == AND_BG && section > 8)))
-	//		{
-	//			break;
-	//		}
-	//
-	//		dc->DrawLine(xStart, yStart, xEnd, yEnd);
-	//	}
-	//}
-
-	// 
-	//if (yStart > FRAME_X_START && yStart < FRAME_X_START + FRAME_X_LENGTH)
-	//{
-	//	dc->SetBrush(greenBrush);
-	//	dc->DrawCircle(xStart - CIRCLE_RADIUS / 2, yStart - CIRCLE_RADIUS / 2, CIRCLE_RADIUS);
-	//}
-
-	//int y = 290;
-	//for (int i = 0; i < 11; i++)
-	//{
-	//	dc->DrawLine(180, y, 980, y);
-	//	if (i == 1 || i == 9)
-	//	{
-	//		dc->SetPen(pRed);
-	//		dc->DrawLine(xSectionPos[AND_F], y, xSectionPos[AND_11], y);
-	//		dc->SetPen(*wxBLACK_PEN);
-	//	}
-	//	y += 30;
-	//}
-	//
-	//y = 245; 
-	//for ( double i = 1.50f; i > -2.00f; i -= 0.50f )
-	//{
-	//	dc->DrawLabel( wxString::Format( wxT( "%.2f" ), i ), wxRect( 120, y, 60, 30 ), wxALIGN_CENTRE );
-	//	y += 60;
-	//}
-	//
-	//dc->SetFont( wxFont( 8, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD ) );
-	//dc->DrawLabel( "N° de Section", wxRect( 180, 620, 800, 40 ), wxALIGN_CENTRE );
-	//
-	//
-	//dc->SetFont( wxFont( 16, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, true ) );
-	//dc->DrawLabel( L"Représentation graphique du profil: Génératrice " + gen, wxRect( 120, 120, 880, 100 ), wxALIGN_CENTRE );
-
-	///////////////////////////
-
-	//// Cadre Principal
-	//dc->DrawLine( 120, 220, 140, 220 );   // Haut 1
-	//dc->DrawLine( 208, 220, 1000, 220 );  // Haut 2
-	//dc->DrawLine( 120, 660, 1000, 660 );  // Bas
-	//dc->DrawLine( 120, 220, 120, 660 );   // Gauche
-	//dc->DrawLine( 1000, 220, 1000, 660 ); // Droit
-	//
-	//dc->SetFont( wxFont( 8, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL ) );
-	//dc->DrawLabel( L"Ecart en mm", wxRect( 142, 205, 64, 30 ), wxALIGN_CENTRE );
-	//
-	//// PM: 260 == Haut Y | 620 == Bas Y | 440 == Centre Y | 180 == Cote Gauche X | 1000 == Cote Droit X
-	//// Ligne de tolerance, de gauche a droite
-	//dc->SetPen( pDotBlue );
-	//dc->DrawLine( 200, 440, 385, 260 ); // F
-	//dc->DrawLine( 200, 440, 376, 610 ); // F // Leger offset pour ne pas cacher le chiffre 3
-	//
-	//dc->DrawLine( 230, 440, 416, 260 ); // 1
-	//dc->DrawLine( 230, 440, 416, 620 ); // 1
-	//
-	//dc->DrawLine( 303, 440, 489, 260 ); // 2
-	//dc->DrawLine( 303, 440, 489, 620 ); // 2
-	//
-	//dc->DrawLine( 376, 440, 562, 260 ); // 3
-	//dc->DrawLine( 376, 440, 562, 620 ); // 3
-	//
-	//dc->DrawLine( 449, 440, 635, 260 ); // 4
-	//dc->DrawLine( 449, 440, 635, 620 ); // 4
-	//
-	//dc->DrawLine( 522, 440, 708, 260 ); // 5
-	//dc->DrawLine( 522, 440, 708, 620 ); // 5
-	//
-	//dc->DrawLine( 595, 440, 781, 260 ); // 6
-	//dc->DrawLine( 595, 440, 781, 620 ); // 6
-	//
-	//dc->DrawLine( 668, 440, 854, 260 ); // 7
-	//dc->DrawLine( 668, 440, 854, 620 ); // 7
-	//
-	//if ( gen != "B" )
-	//{
-	//	dc->DrawLine( 741, 440, 834, 260 ); // 8
-	//	dc->DrawLine( 741, 440, 834, 620 ); // 8
-	//
-	//	dc->DrawLine( 814, 440, 907, 260 ); // 9
-	//	dc->DrawLine( 814, 440, 907, 620 ); // 9
-	//
-	//	dc->DrawLine( 887, 440, 980, 260 ); // 10
-	//	dc->DrawLine( 887, 440, 980, 620 ); // 10
-	//}
-	//
-	//// Cadre Tableau
-	//dc->SetPen( pBigBlack );
-	//dc->DrawLine( 180, 260, 980, 260 ); // Haut
-	//dc->DrawLine( 180, 260, 180, 620 ); // Gauche
-	//dc->DrawLine( 980, 260, 980, 620 ); // Droit
-	//
-	//// Bas
-	//dc->DrawLine( 180, 620, 190, 620 );
-	//dc->DrawLabel( L"F", wxRect( 190, 610, 20, 20 ), wxALIGN_CENTRE );
-	//dc->SetPen( *wxBLACK_PEN );
-	//dc->DrawLine( 200, 260, 200, 610 );
-	//dc->SetPen( pBigBlack );
-	//dc->DrawLine( 210, 620, 220, 620 );
-	//
-	//int x = 220;
-	//for ( int i = 1; i < 11; i++ )
-	//{
-	//	dc->DrawLabel( wxString::Format( wxT( "%d" ), i ), wxRect( x, 610, 20, 20 ), wxALIGN_CENTRE ); // Affiche les chiffres en bas
-	//	x += 10;
-	//	dc->SetPen( *wxBLACK_PEN );
-	//	dc->DrawLine( x, 260, x, 610 ); // Ligne verticale au dessus des chiffres
-	//	dc->SetPen( pBigBlack );
-	//	x += 10;
-	//	const int forward = i == 10
-	//		                    ? x + 31
-	//		                    : x + 53;
-	//	dc->DrawLine( x, 620, forward, 620 ); // Ligne du bas entre chaque chiffres
-	//	x = forward;
-	//
-	//	if ( i == 8 && gen == "B" )
-	//		break;
-	//}
-	//
-	//if ( gen != "B" )
-	//{
-	//	dc->DrawLabel( L"11", wxRect( 928, 610, 20, 20 ), wxALIGN_CENTRE );
-	//	dc->SetPen( *wxBLACK_PEN );
-	//	dc->DrawLine( 938, 260, 938, 610 );
-	//	dc->SetPen( pBigBlack );
-	//	dc->DrawLine( 950, 620, 980, 620 );
-	//}
-	//else
-	//{
-	//	dc->DrawLine( 800, 620, 980, 620 );
-	//}
-	//
-	//dc->SetPen( *wxBLACK_PEN );
-	//
-	//// Valeur cote gauche
-	//int y = 245;
-	//for ( float i = 1.50f; i > -2.00f; i -= 0.50f )
-	//{
-	//	dc->DrawLabel( wxString::Format( wxT( "%.2f" ), i ), wxRect( 120, y, 60, 30 ), wxALIGN_CENTRE );
-	//	y += 60;
-	//}
-	//
-	//// Ligne Horizontale
-	//y = 290;
-	//for ( int i = 0; i < 11; i++ )
-	//{
-	//	dc->DrawLine( 180, y, 980, y );
-	//	if ( i == 1 || i == 9 )
-	//	{
-	//		dc->SetPen( pRed );
-	//		dc->DrawLine( 200, y, 938, y );
-	//		dc->SetPen( *wxBLACK_PEN );
-	//	}
-	//	y += 30;
-	//}
-	//
-	//dc->SetFont( wxFont( 8, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD ) );
-	//dc->DrawLabel( "N° de Section", wxRect( 180, 620, 800, 40 ), wxALIGN_CENTRE );
-	//
-	//
-	//dc->SetFont( wxFont( 16, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, true ) );
-	//dc->DrawLabel( L"Représentation graphique du profil: Génératrice " + gen, wxRect( 120, 120, 880, 100 ), wxALIGN_CENTRE );
-}
-
-constexpr int CircleRadius  = 2;
-constexpr double ValueStart = 1.50f;
-constexpr int PixelStart    = 260;
-constexpr double PixelRange = 360.0f;
-constexpr int PixelEnd      = PixelStart + static_cast < int >( PixelRange );
-constexpr double ValueRange = 3.00f;
-
-void PrintMirage::Mirage_DrawGraphicStat( Program* hInst, wxDC* dc, eSideType side )
-{
-	const wxBrush greenBrush( *wxGREEN, wxBRUSHSTYLE_SOLID );
-	dc->SetBrush( greenBrush );
-
-	int x_start = 200;
-	int y_start = 0;
-	int x_end   = x_start;
-	int y_end   = 0;
-	int diff    = 0;
-
-	for ( int i = 12; i > 0; i-- )
-	{
-		y_start = PixelStart - static_cast < int >( ( hInst->Calculation.PointData[ i ][ side ].RayDifference - ValueStart ) * PixelRange / ValueRange );
-		y_end   = PixelStart - static_cast < int >( ( hInst->Calculation.PointData[ i - 1 ][ side ].RayDifference - ValueStart ) * PixelRange / ValueRange );
-
-		if ( i == 12 )
-		{
-			x_end += 30;
-		}
-		else if ( i == 2 )
-		{
-			x_end += 51;
-		}
-		else
-		{
-			x_end += 73;
-		}
-
-		if ( i != 1 )
-		{
-			if ( y_start < PixelStart ) // Limite Supérieure Début
-			{
-				x_start = FindXForY(PixelStart, x_start, y_start, x_end, y_end);
-				y_start = PixelStart;
-			}
-			else if ( y_start > PixelEnd ) // Limite Inférieure Début
-			{
-				x_start = FindXForY(PixelEnd, x_start, y_start, x_end, y_end);
-				y_start = PixelEnd;
-			}
-			else if ( y_end < PixelStart ) // Limite Supérieure Fin
-			{
-				x_end = FindXForY(PixelStart, x_start, y_start, x_end, y_end);
-				y_end = PixelStart;
-			}
-			else if ( y_end > PixelEnd ) // Limite Inférieure Fin
-			{
-				x_end = FindXForY(PixelEnd, x_start, y_start, x_end, y_end);
-				y_end = PixelEnd;
-			}
-			
-			dc->DrawLine( x_start, y_start, x_end, y_end );
-		}
-
-		if ( y_start > PixelStart && y_start < PixelEnd )
-		{
-			dc->DrawCircle( x_start - CircleRadius / 2, y_start - CircleRadius / 2, CircleRadius );
-		}
-
-		x_start = x_end;
-
-		if ( ( ( side == AND_BD || side == AND_BG ) && i == 4 ) || ( side == AND_B && i == 5 ) )
-		{
-			break;
-		}
-	}
-
-	dc->DrawCircle( x_end - CircleRadius / 2, y_end - CircleRadius / 2, CircleRadius );
+	//dc->SetPen(*wxBLACK_PEN);
 }
 
 bool PrintMirage::OnPrintPage( const int page )
@@ -822,63 +501,54 @@ void PrintMirage::CalculateTheoreticalRadius( Program* hInst, const int i )
 	}
 }
 
-int PrintMirage::FindXForY( const int yTarget, const int xStart, const int yStart, const int xEnd, const int yEnd )
-{
-	// Calculer la pente
-	const float m = static_cast< float >( xEnd - xStart ) / static_cast< float >( yEnd - yStart );
-
-	// Calculer et retourner x pour yTarget
-	return xStart + static_cast< int >( m ) * ( yTarget - yStart );
-}
-
 void PrintMirage::AdjustLinePoints(int& xStart, int& yStart, int& xEnd, int& yEnd, const int xMin, const int yMin, const int xMax, const int yMax)
 {
+	// Inverser les valeurs Y avant de les ajuster
 	yStart = yMax - yStart + yMin;
 	yEnd = yMax - yEnd + yMin;
 
 	// Vérifier et ajuster xStart si nécessaire
-	if (xStart < xMin && xEnd != xStart)
+	if (xStart < xMin)
 	{
 		yStart += (xMin - xStart) * (yEnd - yStart) / (xEnd - xStart);
 		xStart = xMin;
 	}
-	else if (xStart > xMax && xEnd != xStart)
+	else if (xStart > xMax)
 	{
 		yStart += (xMax - xStart) * (yEnd - yStart) / (xEnd - xStart);
 		xStart = xMax;
 	}
 
 	// Vérifier et ajuster yStart si nécessaire
-	if (yStart < yMin && yEnd != yStart)
+	if (yStart < yMin)
 	{
 		xStart += (yMin - yStart) * (xEnd - xStart) / (yEnd - yStart);
 		yStart = yMin;
 	}
-	else if (yStart > yMax && yEnd != yStart)
+	else if (yStart > yMax)
 	{
 		xStart += (yMax - yStart) * (xEnd - xStart) / (yEnd - yStart);
 		yStart = yMax;
 	}
 
 	// Vérifier et ajuster xEnd si nécessaire
-	if (xEnd < xMin && xStart != xEnd)
+	if (xEnd < xMin)
 	{
 		yEnd += (xMin - xEnd) * (yStart - yEnd) / (xStart - xEnd);
 		xEnd = xMin;
 	}
-	else if (xEnd > xMax && xStart != xEnd)
+	else if (xEnd > xMax)
 	{
 		yEnd += (xMax - xEnd) * (yStart - yEnd) / (xStart - xEnd);
 		xEnd = xMax;
 	}
 
 	// Vérifier et ajuster yEnd si nécessaire
-	if (yEnd < yMin && yStart != yEnd)
-	{
+	if (yEnd < yMin) {
 		xEnd += (yMin - yEnd) * (xStart - xEnd) / (yStart - yEnd);
 		yEnd = yMin;
 	}
-	else if (yEnd > yMax && yStart != yEnd)
+	else if (yEnd > yMax)
 	{
 		xEnd += (yMax - yEnd) * (xStart - xEnd) / (yStart - yEnd);
 		yEnd = yMax;

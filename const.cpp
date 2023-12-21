@@ -46,5 +46,5 @@ wxString StringUtility::ReplaceWxString( const wxString& wStr, const wxString& i
 double MathUtility::RoundValue( const double value, const int precision )
 {
 	const double factor = std::pow( 10.0, precision );
-	return value * factor / factor;
+	return std::trunc( value * factor ) / factor;
 }

@@ -228,6 +228,7 @@ void CalculationData::MirageCalculateData( Program* hInst, const std::string& fi
 
 				point.Undulation = MathUtility::RoundValue( -( forwardPoint.RayDifference - point.RayDifference ) / ( height - forwardHeight ) / 2 * 100, 2 );
 
+				//std::cout << point.Undulation << " " << point.Height << " " << side << " " << point.UndulationTolerance << "\n";
 				//std::cout << point.Undulation << " = ( " << forwardPoint.RayDifference << " - " << point.RayDifference << " ) / ( " << height << " - " << forwardHeight << " ) / 2" << "\n";
 			}
 		}
