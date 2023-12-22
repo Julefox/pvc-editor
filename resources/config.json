@@ -1,4 +1,21 @@
 {
+    "Operators":
+    [
+        "N. FOLTRAN~VISA: 17/10/2023",
+        "N. PERROT~VISA: 01/01/2064"
+    ],
+
+    "Posts":
+    [
+        "Dufieux~Poste 2000D",
+        "Dufieux~Poste 2000DA"
+    ],
+
+    "MirageAnnexHeader":       "Annexe 1 à P/CP/E/028 Ind B",
+    "RafaleAnnexHeader":       "Annexe X à P/CP/E/0XX Ind X",
+    "RafaleFrameLeftContent":  "Montage sur bobine TAS Réf. ~",
+    "RafaleFrameRightContent": "Comprise danse le plan de pose~(matérialisé par les quatres plots du faux cadre 1)~et le sommet réél du radôme",
+
     "Products":
     [
         {
@@ -57,75 +74,123 @@
             {
                 "AND_H":
                 {
-                    "AND_F":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 57.70,   "DeltaHeight": 723.70  }, "AND_1":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 137.70,  "DeltaHeight": 803.70  },
-                    "AND_2":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 337.70,  "DeltaHeight": 1003.70 }, "AND_3":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 537.70,  "DeltaHeight": 1203.70 },
-                    "AND_4":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 737.70,  "DeltaHeight": 1403.70 }, "AND_5":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 937.70,  "DeltaHeight": 1603.70 },
-                    "AND_6":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1137.70, "DeltaHeight": 1803.70 }, "AND_7":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1337.70, "DeltaHeight": 2003.70 },
-                    "AND_8":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1537.70, "DeltaHeight": 1870.70 }, "AND_9":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1737.70, "DeltaHeight": 2070.70 },
-                    "AND_10": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1937.70, "DeltaHeight": 2270.70 }, "AND_11": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 2077.70, "DeltaHeight": 0.00    }
+                    "AND_F":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 57.70,   "DeltaHeight": 723.70  },
+                    "AND_1":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 137.70,  "DeltaHeight": 803.70  },
+                    "AND_2":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 337.70,  "DeltaHeight": 1003.70 },
+                    "AND_3":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 537.70,  "DeltaHeight": 1203.70 },
+                    "AND_4":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 737.70,  "DeltaHeight": 1403.70 },
+                    "AND_5":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 937.70,  "DeltaHeight": 1603.70 },
+                    "AND_6":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1137.70, "DeltaHeight": 1803.70 },
+                    "AND_7":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1337.70, "DeltaHeight": 2003.70 },
+                    "AND_8":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1537.70, "DeltaHeight": 1870.70 },
+                    "AND_9":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1737.70, "DeltaHeight": 2070.70 },
+                    "AND_10": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1937.70, "DeltaHeight": 2270.70 },
+                    "AND_11": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 2077.70, "DeltaHeight": 0.00    }
                 },
                 "AND_HD":
                 {
-                    "AND_F":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 57.70,   "DeltaHeight": 723.70  }, "AND_1":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 137.70,  "DeltaHeight": 803.70  },
-                    "AND_2":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 337.70,  "DeltaHeight": 1003.70 }, "AND_3":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 537.70,  "DeltaHeight": 1203.70 },
-                    "AND_4":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 737.70,  "DeltaHeight": 1403.70 }, "AND_5":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 937.70,  "DeltaHeight": 1603.70 },
-                    "AND_6":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1137.70, "DeltaHeight": 1803.70 }, "AND_7":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1337.70, "DeltaHeight": 2003.70 },
-                    "AND_8":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1537.70, "DeltaHeight": 1870.70 }, "AND_9":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1737.70, "DeltaHeight": 2070.70 },
-                    "AND_10": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1937.70, "DeltaHeight": 2270.70 }, "AND_11": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 2077.70, "DeltaHeight": 0.00    }
+                    "AND_F":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 57.70,   "DeltaHeight": 723.70  },
+                    "AND_1":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 137.70,  "DeltaHeight": 803.70  },
+                    "AND_2":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 337.70,  "DeltaHeight": 1003.70 },
+                    "AND_3":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 537.70,  "DeltaHeight": 1203.70 },
+                    "AND_4":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 737.70,  "DeltaHeight": 1403.70 },
+                    "AND_5":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 937.70,  "DeltaHeight": 1603.70 },
+                    "AND_6":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1137.70, "DeltaHeight": 1803.70 },
+                    "AND_7":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1337.70, "DeltaHeight": 2003.70 },
+                    "AND_8":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1537.70, "DeltaHeight": 1870.70 },
+                    "AND_9":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1737.70, "DeltaHeight": 2070.70 },
+                    "AND_10": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1937.70, "DeltaHeight": 2270.70 },
+                    "AND_11": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 2077.70, "DeltaHeight": 0.00    }
                 },
                 "AND_D":
                 {
-                    "AND_F":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 57.70,   "DeltaHeight": 723.70  }, "AND_1":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 137.70,  "DeltaHeight": 803.70  },
-                    "AND_2":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 337.70,  "DeltaHeight": 1003.70 }, "AND_3":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 537.70,  "DeltaHeight": 1203.70 },
-                    "AND_4":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 737.70,  "DeltaHeight": 1403.70 }, "AND_5":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 937.70,  "DeltaHeight": 1603.70 },
-                    "AND_6":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1137.70, "DeltaHeight": 1803.70 }, "AND_7":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1337.70, "DeltaHeight": 2003.70 },
-                    "AND_8":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1537.70, "DeltaHeight": 1870.70 }, "AND_9":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1737.70, "DeltaHeight": 2070.70 },
-                    "AND_10": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1937.70, "DeltaHeight": 2270.70 }, "AND_11": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 2077.70, "DeltaHeight": 0.00    }
+                    "AND_F":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 57.70,   "DeltaHeight": 723.70  },
+                    "AND_1":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 137.70,  "DeltaHeight": 803.70  },
+                    "AND_2":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 337.70,  "DeltaHeight": 1003.70 },
+                    "AND_3":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 537.70,  "DeltaHeight": 1203.70 },
+                    "AND_4":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 737.70,  "DeltaHeight": 1403.70 },
+                    "AND_5":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 937.70,  "DeltaHeight": 1603.70 },
+                    "AND_6":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1137.70, "DeltaHeight": 1803.70 },
+                    "AND_7":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1337.70, "DeltaHeight": 2003.70 },
+                    "AND_8":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1537.70, "DeltaHeight": 1870.70 },
+                    "AND_9":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1737.70, "DeltaHeight": 2070.70 },
+                    "AND_10": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1937.70, "DeltaHeight": 2270.70 },
+                    "AND_11": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 2077.70, "DeltaHeight": 0.00    }
                 },
                 "AND_BD":
                 {
-                    "AND_F":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 57.70,   "DeltaHeight": 723.70  }, "AND_1":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 137.70,  "DeltaHeight": 803.70  },
-                    "AND_2":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 337.70,  "DeltaHeight": 1003.70 }, "AND_3":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 537.70,  "DeltaHeight": 1203.70 },
-                    "AND_4":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 737.70,  "DeltaHeight": 1403.70 }, "AND_5":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 937.70,  "DeltaHeight": 1603.70 },
-                    "AND_6":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1137.70, "DeltaHeight": 1803.70 }, "AND_7":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1337.70, "DeltaHeight": 2003.70 },
-                    "AND_8":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1537.70, "DeltaHeight": 1870.70 }, "AND_9":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1737.70, "DeltaHeight": 2070.70 },
-                    "AND_10": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1937.70, "DeltaHeight": 2270.70 }, "AND_11": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 2077.70, "DeltaHeight": 0.00    }
+                    "AND_F":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 57.70,   "DeltaHeight": 723.70  },
+                    "AND_1":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 137.70,  "DeltaHeight": 803.70  },
+                    "AND_2":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 337.70,  "DeltaHeight": 1003.70 },
+                    "AND_3":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 537.70,  "DeltaHeight": 1203.70 },
+                    "AND_4":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 737.70,  "DeltaHeight": 1403.70 },
+                    "AND_5":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 937.70,  "DeltaHeight": 1603.70 },
+                    "AND_6":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1137.70, "DeltaHeight": 1803.70 },
+                    "AND_7":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1337.70, "DeltaHeight": 2003.70 },
+                    "AND_8":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1537.70, "DeltaHeight": 1870.70 },
+                    "AND_9":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1737.70, "DeltaHeight": 2070.70 },
+                    "AND_10": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1937.70, "DeltaHeight": 2270.70 },
+                    "AND_11": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 2077.70, "DeltaHeight": 0.00    }
                 },
                 "AND_B":
                 {
-                    "AND_F":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 57.70,   "DeltaHeight": 723.70  }, "AND_1":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 137.70,  "DeltaHeight": 803.70  },
-                    "AND_2":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 337.70,  "DeltaHeight": 1003.70 }, "AND_3":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 537.70,  "DeltaHeight": 1203.70 },
-                    "AND_4":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 737.70,  "DeltaHeight": 1403.70 }, "AND_5":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 937.70,  "DeltaHeight": 1603.70 },
-                    "AND_6":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1137.70, "DeltaHeight": 1803.70 }, "AND_7":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1337.70, "DeltaHeight": 2003.70 },
-                    "AND_8":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1537.70, "DeltaHeight": 0.00    }, "AND_9":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1737.70, "DeltaHeight": 0.00    },
-                    "AND_10": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1937.70, "DeltaHeight": 0.00    }, "AND_11": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 2077.70, "DeltaHeight": 0.00    }
+                    "AND_F":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 57.70,   "DeltaHeight": 723.70  },
+                    "AND_1":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 137.70,  "DeltaHeight": 803.70  },
+                    "AND_2":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 337.70,  "DeltaHeight": 1003.70 },
+                    "AND_3":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 537.70,  "DeltaHeight": 1203.70 },
+                    "AND_4":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 737.70,  "DeltaHeight": 1403.70 },
+                    "AND_5":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 937.70,  "DeltaHeight": 1603.70 },
+                    "AND_6":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1137.70, "DeltaHeight": 1803.70 },
+                    "AND_7":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1337.70, "DeltaHeight": 2003.70 },
+                    "AND_8":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1537.70, "DeltaHeight": 0.00    },
+                    "AND_9":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1737.70, "DeltaHeight": 0.00    },
+                    "AND_10": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1937.70, "DeltaHeight": 0.00    },
+                    "AND_11": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 2077.70, "DeltaHeight": 0.00    }
                 },
                 "AND_BG":
                 {
-                    "AND_F":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 57.70,   "DeltaHeight": 723.70  }, "AND_1":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 137.70,  "DeltaHeight": 803.70  },
-                    "AND_2":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 337.70,  "DeltaHeight": 1003.70 }, "AND_3":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 537.70,  "DeltaHeight": 1203.70 },
-                    "AND_4":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 737.70,  "DeltaHeight": 1403.70 }, "AND_5":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 937.70,  "DeltaHeight": 1603.70 },
-                    "AND_6":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1137.70, "DeltaHeight": 1803.70 }, "AND_7":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1337.70, "DeltaHeight": 2003.70 },
-                    "AND_8":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1537.70, "DeltaHeight": 1870.70 }, "AND_9":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1737.70, "DeltaHeight": 2070.70 },
-                    "AND_10": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1937.70, "DeltaHeight": 2270.70 }, "AND_11": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 2077.70, "DeltaHeight": 0.00    }
+                    "AND_F":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 57.70,   "DeltaHeight": 723.70  },
+                    "AND_1":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 137.70,  "DeltaHeight": 803.70  },
+                    "AND_2":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 337.70,  "DeltaHeight": 1003.70 },
+                    "AND_3":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 537.70,  "DeltaHeight": 1203.70 },
+                    "AND_4":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 737.70,  "DeltaHeight": 1403.70 },
+                    "AND_5":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 937.70,  "DeltaHeight": 1603.70 },
+                    "AND_6":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1137.70, "DeltaHeight": 1803.70 },
+                    "AND_7":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1337.70, "DeltaHeight": 2003.70 },
+                    "AND_8":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1537.70, "DeltaHeight": 1870.70 },
+                    "AND_9":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1737.70, "DeltaHeight": 2070.70 },
+                    "AND_10": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1937.70, "DeltaHeight": 2270.70 },
+                    "AND_11": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 2077.70, "DeltaHeight": 0.00    }
                 },
                 "AND_G":
                 {
-                    "AND_F":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 57.70,   "DeltaHeight": 723.70  }, "AND_1":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 137.70,  "DeltaHeight": 803.70  },
-                    "AND_2":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 337.70,  "DeltaHeight": 1003.70 }, "AND_3":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 537.70,  "DeltaHeight": 1203.70 },
-                    "AND_4":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 737.70,  "DeltaHeight": 1403.70 }, "AND_5":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 937.70,  "DeltaHeight": 1603.70 },
-                    "AND_6":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1137.70, "DeltaHeight": 1803.70 }, "AND_7":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1337.70, "DeltaHeight": 2003.70 },
-                    "AND_8":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1537.70, "DeltaHeight": 1870.70 }, "AND_9":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1737.70, "DeltaHeight": 2070.70 },
-                    "AND_10": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1937.70, "DeltaHeight": 2270.70 }, "AND_11": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 2077.70, "DeltaHeight": 0.00    }
+                    "AND_F":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 57.70,   "DeltaHeight": 723.70  },
+                    "AND_1":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 137.70,  "DeltaHeight": 803.70  },
+                    "AND_2":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 337.70,  "DeltaHeight": 1003.70 },
+                    "AND_3":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 537.70,  "DeltaHeight": 1203.70 },
+                    "AND_4":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 737.70,  "DeltaHeight": 1403.70 },
+                    "AND_5":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 937.70,  "DeltaHeight": 1603.70 },
+                    "AND_6":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1137.70, "DeltaHeight": 1803.70 },
+                    "AND_7":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1337.70, "DeltaHeight": 2003.70 },
+                    "AND_8":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1537.70, "DeltaHeight": 1870.70 },
+                    "AND_9":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1737.70, "DeltaHeight": 2070.70 },
+                    "AND_10": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1937.70, "DeltaHeight": 2270.70 },
+                    "AND_11": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 2077.70, "DeltaHeight": 0.00    }
                 },
                 "AND_HG":
                 {
-                    "AND_F":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 57.70,   "DeltaHeight": 723.70  }, "AND_1":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 137.70,  "DeltaHeight": 803.70  },
-                    "AND_2":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 337.70,  "DeltaHeight": 1003.70 }, "AND_3":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 537.70,  "DeltaHeight": 1203.70 },
-                    "AND_4":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 737.70,  "DeltaHeight": 1403.70 }, "AND_5":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 937.70,  "DeltaHeight": 1603.70 },
-                    "AND_6":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1137.70, "DeltaHeight": 1803.70 }, "AND_7":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1337.70, "DeltaHeight": 2003.70 },
-                    "AND_8":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1537.70, "DeltaHeight": 1870.70 }, "AND_9":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1737.70, "DeltaHeight": 2070.70 },
-                    "AND_10": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1937.70, "DeltaHeight": 2270.70 }, "AND_11": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 2077.70, "DeltaHeight": 0.00    }
+                    "AND_F":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 57.70,   "DeltaHeight": 723.70  },
+                    "AND_1":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 137.70,  "DeltaHeight": 803.70  },
+                    "AND_2":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 337.70,  "DeltaHeight": 1003.70 },
+                    "AND_3":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 537.70,  "DeltaHeight": 1203.70 },
+                    "AND_4":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 737.70,  "DeltaHeight": 1403.70 },
+                    "AND_5":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 937.70,  "DeltaHeight": 1603.70 },
+                    "AND_6":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1137.70, "DeltaHeight": 1803.70 },
+                    "AND_7":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1337.70, "DeltaHeight": 2003.70 },
+                    "AND_8":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1537.70, "DeltaHeight": 1870.70 },
+                    "AND_9":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1737.70, "DeltaHeight": 2070.70 },
+                    "AND_10": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1937.70, "DeltaHeight": 2270.70 },
+                    "AND_11": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 2077.70, "DeltaHeight": 0.00    }
                 }
             }
         },
@@ -181,75 +246,123 @@
             {
                 "AND_H":
                 {
-                    "AND_F":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 57.70,   "DeltaHeight": 723.70  }, "AND_1":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 137.70,  "DeltaHeight": 803.70  },
-                    "AND_2":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 337.70,  "DeltaHeight": 1003.70 }, "AND_3":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 537.70,  "DeltaHeight": 1203.70 },
-                    "AND_4":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 737.70,  "DeltaHeight": 1403.70 }, "AND_5":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 937.70,  "DeltaHeight": 1603.70 },
-                    "AND_6":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1137.70, "DeltaHeight": 1803.70 }, "AND_7":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1337.70, "DeltaHeight": 2003.70 },
-                    "AND_8":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1537.70, "DeltaHeight": 1870.70 }, "AND_9":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1737.70, "DeltaHeight": 0.00    },
-                    "AND_10": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1937.70, "DeltaHeight": 0.00    }, "AND_11": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 2077.70, "DeltaHeight": 0.00    }
+                    "AND_F":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 57.70,   "DeltaHeight": 723.70  },
+                    "AND_1":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 137.70,  "DeltaHeight": 803.70  },
+                    "AND_2":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 337.70,  "DeltaHeight": 1003.70 },
+                    "AND_3":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 537.70,  "DeltaHeight": 1203.70 },
+                    "AND_4":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 737.70,  "DeltaHeight": 1403.70 },
+                    "AND_5":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 937.70,  "DeltaHeight": 1603.70 },
+                    "AND_6":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1137.70, "DeltaHeight": 1803.70 },
+                    "AND_7":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1337.70, "DeltaHeight": 2003.70 },
+                    "AND_8":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1537.70, "DeltaHeight": 1870.70 },
+                    "AND_9":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1737.70, "DeltaHeight": 0.00    },
+                    "AND_10": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1937.70, "DeltaHeight": 0.00    },
+                    "AND_11": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 2077.70, "DeltaHeight": 0.00    }
                 },
                 "AND_HD":
                 {
-                    "AND_F":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 57.70,   "DeltaHeight": 723.70  }, "AND_1":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 137.70,  "DeltaHeight": 803.70  },
-                    "AND_2":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 337.70,  "DeltaHeight": 1003.70 }, "AND_3":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 537.70,  "DeltaHeight": 1203.70 },
-                    "AND_4":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 737.70,  "DeltaHeight": 1403.70 }, "AND_5":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 937.70,  "DeltaHeight": 1603.70 },
-                    "AND_6":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1137.70, "DeltaHeight": 1803.70 }, "AND_7":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1337.70, "DeltaHeight": 2003.70 },
-                    "AND_8":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1537.70, "DeltaHeight": 1870.70 }, "AND_9":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1737.70, "DeltaHeight": 0.00    },
-                    "AND_10": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1937.70, "DeltaHeight": 0.00    }, "AND_11": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 2077.70, "DeltaHeight": 0.00    }
+                    "AND_F":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 57.70,   "DeltaHeight": 723.70  },
+                    "AND_1":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 137.70,  "DeltaHeight": 803.70  },
+                    "AND_2":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 337.70,  "DeltaHeight": 1003.70 },
+                    "AND_3":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 537.70,  "DeltaHeight": 1203.70 },
+                    "AND_4":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 737.70,  "DeltaHeight": 1403.70 },
+                    "AND_5":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 937.70,  "DeltaHeight": 1603.70 },
+                    "AND_6":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1137.70, "DeltaHeight": 1803.70 },
+                    "AND_7":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1337.70, "DeltaHeight": 2003.70 },
+                    "AND_8":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1537.70, "DeltaHeight": 1870.70 },
+                    "AND_9":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1737.70, "DeltaHeight": 0.00    },
+                    "AND_10": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1937.70, "DeltaHeight": 0.00    },
+                    "AND_11": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 2077.70, "DeltaHeight": 0.00    }
                 },
                 "AND_D":
                 {
-                    "AND_F":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 57.70,   "DeltaHeight": 723.70  }, "AND_1":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 137.70,  "DeltaHeight": 803.70  },
-                    "AND_2":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 337.70,  "DeltaHeight": 1003.70 }, "AND_3":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 537.70,  "DeltaHeight": 1203.70 },
-                    "AND_4":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 737.70,  "DeltaHeight": 1403.70 }, "AND_5":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 937.70,  "DeltaHeight": 1603.70 },
-                    "AND_6":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1137.70, "DeltaHeight": 1803.70 }, "AND_7":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1337.70, "DeltaHeight": 2003.70 },
-                    "AND_8":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1537.70, "DeltaHeight": 1870.70 }, "AND_9":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1737.70, "DeltaHeight": 0.00    },
-                    "AND_10": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1937.70, "DeltaHeight": 0.00    }, "AND_11": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 2077.70, "DeltaHeight": 0.00    }
+                    "AND_F":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 57.70,   "DeltaHeight": 723.70  },
+                    "AND_1":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 137.70,  "DeltaHeight": 803.70  },
+                    "AND_2":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 337.70,  "DeltaHeight": 1003.70 },
+                    "AND_3":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 537.70,  "DeltaHeight": 1203.70 },
+                    "AND_4":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 737.70,  "DeltaHeight": 1403.70 },
+                    "AND_5":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 937.70,  "DeltaHeight": 1603.70 },
+                    "AND_6":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1137.70, "DeltaHeight": 1803.70 },
+                    "AND_7":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1337.70, "DeltaHeight": 2003.70 },
+                    "AND_8":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1537.70, "DeltaHeight": 1870.70 },
+                    "AND_9":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1737.70, "DeltaHeight": 0.00    },
+                    "AND_10": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1937.70, "DeltaHeight": 0.00    },
+                    "AND_11": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 2077.70, "DeltaHeight": 0.00    }
                 },
                 "AND_BD":
                 {
-                    "AND_F":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 57.70,   "DeltaHeight": 723.70  }, "AND_1":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 137.70,  "DeltaHeight": 803.70  },
-                    "AND_2":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 337.70,  "DeltaHeight": 1003.70 }, "AND_3":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 537.70,  "DeltaHeight": 1203.70 },
-                    "AND_4":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 737.70,  "DeltaHeight": 1403.70 }, "AND_5":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 937.70,  "DeltaHeight": 1603.70 },
-                    "AND_6":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1137.70, "DeltaHeight": 1803.70 }, "AND_7":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1337.70, "DeltaHeight": 2003.70 },
-                    "AND_8":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1537.70, "DeltaHeight": 1870.70 }, "AND_9":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1737.70, "DeltaHeight": 0.00    },
-                    "AND_10": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1937.70, "DeltaHeight": 0.00    }, "AND_11": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 2077.70, "DeltaHeight": 0.00    }
+                    "AND_F":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 57.70,   "DeltaHeight": 723.70  },
+                    "AND_1":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 137.70,  "DeltaHeight": 803.70  },
+                    "AND_2":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 337.70,  "DeltaHeight": 1003.70 },
+                    "AND_3":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 537.70,  "DeltaHeight": 1203.70 },
+                    "AND_4":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 737.70,  "DeltaHeight": 1403.70 },
+                    "AND_5":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 937.70,  "DeltaHeight": 1603.70 },
+                    "AND_6":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1137.70, "DeltaHeight": 1803.70 },
+                    "AND_7":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1337.70, "DeltaHeight": 2003.70 },
+                    "AND_8":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1537.70, "DeltaHeight": 1870.70 },
+                    "AND_9":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1737.70, "DeltaHeight": 0.00    },
+                    "AND_10": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1937.70, "DeltaHeight": 0.00    },
+                    "AND_11": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 2077.70, "DeltaHeight": 0.00    }
                 },
                 "AND_B":
                 {
-                    "AND_F":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 57.70,   "DeltaHeight": 723.70  }, "AND_1":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 137.70,  "DeltaHeight": 803.70  },
-                    "AND_2":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 337.70,  "DeltaHeight": 1003.70 }, "AND_3":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 537.70,  "DeltaHeight": 1203.70 },
-                    "AND_4":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 737.70,  "DeltaHeight": 1403.70 }, "AND_5":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 937.70,  "DeltaHeight": 1603.70 },
-                    "AND_6":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1137.70, "DeltaHeight": 1803.70 }, "AND_7":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1337.70, "DeltaHeight": 2003.70 },
-                    "AND_8":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1537.70, "DeltaHeight": 1870.70 }, "AND_9":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1737.70, "DeltaHeight": 0.00    },
-                    "AND_10": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1937.70, "DeltaHeight": 0.00    }, "AND_11": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 2077.70, "DeltaHeight": 0.00    }
+                    "AND_F":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 57.70,   "DeltaHeight": 723.70  },
+                    "AND_1":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 137.70,  "DeltaHeight": 803.70  },
+                    "AND_2":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 337.70,  "DeltaHeight": 1003.70 },
+                    "AND_3":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 537.70,  "DeltaHeight": 1203.70 },
+                    "AND_4":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 737.70,  "DeltaHeight": 1403.70 },
+                    "AND_5":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 937.70,  "DeltaHeight": 1603.70 },
+                    "AND_6":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1137.70, "DeltaHeight": 1803.70 },
+                    "AND_7":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1337.70, "DeltaHeight": 2003.70 },
+                    "AND_8":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1537.70, "DeltaHeight": 1870.70 },
+                    "AND_9":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1737.70, "DeltaHeight": 0.00    },
+                    "AND_10": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1937.70, "DeltaHeight": 0.00    },
+                    "AND_11": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 2077.70, "DeltaHeight": 0.00    }
                 },
                 "AND_BG":
                 {
-                    "AND_F":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 57.70,   "DeltaHeight": 723.70  }, "AND_1":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 137.70,  "DeltaHeight": 803.70  },
-                    "AND_2":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 337.70,  "DeltaHeight": 1003.70 }, "AND_3":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 537.70,  "DeltaHeight": 1203.70 },
-                    "AND_4":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 737.70,  "DeltaHeight": 1403.70 }, "AND_5":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 937.70,  "DeltaHeight": 1603.70 },
-                    "AND_6":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1137.70, "DeltaHeight": 1803.70 }, "AND_7":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1337.70, "DeltaHeight": 2003.70 },
-                    "AND_8":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1537.70, "DeltaHeight": 1870.70 }, "AND_9":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1737.70, "DeltaHeight": 0.00    },
-                    "AND_10": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1937.70, "DeltaHeight": 0.00    }, "AND_11": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 2077.70, "DeltaHeight": 0.00    }
+                    "AND_F":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 57.70,   "DeltaHeight": 723.70  },
+                    "AND_1":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 137.70,  "DeltaHeight": 803.70  },
+                    "AND_2":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 337.70,  "DeltaHeight": 1003.70 },
+                    "AND_3":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 537.70,  "DeltaHeight": 1203.70 },
+                    "AND_4":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 737.70,  "DeltaHeight": 1403.70 },
+                    "AND_5":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 937.70,  "DeltaHeight": 1603.70 },
+                    "AND_6":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1137.70, "DeltaHeight": 1803.70 },
+                    "AND_7":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1337.70, "DeltaHeight": 2003.70 },
+                    "AND_8":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1537.70, "DeltaHeight": 1870.70 },
+                    "AND_9":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1737.70, "DeltaHeight": 0.00    },
+                    "AND_10": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1937.70, "DeltaHeight": 0.00    },
+                    "AND_11": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 2077.70, "DeltaHeight": 0.00    }
                 },
                 "AND_G":
                 {
-                    "AND_F":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 57.70,   "DeltaHeight": 723.70  }, "AND_1":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 137.70,  "DeltaHeight": 803.70  },
-                    "AND_2":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 337.70,  "DeltaHeight": 1003.70 }, "AND_3":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 537.70,  "DeltaHeight": 1203.70 },
-                    "AND_4":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 737.70,  "DeltaHeight": 1403.70 }, "AND_5":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 937.70,  "DeltaHeight": 1603.70 },
-                    "AND_6":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1137.70, "DeltaHeight": 1803.70 }, "AND_7":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1337.70, "DeltaHeight": 2003.70 },
-                    "AND_8":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1537.70, "DeltaHeight": 1870.70 }, "AND_9":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1737.70, "DeltaHeight": 0.00    },
-                    "AND_10": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1937.70, "DeltaHeight": 0.00    }, "AND_11": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 2077.70, "DeltaHeight": 0.00    }
+                    "AND_F":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 57.70,   "DeltaHeight": 723.70  },
+                    "AND_1":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 137.70,  "DeltaHeight": 803.70  },
+                    "AND_2":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 337.70,  "DeltaHeight": 1003.70 },
+                    "AND_3":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 537.70,  "DeltaHeight": 1203.70 },
+                    "AND_4":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 737.70,  "DeltaHeight": 1403.70 },
+                    "AND_5":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 937.70,  "DeltaHeight": 1603.70 },
+                    "AND_6":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1137.70, "DeltaHeight": 1803.70 },
+                    "AND_7":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1337.70, "DeltaHeight": 2003.70 },
+                    "AND_8":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1537.70, "DeltaHeight": 1870.70 },
+                    "AND_9":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1737.70, "DeltaHeight": 0.00    },
+                    "AND_10": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1937.70, "DeltaHeight": 0.00    },
+                    "AND_11": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 2077.70, "DeltaHeight": 0.00    }
                 },
                 "AND_HG":
                 {
-                    "AND_F":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 57.70,   "DeltaHeight": 723.70  }, "AND_1":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 137.70,  "DeltaHeight": 803.70  },
-                    "AND_2":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 337.70,  "DeltaHeight": 1003.70 }, "AND_3":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 537.70,  "DeltaHeight": 1203.70 },
-                    "AND_4":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 737.70,  "DeltaHeight": 1403.70 }, "AND_5":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 937.70,  "DeltaHeight": 1603.70 },
-                    "AND_6":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1137.70, "DeltaHeight": 1803.70 }, "AND_7":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1337.70, "DeltaHeight": 2003.70 },
-                    "AND_8":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1537.70, "DeltaHeight": 1870.70 }, "AND_9":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1737.70, "DeltaHeight": 0.00    },
-                    "AND_10": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1937.70, "DeltaHeight": 0.00    }, "AND_11": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 2077.70, "DeltaHeight": 0.00    }
+                    "AND_F":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 57.70,   "DeltaHeight": 723.70  },
+                    "AND_1":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 137.70,  "DeltaHeight": 803.70  },
+                    "AND_2":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 337.70,  "DeltaHeight": 1003.70 },
+                    "AND_3":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 537.70,  "DeltaHeight": 1203.70 },
+                    "AND_4":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 737.70,  "DeltaHeight": 1403.70 },
+                    "AND_5":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 937.70,  "DeltaHeight": 1603.70 },
+                    "AND_6":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1137.70, "DeltaHeight": 1803.70 },
+                    "AND_7":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1337.70, "DeltaHeight": 2003.70 },
+                    "AND_8":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1537.70, "DeltaHeight": 1870.70 },
+                    "AND_9":  { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1737.70, "DeltaHeight": 0.00    },
+                    "AND_10": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 1937.70, "DeltaHeight": 0.00    },
+                    "AND_11": { "DeltaMin": -2.00, "DeltaMax": 2.00, "Height": 2077.70, "DeltaHeight": 0.00    }
                 }
             }
         },
@@ -358,20 +471,6 @@
                 "RBE_HG": 0.50
             }
         }
-    ],
-    "Operators":
-    [
-        "N. FOLTRAN~VISA: 17/10/2023",
-        "N. PERROT~VISA: 01/01/2064"
-    ],
-    "Posts":
-    [
-        "Dufieux~Poste 2000D",
-        "Dufieux~Poste 2000DA"
-    ],
-    "MirageAnnexHeader":       "Annexe 1 à P/CP/E/028 Ind B",
-    "RafaleAnnexHeader":       "Annexe X à P/CP/E/0XX Ind X",
-    "RafaleFrameLeftContent":  "Montage sur bobine TAS Réf. ~",
-    "RafaleFrameRightContent": "Comprise danse le plan de pose~(matérialisé par les quatres plots du faux cadre 1)~et le sommet réél du radôme"
-  }
+    ]
+}
   
