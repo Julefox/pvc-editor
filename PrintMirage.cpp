@@ -382,9 +382,10 @@ void PrintMirage::Mirage_DrawGraphic( Program* hInst, wxDC* dc, const wxString& 
 	dc->DrawRectangle(wxRect(FRAME_X_START + FRAME_X_LENGTH, 0, 1200 - FRAME_X_START + FRAME_X_LENGTH, 1200));
 	dc->DrawRectangle(wxRect(0, FRAME_Y_START + FRAME_Y_LENGTH, 1200, 1200 - FRAME_Y_START + FRAME_Y_LENGTH));
 
-	dc->SetPen(*wxBLACK_PEN);
+	dc->SetPen(pBigBlack);
 	DrawRectangle(dc, FRAME_X_START, FRAME_Y_START, FRAME_X_LENGTH, FRAME_Y_LENGTH);
 
+	dc->SetPen(*wxBLACK_PEN);
 	dc->SetFont(wxFont(8, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL));
 	
 	DrawRectangle( dc, 120, 220, 880, 440 );
