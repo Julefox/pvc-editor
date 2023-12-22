@@ -70,10 +70,10 @@ public:
 		// DEBUG ONLY
 		//this->GetRadomeType("3252C");
 		//this->TC_Radome->SetValue("3252C");
-		this->GetRadomeType( "C475" );
-		this->TC_Radome->SetValue( "C475" );
-		wxCommandEvent devPrint( wxEVT_COMMAND_BUTTON_CLICKED, -1 );
-		this->Callback_OnPrintButtonPressed( devPrint );
+		//this->GetRadomeType( "C475" );
+		//this->TC_Radome->SetValue( "C475" );
+		//wxCommandEvent devPrint( wxEVT_COMMAND_BUTTON_CLICKED, -1 );
+		//this->Callback_OnPrintButtonPressed( devPrint );
 		// DEBUG END
 
 		window->CenterOnScreen();
