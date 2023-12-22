@@ -33,11 +33,6 @@ void PrintMirage::MiragePage_01()
 	SetDcScale( this, dc );
 	Mirage_DrawMainHeader( hInst, dc, 1 );
 
-// DEBUG
-	//Mirage_DrawGraphic(hInst, dc, "HD", AND_HD);
-	//return;
-//
-
 	dc->SetFont( wxFont( 11, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, wxFONTFLAG_UNDERLINED ) );
 	dc->DrawLabel( "Vérification géométrique", wxRect( 20, 130, 1080, 30 ), wxALIGN_CENTER );
 	dc->SetFont( wxFont( 9, wxFONTFAMILY_SWISS, wxFONTSTYLE_ITALIC, wxFONTWEIGHT_BOLD ) );
@@ -190,8 +185,8 @@ void PrintMirage::MiragePage_03()
 	auto* hInst = dynamic_cast < Program* >( wxTheApp );
 	wxDC* dc    = GetDC();
 	SetDcScale( this, dc );
+	Mirage_DrawGraphic(hInst, dc, "H", AND_H);
 	Mirage_DrawMainHeader( hInst, dc, 3 );
-	Mirage_DrawGraphic( hInst, dc, "H", AND_H );
 }
 
 void PrintMirage::MiragePage_04()
@@ -199,8 +194,8 @@ void PrintMirage::MiragePage_04()
 	auto* hInst = dynamic_cast < Program* >( wxTheApp );
 	wxDC* dc    = GetDC();
 	SetDcScale( this, dc );
+	Mirage_DrawGraphic(hInst, dc, "HD", AND_HD);
 	Mirage_DrawMainHeader( hInst, dc, 4 );
-	Mirage_DrawGraphic( hInst, dc, "HD", AND_HD );
 }
 
 void PrintMirage::MiragePage_05()
@@ -208,8 +203,8 @@ void PrintMirage::MiragePage_05()
 	auto* hInst = dynamic_cast < Program* >( wxTheApp );
 	wxDC* dc    = GetDC();
 	SetDcScale( this, dc );
+	Mirage_DrawGraphic(hInst, dc, "D", AND_D);
 	Mirage_DrawMainHeader( hInst, dc, 5 );
-	Mirage_DrawGraphic( hInst, dc, "D", AND_D );
 }
 
 void PrintMirage::MiragePage_06()
@@ -217,8 +212,8 @@ void PrintMirage::MiragePage_06()
 	auto* hInst = dynamic_cast < Program* >( wxTheApp );
 	wxDC* dc    = GetDC();
 	SetDcScale( this, dc );
+	Mirage_DrawGraphic(hInst, dc, "BD", AND_BD);
 	Mirage_DrawMainHeader( hInst, dc, 6 );
-	Mirage_DrawGraphic( hInst, dc, "BD", AND_BD );
 }
 
 void PrintMirage::MiragePage_07()
@@ -226,8 +221,8 @@ void PrintMirage::MiragePage_07()
 	auto* hInst = dynamic_cast < Program* >( wxTheApp );
 	wxDC* dc    = GetDC();
 	SetDcScale( this, dc );
+	Mirage_DrawGraphic(hInst, dc, "B", AND_B);
 	Mirage_DrawMainHeader( hInst, dc, 7 );
-	Mirage_DrawGraphic( hInst, dc, "B", AND_B );
 }
 
 void PrintMirage::MiragePage_08()
@@ -235,8 +230,8 @@ void PrintMirage::MiragePage_08()
 	auto* hInst = dynamic_cast < Program* >( wxTheApp );
 	wxDC* dc    = GetDC();
 	SetDcScale( this, dc );
+	Mirage_DrawGraphic(hInst, dc, "BG", AND_BG);
 	Mirage_DrawMainHeader( hInst, dc, 8 );
-	Mirage_DrawGraphic( hInst, dc, "BG", AND_BG );
 }
 
 void PrintMirage::MiragePage_09()
@@ -244,8 +239,8 @@ void PrintMirage::MiragePage_09()
 	auto* hInst = dynamic_cast < Program* >( wxTheApp );
 	wxDC* dc    = GetDC();
 	SetDcScale( this, dc );
+	Mirage_DrawGraphic(hInst, dc, "G", AND_G);
 	Mirage_DrawMainHeader( hInst, dc, 9 );
-	Mirage_DrawGraphic( hInst, dc, "G", AND_G );
 }
 
 void PrintMirage::MiragePage_10()
@@ -253,8 +248,8 @@ void PrintMirage::MiragePage_10()
 	auto* hInst = dynamic_cast < Program* >( wxTheApp );
 	wxDC* dc    = GetDC();
 	SetDcScale( this, dc );
+	Mirage_DrawGraphic(hInst, dc, "HG", AND_HG);
 	Mirage_DrawMainHeader( hInst, dc, 10 );
-	Mirage_DrawGraphic( hInst, dc, "HG", AND_HG );
 }
 
 constexpr int X_START_VALUE = 0, X_END_VALUE = 2120, Y_START_VALUE = -2, Y_END_VALUE = 2, CIRCLE_RADIUS = 2,
@@ -312,18 +307,8 @@ void PrintMirage::Mirage_DrawGraphic( Program* hInst, wxDC* dc, const wxString& 
 			int xEnd = FRAME_X_START + static_cast <int>((graphicData.DeltaHeight - X_START_VALUE) * FRAME_X_LENGTH / (X_END_VALUE - X_START_VALUE));
 			int yEnd = FRAME_Y_TOLERANCE_START + static_cast <int>((graphicData.DeltaMin - Y_START_VALUE) * FRAME_Y_TOLERANCE_LENGTH / (graphicData.DeltaMax - graphicData.DeltaMin));
 
-			//double dx = xEnd - xStart;
-			//double dy = yEnd - yStart;
-			//std::cout << dy / dx << " " << xStart << " " << yStart << " " << xEnd << " " << yEnd << " // ";
-			//
-			//AdjustLinePoints(xStart, yStart, xEnd, yEnd, FRAME_X_START, FRAME_Y_START, FRAME_X_START + FRAME_X_LENGTH, FRAME_Y_START + FRAME_Y_LENGTH);
-			//
-			//dx = xEnd - xStart;
-			//dy = yEnd - yStart;
-			//std::cout << dy / dx << " " << xStart << " " << yStart << " " << xEnd << " " << yEnd << "\n";
-
 			graphPoint.X_RAY_DIFF = xStart;
-			graphPoint.Y_RAY_DIFF = yStart;
+			graphPoint.Y_RAY_DIFF = FRAME_Y_START + FRAME_Y_LENGTH - yStart + FRAME_Y_START;
 
 			graphPoint.X_TOLERANCE = xEnd;
 			graphPoint.Y_TOLERANCE_UPPER = yEnd;
@@ -331,6 +316,23 @@ void PrintMirage::Mirage_DrawGraphic( Program* hInst, wxDC* dc, const wxString& 
 			graphPoint.GRAPHIC_DATA = graphicData;
 
 			sectionPos[section] = graphPoint;
+		}
+	}
+
+	dc->SetPen(pDotBlue);
+
+	for (int i = 0; i < 12; i++)
+	{
+		const auto section = static_cast<eSectionType>(i);
+
+		if (sectionPos.find(section) != sectionPos.end())
+		{
+			const GraphPoint& graphPoint = sectionPos[section];
+			if (graphPoint.GRAPHIC_DATA.DeltaHeight != 0.0f)
+			{
+				dc->DrawLine(graphPoint.X_LINE, graphPoint.Y_LINE_CENTER, graphPoint.X_TOLERANCE, graphPoint.Y_TOLERANCE_UPPER);
+				dc->DrawLine(graphPoint.X_LINE, graphPoint.Y_LINE_CENTER, graphPoint.X_TOLERANCE, graphPoint.Y_TOLERANCE_LOWER);
+			}
 		}
 	}
 
@@ -347,31 +349,46 @@ void PrintMirage::Mirage_DrawGraphic( Program* hInst, wxDC* dc, const wxString& 
 		}
 	}
 
-	dc->SetPen(pDotBlue);
+	int lastX = 0, lastY = 0;
 
-	for (int i = 0; i < 12; i++)
+	for (int i = 1; i < 12; i++)
 	{
 		const auto section = static_cast<eSectionType>(i);
+		const auto backSection = static_cast<eSectionType>(i - 1);
 
-		if (sectionPos.find(section) != sectionPos.end())
+		const GraphPoint& graphPoint = sectionPos[section];
+		const GraphPoint& backGraphPoint = sectionPos[backSection];
+
+		if (sectionPos.find(section) != sectionPos.end() && sectionPos.find(backSection) != sectionPos.end() && graphPoint.Y_RAY_DIFF > 0 && !((side == AND_BD && section > 9) || (side == AND_B && section > 8) || (side == AND_BG && section > 9) || (hInst->ActiveProductData.RadomeType == Mirage_R && section > 7)))
 		{
-			const GraphPoint& graphPoint = sectionPos[section];
-			if(graphPoint.GRAPHIC_DATA.DeltaHeight != 0.0f)
-			{
-				dc->DrawLine(graphPoint.X_LINE, graphPoint.Y_LINE_CENTER, graphPoint.X_TOLERANCE, graphPoint.Y_TOLERANCE_UPPER);
-				dc->DrawLine(graphPoint.X_LINE, graphPoint.Y_LINE_CENTER, graphPoint.X_TOLERANCE, graphPoint.Y_TOLERANCE_LOWER);
-			}
+			dc->DrawLine(backGraphPoint.X_RAY_DIFF, backGraphPoint.Y_RAY_DIFF, graphPoint.X_RAY_DIFF, graphPoint.Y_RAY_DIFF);
+
+			dc->SetBrush(greenBrush);
+			dc->DrawCircle(backGraphPoint.X_RAY_DIFF - CIRCLE_RADIUS / 2, backGraphPoint.Y_RAY_DIFF - CIRCLE_RADIUS / 2, CIRCLE_RADIUS);
+
+			lastX = graphPoint.X_RAY_DIFF - CIRCLE_RADIUS / 2;
+			lastY = graphPoint.Y_RAY_DIFF - CIRCLE_RADIUS / 2;
 		}
 	}
 
-	dc->SetPen( *wxBLACK_PEN );
+	dc->SetBrush(greenBrush);
+	dc->DrawCircle(lastX, lastY, CIRCLE_RADIUS);
+
+	// BAD
+	dc->SetBrush(*wxWHITE_BRUSH);
+	dc->SetPen(*wxWHITE_PEN);
+	dc->DrawRectangle(wxRect(0, 0, FRAME_X_START, 1200));
+	dc->DrawRectangle(wxRect(0, 0, 1200, FRAME_Y_START));
+	dc->DrawRectangle(wxRect(FRAME_X_START + FRAME_X_LENGTH, 0, 1200 - FRAME_X_START + FRAME_X_LENGTH, 1200));
+	dc->DrawRectangle(wxRect(0, FRAME_Y_START + FRAME_Y_LENGTH, 1200, 1200 - FRAME_Y_START + FRAME_Y_LENGTH));
+
+	dc->SetPen(*wxBLACK_PEN);
+	DrawRectangle(dc, FRAME_X_START, FRAME_Y_START, FRAME_X_LENGTH, FRAME_Y_LENGTH);
+
 	dc->SetFont(wxFont(8, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL));
 	
 	DrawRectangle( dc, 120, 220, 880, 440 );
 	DrawWhiteLabel( dc, 142, 205, 64, 30, L"Ecart en mm" );
-
-	dc->SetPen(*wxBLACK_PEN);
-	DrawRectangle(dc, FRAME_X_START, FRAME_Y_START, FRAME_X_LENGTH, FRAME_Y_LENGTH);
 
 	dc->SetFont(wxFont(8, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
 	dc->DrawLabel("N° de Section", wxRect(180, 620, 800, 40), wxALIGN_CENTRE);
@@ -380,6 +397,8 @@ void PrintMirage::Mirage_DrawGraphic( Program* hInst, wxDC* dc, const wxString& 
 	dc->DrawLabel(L"Représentation graphique du profil: Génératrice " + gen, wxRect(120, 120, 880, 100), wxALIGN_CENTRE);
 
 	dc->SetFont(wxFont(8, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL));
+
+	dc->SetPen(*wxBLACK_PEN);
 
 	int y = 290;
 	for (int i = 0; i < 12; i++)
@@ -415,8 +434,6 @@ void PrintMirage::Mirage_DrawGraphic( Program* hInst, wxDC* dc, const wxString& 
 			DrawWhiteLabel(dc, graphPoint.X_LINE - 6, FRAME_Y_START + FRAME_Y_LENGTH - 6, 12, 12, section == AND_F ? "F" : std::to_string(section));
 		}
 	}
-
-	//dc->SetPen(*wxBLACK_PEN);
 }
 
 bool PrintMirage::OnPrintPage( const int page )
@@ -498,59 +515,5 @@ void PrintMirage::CalculateTheoreticalRadius( Program* hInst, const int i )
 			TheoreticalRadius = sum / 8;
 			break;
 		}
-	}
-}
-
-void PrintMirage::AdjustLinePoints(int& xStart, int& yStart, int& xEnd, int& yEnd, const int xMin, const int yMin, const int xMax, const int yMax)
-{
-	// Inverser les valeurs Y avant de les ajuster
-	yStart = yMax - yStart + yMin;
-	yEnd = yMax - yEnd + yMin;
-
-	// Vérifier et ajuster xStart si nécessaire
-	if (xStart < xMin)
-	{
-		yStart += (xMin - xStart) * (yEnd - yStart) / (xEnd - xStart);
-		xStart = xMin;
-	}
-	else if (xStart > xMax)
-	{
-		yStart += (xMax - xStart) * (yEnd - yStart) / (xEnd - xStart);
-		xStart = xMax;
-	}
-
-	// Vérifier et ajuster yStart si nécessaire
-	if (yStart < yMin)
-	{
-		xStart += (yMin - yStart) * (xEnd - xStart) / (yEnd - yStart);
-		yStart = yMin;
-	}
-	else if (yStart > yMax)
-	{
-		xStart += (yMax - yStart) * (xEnd - xStart) / (yEnd - yStart);
-		yStart = yMax;
-	}
-
-	// Vérifier et ajuster xEnd si nécessaire
-	if (xEnd < xMin)
-	{
-		yEnd += (xMin - xEnd) * (yStart - yEnd) / (xStart - xEnd);
-		xEnd = xMin;
-	}
-	else if (xEnd > xMax)
-	{
-		yEnd += (xMax - xEnd) * (yStart - yEnd) / (xStart - xEnd);
-		xEnd = xMax;
-	}
-
-	// Vérifier et ajuster yEnd si nécessaire
-	if (yEnd < yMin) {
-		xEnd += (yMin - yEnd) * (xStart - xEnd) / (yStart - yEnd);
-		yEnd = yMin;
-	}
-	else if (yEnd > yMax)
-	{
-		xEnd += (yMax - yEnd) * (xStart - xEnd) / (yStart - yEnd);
-		yEnd = yMax;
 	}
 }

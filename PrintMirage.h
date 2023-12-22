@@ -28,8 +28,6 @@ private:
 
 	static void Mirage_DrawGraphic( Program* hInst, wxDC* dc, const wxString& gen, eSideType side );
 
-	static void AdjustLinePoints(int& xStart, int& yStart, int& xEnd, int& yEnd, int xMin, int yMin, int xMax, int yMax);
-
 	explicit PrintMirage( const wxChar* title = _T( "Impression PVC" ) ) : PrintGlobal( title )
 	{
 		ImpressNum = 10;
