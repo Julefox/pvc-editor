@@ -359,7 +359,7 @@ void PrintMirage::Mirage_DrawGraphic( Program* hInst, wxDC* dc, const wxString& 
 		const GraphPoint& graphPoint = sectionPos[section];
 		const GraphPoint& backGraphPoint = sectionPos[backSection];
 
-		if (sectionPos.find(section) != sectionPos.end() && sectionPos.find(backSection) != sectionPos.end() && graphPoint.Y_RAY_DIFF > 0 && !((side == AND_BD && section > 9) || (side == AND_B && section > 8) || (side == AND_BG && section > 9) || (hInst->ActiveProductData.RadomeType == Mirage_R && section > 7)))
+		if (sectionPos.find(section) != sectionPos.end() && sectionPos.find(backSection) != sectionPos.end() && graphPoint.Y_RAY_DIFF > 0 && !((side == AND_BD && section > 9) || (side == AND_B && section > 8) || (side == AND_BG && section > 9) || (hInst->ActiveProductData.RadomeType == Mirage_R && section > 8)))
 		{
 			dc->DrawLine(backGraphPoint.X_RAY_DIFF, backGraphPoint.Y_RAY_DIFF, graphPoint.X_RAY_DIFF, graphPoint.Y_RAY_DIFF);
 
